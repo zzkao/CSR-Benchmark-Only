@@ -69,7 +69,6 @@ To build the Docker image used for environment isolation:
 ## Testing Docker Containerization of Environment
 After building the Docker image, try running an enviornment in a Docker container using that image: 
 ```bash
-cd data
 python environment.py
 ```
 
