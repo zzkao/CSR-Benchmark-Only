@@ -11,14 +11,15 @@ Track command execution history.
 Provide a foundation for building and benchmarking custom agent frameworks.
 
 ## File Structure
-`state.py`
+
+### `state.py`
 
 Defines the primary data structures:
 - Action – Represents a command the LLM intends to run.
 - BashOutput – Stores the resulting shell output after execution.
 - State – Bundles together an Action and its corresponding BashOutput.
 
-`command_executor.py`
+### `command_executor.py`
 
 Executes commands within a Docker container.
 
@@ -28,7 +29,7 @@ Executes commands within a Docker container.
 
 - Files are removed automatically when the environment shuts down.
 
-`environment.py`
+### `environment.py`
 
 Implements the Environment class:
 
@@ -39,12 +40,12 @@ Implements the Environment class:
 - Automatically spins up an isolated Docker container for the LLM.
 - **Feel free try it out with** `python environment.py`
 
-`core_agent.py`
+### `core_agent.py`
 
 An abstract base class intended for building new agent frameworks.
 Currently incomplete.
 
-`bench.py`
+### `bench.py`
 
 A planned orchestration layer for running full benchmark suites against a given Agent.
 Currently incomplete.
