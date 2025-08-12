@@ -22,6 +22,5 @@ Incomplete. Potentially will be a layer on top of environment that can handle th
 
 ## TODO
 1. Design and implement bench.py (optional)
-2. Docker containerization
-3. Compatability with Openhand agents
-4. Agent implementations and core_agent.py
+2. Compatability with Openhand agents
+3. Agent implementations and core_agent.py

@@ -11,7 +11,6 @@ class CommandExecutor:
         self.container_name = container_name
         self.timeout = timeout
 
-        # No -t for automation
         cmd = f"docker exec -it {container_name} /bin/bash"
         self.child = pexpect.spawn(cmd, encoding='utf-8', timeout=timeout, echo=False)
         self._set_prompt()
