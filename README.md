@@ -20,6 +20,22 @@ Incomplete. Meant to be an abstract class for future agent frameworks to be buil
 ## bench.py
 Incomplete. Potentially will be a layer on top of environment that can handle the runs of all benchmarking tests given an Agent
 
+## Dataset Setup
+run the following commands to download the CSRBench100 dataset:
+
+```bash
+cd data
+python csrbench_scraper.py # for the repositories
+python issue_scraper.py # for the issues
+```
+
+## Build Dockercontainer
+To build the docker container that is used to isolate the LLM environment, simply run
+```bash
+./docker_setup.sh
+```
+Note that the docker image being used can be modified as necessary, it is currently a placeholder
+
 ## TODO
 1. Design and implement bench.py (optional)
 2. Compatability with Openhand agents
