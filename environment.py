@@ -3,6 +3,7 @@ import uuid
 import atexit
 from state import *
 from command_executor import CommandExecutor
+import os
 
 class Environment:
     """
@@ -38,6 +39,12 @@ class Environment:
 
     def close(self):
         """Close executor and remove container."""
+
+        # remove tmp files
+        os.remove(f'./tmp/cmd_stdout{self.container_name}.txt')
+        os.remove(f'./tmp/cmd_stderr{self.container_name}.txt') 
+        os.remove(f'./tmp/cmd_exit{self.container_name}.txt')
+
         if hasattr(self, "executor"):
             self.executor.close()
         subprocess.run(["docker", "rm", "-f", self.container_name],

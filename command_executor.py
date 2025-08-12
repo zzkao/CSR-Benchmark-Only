@@ -32,9 +32,9 @@ class CommandExecutor:
         command = ' && '.join(line.strip().replace('\\', ' ')
                               for line in command.splitlines())
 
-        stdout_file = './tmp/cmd_stdout.txt'
-        stderr_file = './tmp/cmd_stderr.txt'
-        exit_code_file = './tmp/cmd_exit.txt'
+        stdout_file = f'./tmp/cmd_stdout{self.container_name}.txt'
+        stderr_file = f'./tmp/cmd_stderr{self.container_name}.txt'
+        exit_code_file = f'./tmp/cmd_exit{self.container_name}.txt'
 
         open(exit_code_file, 'w').close()
         open(stdout_file, 'w').close()
