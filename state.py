@@ -4,6 +4,9 @@ class Action:
     def __init__(self, command: str, description: Optional[str] = None):
         self.command = command
         self.description = description
+    
+    def to_dict(self):
+        return {"command": self.command, "description": self.description}
 
     def __str__(self):
         parts = []
@@ -25,6 +28,9 @@ class BashOutput:
         self.stderr = stderr
         self.exit_code = exit_code
 
+    def to_dict(self):
+        return {"stdout": self.stdout, "stderr": self.stderr, "exit_code": self.exit_code}
+
     def __str__(self):
         parts = []
 
@@ -44,6 +50,9 @@ class State:
     def __init__(self, action: Action, output: BashOutput):
         self.action = action
         self.output = output
+    
+    def to_dict(self):
+        return {"action": self.action.to_dict(), "output": self.output.to_dict()}
 
     def __str__(self):
         return (
