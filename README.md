@@ -38,7 +38,6 @@ Implements the Environment class:
 - Uses CommandExecutor to modify the container state.
 
 - Automatically spins up an isolated Docker container for the LLM.
-- **Feel free try it out with** `python environment.py`
 
 ### `core_agent.py`
 
@@ -66,6 +65,14 @@ To build the Docker image used for environment isolation:
 ./docker_setup.sh
 ```
 > **Note:** The default Docker image is a placeholder. You can modify it as needed.
+
+## Testing Docker Containerization of Environment
+After building the Docker image, try running an enviornment in a Docker container using that image: 
+```bash
+cd data
+python environment.py
+```
+
 
 ## TODO
 - Implement bench.py (optional, but recommended for automation).
