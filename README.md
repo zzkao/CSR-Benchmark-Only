@@ -1,42 +1,74 @@
 # CSR-Benchmark-Only
+A refactored, reorganized version of CSR-Bench — stripped of default frameworks and built for flexibility in testing LLM command execution.
 
-Refactored and reorganized CSR-Bench without the default frameworks.
+## Overview
+This repository contains the core components needed to:
 
-## state.py
-Contains data classes:
-- `Action`, which represents the command the LLM wishes to run
-- `BashOutput`, which represents the shell output after running the command
-- `State`, which contains `Action` and `BashOutput`
+Isolate LLM environments inside Docker.
 
-## command_executor.py
-This file handles the execution of commands by starting and running commands in Docker. The way that outputs are recieved is by writing to files in a `tmp/` folder that is shared between your local and Docker. These temp files have the unique docker container name attached so that there are no race conditions between containers and removed when the environment terminates.
+Track command execution history.
 
-## environment.py
-Contains the `Environment` class, which keeps a list of `State` as history and `CommandExecutor` to change the environment. Additionally, it creates a Docker container that isolates the LLM environment.
+Provide a foundation for building and benchmarking custom agent frameworks.
 
-## core_agent.py
-Incomplete. Meant to be an abstract class for future agent frameworks to be build off
+## File Structure
+`state.py`
 
-## bench.py
-Incomplete. Potentially will be a layer on top of environment that can handle the runs of all benchmarking tests given an Agent
+Defines the primary data structures:
+- Action – Represents a command the LLM intends to run.
+- BashOutput – Stores the resulting shell output after execution.
+- State – Bundles together an Action and its corresponding BashOutput.
+
+`command_executor.py`
+
+Executes commands within a Docker container.
+
+- Output is captured by writing to temporary files inside a shared tmp/ directory.
+
+- Temp files are container-specific (tagged with the unique container name) to avoid race conditions.
+
+- Files are removed automatically when the environment shuts down.
+
+`environment.py`
+
+Implements the Environment class:
+
+- Maintains a history of State objects.
+
+- Uses CommandExecutor to modify the container state.
+
+- Automatically spins up an isolated Docker container for the LLM.
+- **Feel free try it out with** `python environment.py`
+
+`core_agent.py`
+
+An abstract base class intended for building new agent frameworks.
+Currently incomplete.
+
+`bench.py`
+
+A planned orchestration layer for running full benchmark suites against a given Agent.
+Currently incomplete.
 
 ## Dataset Setup
-run the following commands to download the CSRBench100 dataset:
+To download the CSRBench100 dataset:
 
 ```bash
 cd data
-python csrbench_scraper.py # for the repositories
-python issue_scraper.py # for the issues
+python csrbench_scraper.py  # Downloads repositories
+python issue_scraper.py     # Downloads issues
 ```
 
-## Build Dockercontainer
-To build the docker container that is used to isolate the LLM environment, simply run
+## Building the Docker Container
+To build the Docker image used for environment isolation:
+
 ```bash
 ./docker_setup.sh
 ```
-Note that the docker image being used can be modified as necessary, it is currently a placeholder
+> **Note:** The default Docker image is a placeholder. You can modify it as needed.
 
 ## TODO
-1. Design and implement bench.py (optional)
-2. Compatability with Openhand agents
-3. Agent implementations and core_agent.py
+- Implement bench.py (optional, but recommended for automation).
+
+- Add compatibility with Openhand agents.
+
+- Develop agent implementations based on core_agent.py.
