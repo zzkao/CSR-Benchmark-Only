@@ -13,8 +13,8 @@ class Action:
 
         if self.command.strip():
             parts.append(f"command:\n{self._indent(self.command)}")
-        if self.description and self.description.strip():
-            parts.append(f"description:\n{self._indent(self.description)}")
+        # if self.description and self.description.strip():
+        #     parts.append(f"description:\n{self._indent(self.description)}")
 
         return "\n".join(parts)
 
@@ -61,6 +61,9 @@ class State:
             "Output:\n"
             f"{self._indent(str(self.output))}"
         )
+    
+    def __repr__(self):
+        return self.__str__()
 
     @staticmethod
     def _indent(text, spaces=2):
