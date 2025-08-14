@@ -48,24 +48,47 @@ class TestAgent():
 
         action = Action(command=command, description=text)
         print(f"ACTION: {action}")
-        
+
         state = environment.execute(action)
         print(f"STATE: {state}")
-
 
 
     def run(self, environment: Environment):
         with open(f"{environment.repo_path}/README.md", "r") as f:  # "r" = read mode
             self.readme_content = f.read()
         
-        for _ in range(10):
+        for _ in range(3):
             self.step(environment)
-        
-        print(environment.history)
 
+import json
+import os
+from datetime import datetime
 
+def log_environment_history(environment, log_file, pretty=True):
+    """
+    Logs environment.history (list of State objects) to a file.
+
+    Parameters:
+    - environment: object with a `history` attribute (list of State)
+    - log_file: path to file
+    - pretty: if True, log human-readable strings; else log JSON
+    """
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(log_file) or ".", exist_ok=True)
+
+    with open(log_file, "a", encoding="utf-8") as f:
+        for state in environment.history:
+            log_entry = {
+                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "state": state.to_dict() if not pretty else str(state)
+            }
+            if pretty:
+                f.write(f"{log_entry['timestamp']}\n{log_entry['state']}\n{'-'*60}\n")
+            else:
+                f.write(json.dumps(log_entry) + "\n")
 
 if __name__ == "__main__":
     env = Environment(repo_path="data/CSRBench100/storm", image_name="benchmark-image")
     agent = TestAgent()
     agent.run(env)
+    env.log_environment_history(log_file='logs/test.jsonl')

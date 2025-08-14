@@ -72,6 +72,13 @@ After building the Docker image, try running an enviornment in a Docker containe
 python environment.py
 ```
 
+## Test Dummy Agent Framework
+Once docker works, paste your `ANTHROPIC_API_KEY` into `.env` try running 
+```bash
+python test_agent_framework.py
+```
+The logs of what the LLM tried to do will be in `logs/test.jsonl`. Currently the agent only runs for 3 command/output cycles. But you can adjust this number as desired. I have yet to implement a stopping condition for the agent.
+
 
 ## TODO
 - Implement bench.py (optional, but recommended for automation).
@@ -79,6 +86,8 @@ python environment.py
 - Add compatibility with Openhand agents.
 
 - Develop agent implementations based on core_agent.py.
+
+- Stopping condition for basic test agent
 
 
 

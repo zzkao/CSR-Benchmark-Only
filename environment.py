@@ -5,6 +5,8 @@ from state import *
 from command_executor import CommandExecutor
 import os
 import time
+import json
+from datetime import datetime
 
 class Environment:
     """
@@ -76,6 +78,21 @@ class Environment:
             self.executor.close()
         subprocess.run(["docker", "rm", "-f", self.container_name],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    def log_environment_history(self, log_file, pretty=True):
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(log_file) or ".", exist_ok=True)
+
+        with open(log_file, "a", encoding="utf-8") as f:
+            for state in self.history:
+                log_entry = {
+                    "timestamp": datetime.utcnow().isoformat() + "Z",
+                    "state": state.to_dict() if not pretty else str(state)
+                }
+                if pretty:
+                    f.write(f"{log_entry['timestamp']}\n{log_entry['state']}\n{'-'*60}\n")
+                else:
+                    f.write(json.dumps(log_entry) + "\n")
 
     def __enter__(self):
         return self
