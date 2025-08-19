@@ -75,9 +75,9 @@ python environment.py
 ## Test Dummy Agent Framework
 Once docker works, paste your `ANTHROPIC_API_KEY` into `.env` try running 
 ```bash
-python test_agent_framework.py
+python main.py --repo https://github.com/stanford-oval/storm --docker benchmark-image --cycles 5
 ```
-The logs of what the LLM tried to do will be in `logs/test.jsonl`. Currently the agent only runs for 3 command/output cycles. But you can adjust this number as desired. I have yet to implement a stopping condition for the agent.
+to run the agent for 5 cycles. The logs of what the LLM tried to do will be in `logs/`. The cycle number can be adjusted. There is a known bug where the agent does not input the command into the environment on certain commands. I have yet to implement a stopping condition for the agent.
 
 
 ## TODO
@@ -87,7 +87,7 @@ The logs of what the LLM tried to do will be in `logs/test.jsonl`. Currently the
 
 - Develop agent implementations based on core_agent.py.
 
-- Stopping condition for basic test agent
+- Stopping condition for basic test agent and bug fixes
 
 
 

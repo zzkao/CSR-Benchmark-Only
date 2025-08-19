@@ -14,9 +14,25 @@ class Environment:
     Spawns an isolated container, executes commands, and tracks history.
     """
 
-    def __init__(self, repo_path: str, image_name="benchmark-image", timeout=900):
+    def __init__(self, repo_url: str, image_name="benchmark-image", timeout=900):
+        # Docker Container
         self.container_name = f"benchmark_{uuid.uuid4().hex}"
-        self.repo_path = os.path.abspath(repo_path)
+        print(f"Agent running in container {self.container_name}")
+
+        # Define repo path
+        REPO_NAME= repo_url.rsplit('/', 1)[-1]
+        self.name = f"{REPO_NAME}_{self.container_name}"
+        self.repo_path = os.path.abspath(f"./data/CSRBench100/{self.name}/")
+
+        # Pull the repo
+        subprocess.run(
+            ["git", "clone", repo_url, f"{self.repo_path}"],
+            check=True
+        )
+        print(f"Repo cloned successfully to {self.repo_path}")
+
+        
+        print(f"Agent environment root at {self.repo_path}")
         self.history = []
 
         # Temp file names
@@ -48,26 +64,26 @@ class Environment:
     def execute(self, action: Action) -> State:
         """Executes an action in the container and stores the resulting state."""
         if self.executor.execute(action) == 1:
-            time.sleep(1)
+            time.sleep(0.1)
             stdout, stderr, exit_code = self.read_std()
             output = BashOutput(stdout=stdout, stderr=stderr, exit_code=exit_code)
+            
         state = State(action, output)
         self.history.append(state)
         return state
 
     def read_std(self):
-            with open(self.stdout_file, 'r') as file:
-                stdout_output = file.read().strip()
-            with open(self.stderr_file, 'r') as file:
-                stderr_output = file.read().strip()
-            with open(self.exit_code_file, 'r') as file:
-                exit_code = file.read().strip()
+        with open(self.stdout_file, 'r') as file:
+            stdout_output = file.read().strip()
+        with open(self.stderr_file, 'r') as file:
+            stderr_output = file.read().strip()
+        with open(self.exit_code_file, 'r') as file:
+            exit_code = file.read().strip()
             
-            return stdout_output.replace("\x00", ""), stderr_output.replace("\x00", ""), exit_code.replace("\x00", "")
+        return stdout_output.replace("\x00", ""), stderr_output.replace("\x00", ""), exit_code.replace("\x00", "")
     
     def close(self):
         """Close executor and remove container."""
-
         # remove tmp files
         os.remove(f'{self.stderr_file}')
         os.remove(f'{self.stdout_file}') 
@@ -79,7 +95,9 @@ class Environment:
         subprocess.run(["docker", "rm", "-f", self.container_name],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    def log_environment_history(self, log_file, pretty=True):
+    def log_environment_history(self, pretty=True):
+        log_file = f"logs/{self.name}.jsonl"
+
         # Ensure directory exists
         os.makedirs(os.path.dirname(log_file) or ".", exist_ok=True)
 
@@ -103,7 +121,7 @@ class Environment:
 
 # Example usage
 if __name__ == "__main__":
-    with Environment(repo_path="data/CSRBench100/storm", image_name="benchmark-image") as env:
+    with Environment(repo_url="https://github.com/stanford-oval/storm", image_name="benchmark-image") as env:
         while True:
             command = input('Enter a command to execute (or "exit" to quit): ')
             if command.lower() == 'exit':
