@@ -4,7 +4,7 @@ from environment import Environment
 from state import Action
 
 SYSTEM_PROMPT = """You are an assistant that helps execute software setup and usage instructions. You will be given:
-1. A completely clean ubuntu system with the repository already pulled
+1. A minimal installation of ubuntu with the repository already pulled
 2. A chronological history of commands that have already been executed.
 
 Your job is to:
@@ -16,21 +16,22 @@ Your job is to:
 6. Whenever you provide a command, only provide one command at a time.
 7. Avoid repeating commands that have already been executed successfully.
 8. If information is missing from the README, make reasonable assumptions but state them explicitly.
+9. When installing packages, you must turn off the progress bar
 
 **Detecting Setup Completion:**
-9. Consider the setup complete when:
+10. Consider the setup complete when:
     * All required installation steps in the README have been executed successfully.
     * The repository's main functionality can be run without missing dependencies or configuration.
     * Any optional steps not essential for core functionality have been skipped or explicitly marked as such.
 
 **Verification Step Before Declaring Completion:**
-10. Before declaring completion, run an appropriate verification command (e.g., a test script, `--help` command, `make test`, or example run from README) to ensure the repository is functional.
-11. If verification fails, continue troubleshooting and repeat setup steps until it passes.
+11. Before declaring completion, run an appropriate verification command (e.g., a test script, `--help` command, `make test`, or example run from README) to ensure the repository is functional.
+12. If verification fails, continue troubleshooting and repeat setup steps until it passes.
 
 **Final Completion Signal:**
-12. When verification passes and no further setup steps are needed, output exactly:
+13. When verification passes and no further setup steps are needed, output exactly:
 ```
-SETUP_COMPLETE  
+echo __SETUP_COMPLETE__  
 ```
 and nothing else. This signals to the caller that setup is done.
 """
@@ -59,23 +60,30 @@ class TestAgent():
             if content.type == 'text':
                 text = content.text
 
-        print(f"{response}\n")
-        # if command:
-        #     print(f"Agent current command: {command}")
-        # else:
-        #     print(f"Agent current command: {text}")
+        # print(f"{response}\n")
+        if command:
+            print(f"Agent current command: {command}")
+        else:
+            print(f"Agent finished commands. Final message: {text}")
+            return
         action = Action(command=command, description=text)
         
         environment.execute(action)
 
 
-    def run(self, environment: Environment, cycles=3):
+    def run(self, environment: Environment, cycles=None):
         if cycles:
             for _ in range(cycles):
                 self.step(environment)
-        # else:
-        #     while True:
-        #         self.step(environment)
+                if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                    return 1
+        else:
+            while True:
+                self.step(environment)
+                if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                    return 1
+        return 0
+        
 
 
 if __name__ == "__main__":

@@ -14,7 +14,11 @@ class Environment:
     Spawns an isolated container, executes commands, and tracks history.
     """
 
-    def __init__(self, repo_url: str, image_name="benchmark-image", timeout=900):
+    def __init__(self, repo_url: str, keep_repo=False, keep_docker=False, image_name="benchmark-image", timeout=900, verbose=False):
+        self.verbose = verbose
+        self.keep_docker = keep_docker
+        self.keep_repo = keep_repo # (TODO) UNUSED FOR NOW
+        
         # Docker Container
         self.container_name = f"benchmark_{uuid.uuid4().hex}"
         print(f"Agent running in container {self.container_name}")
@@ -31,21 +35,8 @@ class Environment:
         )
         print(f"Repo cloned successfully to {self.repo_path}")
 
-        
         print(f"Agent environment root at {self.repo_path}")
         self.history = []
-
-        # Temp file names
-        self.tmp = f'{self.repo_path}/tmp'
-        self.stdout_file = f'{self.repo_path}/tmp/cmd_stdout{self.container_name}.txt'
-        self.stderr_file = f'{self.repo_path}/tmp/cmd_stderr{self.container_name}.txt'
-        self.exit_code_file = f'{self.repo_path}/tmp/cmd_exit{self.container_name}.txt'
-
-        # Make temp files to track terminal outputs
-        os.makedirs(self.tmp, exist_ok=True)
-        open(self.stdout_file, 'w').close()
-        open(self.stderr_file, 'w').close()
-        open(self.exit_code_file, 'w').close()
 
         # Start the container
         subprocess.run([
@@ -63,37 +54,23 @@ class Environment:
 
     def execute(self, action: Action) -> State:
         """Executes an action in the container and stores the resulting state."""
-        if self.executor.execute(action) == 1:
-            time.sleep(0.1)
-            stdout, stderr, exit_code = self.read_std()
-            output = BashOutput(stdout=stdout, stderr=stderr, exit_code=exit_code)
-            
+        output = self.executor.execute(action)
         state = State(action, output)
         self.history.append(state)
+        if self.verbose:
+            print(state)
         return state
-
-    def read_std(self):
-        with open(self.stdout_file, 'r') as file:
-            stdout_output = file.read().strip()
-        with open(self.stderr_file, 'r') as file:
-            stderr_output = file.read().strip()
-        with open(self.exit_code_file, 'r') as file:
-            exit_code = file.read().strip()
-            
-        return stdout_output.replace("\x00", ""), stderr_output.replace("\x00", ""), exit_code.replace("\x00", "")
     
     def close(self):
         """Close executor and remove container."""
-        # remove tmp files
-        os.remove(f'{self.stderr_file}')
-        os.remove(f'{self.stdout_file}') 
-        os.remove(f'{self.exit_code_file}')
-        os.removedirs(f"{self.tmp}")
+        self.log_environment_history()
 
         if hasattr(self, "executor"):
             self.executor.close()
-        subprocess.run(["docker", "rm", "-f", self.container_name],
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        if not self.keep_docker:
+            subprocess.run(["docker", "rm", "-f", self.container_name],
+                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     def log_environment_history(self, pretty=True):
         log_file = f"logs/{self.name}.jsonl"
@@ -122,6 +99,7 @@ class Environment:
 # Example usage
 if __name__ == "__main__":
     with Environment(repo_url="https://github.com/stanford-oval/storm", image_name="benchmark-image") as env:
+
         while True:
             command = input('Enter a command to execute (or "exit" to quit): ')
             if command.lower() == 'exit':

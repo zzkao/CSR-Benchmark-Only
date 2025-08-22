@@ -1,5 +1,6 @@
 import pexpect
 from state import *
+import re
 
 class CommandExecutor:
     """
@@ -16,46 +17,77 @@ class CommandExecutor:
         self._set_prompt()
 
     def _set_prompt(self):
-        """Set a unique prompt to reliably detect command completion."""
-        unique_prompt = 'CMD_EXECUTOR_PROMPT>'
-        self.child.sendline(f'export PS1="{unique_prompt}"; echo READY')
-        self.child.expect('READY')
-        self.child.expect(unique_prompt)
+        self.prompt = "__CMD_EXECUTOR_PROMPT__$ "  # include a trailing space for clarity
+        prompt_escaped = re.escape(self.prompt)
 
-        self.prompt = unique_prompt
+        # Set a simple, unique prompt (separate commands; don't chain)
+        self.child.sendline(f'export PS1="{self.prompt}"')
+        # Disable remote echo so our typed commands don't appear in output
+        self.child.sendline('stty -echo')
+
+        # Sync & wait for the new prompt to appear
+        self.child.sendline('echo READY')
+        self.child.expect_exact('READY')
+        self.child.expect_exact(self.prompt)
+
+        # Store for later expects
+        self._prompt_exact = self.prompt
+        self._prompt_regex = prompt_escaped
+
+    def _flush_until_prompt(self):
+        """Ensure buffer is clean before starting a new command."""
+        self.child.sendline('echo __SYNC__')
+        self.child.expect_exact('__SYNC__')
+        self.child.expect_exact(self._prompt_exact)
+
+    def execute(self, action):
+        command = getattr(action, 'command', None)
+        if not command:
+            return {"output": "", "exit_code": 1}
+
+        self._flush_until_prompt()
+
+        marker = "__EXIT__MARKER__"
         
-    def execute(self, action: Action):
-        """Executes an action and captures stdout, stderr, and exit code."""
-        command = action.command
-        command = ' && '.join(line.strip().replace('\\', ' ')
-                              for line in command.splitlines())
+        # Send multi-line command safely
+        safe_command = f"{{\n{command}\n}}; printf '\\n{marker}%d{marker}\\n' \"$?\""
 
-        # absolute temp file paths inside docker
-        stdout_file = f'/workspace/tmp/cmd_stdout{self.container_name}.txt'
-        stderr_file = f'/workspace/tmp/cmd_stderr{self.container_name}.txt'
-        exit_code_file = f'/workspace/tmp/cmd_exit{self.container_name}.txt'
+        self.child.sendline(safe_command)
+        self.child.expect_exact(self._prompt_exact)
 
-        try:
-            self.child.sendline(
-                f'{command} >{stdout_file} 2>{stderr_file}; echo $? >{exit_code_file}'
-            )
+        raw = self.child.before.strip("\r\n")
 
-            self.child.expect(self.prompt)
-            return 1
-        
-        except Exception as e:
-            return e
-        # except pexpect.exceptions.TIMEOUT:
-        #     stdout_output, stderr_output, _ = read_std()
-        #     return BashOutput(stdout=stdout_output, stderr=stderr_output + "\nCommand timed out", exit_code="124")
+        # Remove the echoed command if needed
+        if raw.startswith(command):
+            raw = raw[len(command):].lstrip()
 
-        # except pexpect.exceptions.EOF:
-        #     stdout_output, stderr_output, _ = read_std()
-        #     return BashOutput(stdout=stdout_output, stderr=stderr_output + "\nEOF", exit_code="1")
+        # Find exit code marker
+        start = raw.rfind(marker)
+        end = raw.rfind(marker, start + len(marker)) if start != -1 else -1
 
-        # except Exception as e:
-        #     stdout_output, stderr_output, _ = read_std()
-        #     return BashOutput(stdout=stdout_output, stderr=stderr_output + f"\n{str(e)}", exit_code="1")
+        output = raw
+        if start != -1 and end != -1 and end > start:
+            output = raw[:start].rstrip("\r\n")
+
+        return self._clean_output(output)
+
+    def _clean_output(self, text: str) -> str:
+        # remove exit markers
+        text = re.sub(r"__EXIT__MARKER__\d+__EXIT__MARKER__", "", text)
+        # remove ANSI escape sequences
+        text = re.sub(r"\x1B\[[0-?]*[ -/]*[@-~]", "", text)
+        # strip leading/trailing whitespace and collapse blank lines
+        lines = [line for line in text.splitlines() if line.strip()]
+
+        # handle carriage return progress bars: keep only last line after \r
+        cleaned_lines = []
+        for line in lines:
+            if "\r" in line:
+                line = line.split("\r")[-1]  # keep only final overwrite
+            if line.strip() and "> " not in line:
+                cleaned_lines.append(line)
+
+        return "\n".join(cleaned_lines)
 
     def close(self):
         """Close the pexpect child process."""

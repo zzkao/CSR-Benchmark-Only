@@ -22,44 +22,44 @@ class Action:
     def _indent(text, spaces=2):
         return "\n".join(" " * spaces + line for line in text.splitlines())
 
-class BashOutput:
-    def __init__(self, stdout: str, stderr: str, exit_code: int):
-        self.stdout = stdout
-        self.stderr = stderr
-        self.exit_code = exit_code
+# class BashOutput:
+#     def __init__(self, stdout: str, stderr: str, exit_code: int):
+#         self.stdout = stdout
+#         self.stderr = stderr
+#         self.exit_code = exit_code
 
-    def to_dict(self):
-        return {"stdout": self.stdout, "stderr": self.stderr, "exit_code": self.exit_code}
+#     def to_dict(self):
+#         return {"stdout": self.stdout, "stderr": self.stderr, "exit_code": self.exit_code}
 
-    def __str__(self):
-        parts = []
+#     def __str__(self):
+#         parts = []
 
-        if self.stdout.strip():
-            parts.append(f"stdout:\n{self._indent(self.stdout)}")
-        if self.stderr.strip():
-            parts.append(f"stderr:\n{self._indent(self.stderr)}")
+#         if self.stdout.strip():
+#             parts.append(f"stdout:\n{self._indent(self.stdout)}")
+#         if self.stderr.strip():
+#             parts.append(f"stderr:\n{self._indent(self.stderr)}")
 
-        parts.append(f"exit code: {self.exit_code}")
-        return "\n".join(parts)
+#         parts.append(f"exit code: {self.exit_code}")
+#         return "\n".join(parts)
 
-    @staticmethod
-    def _indent(text, spaces=2):
-        return "\n".join(" " * spaces + line for line in text.splitlines())
+#     @staticmethod
+#     def _indent(text, spaces=2):
+#         return "\n".join(" " * spaces + line for line in text.splitlines())
 
 class State:
-    def __init__(self, action: Action, output: BashOutput):
+    def __init__(self, action: Action, output: str):
         self.action = action
         self.output = output
     
     def to_dict(self):
-        return {"action": self.action.to_dict(), "output": self.output.to_dict()}
+        return {"action": self.action.to_dict(), "output": self.output}
 
     def __str__(self):
         return (
             "Action:\n"
             f"{self._indent(str(self.action))}\n"
             "Output:\n"
-            f"{self._indent(str(self.output))}"
+            f"{self._indent(self.output)}"
         )
     
     def __repr__(self):
