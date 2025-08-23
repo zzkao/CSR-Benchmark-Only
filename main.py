@@ -2,6 +2,7 @@ import argparse
 import os
 from environment import Environment
 from test_agent_framework import TestAgent
+from datetime import datetime
 
 parser = argparse.ArgumentParser(description='GSRBench100')
 parser.add_argument('--repo', type=str, help='Repository link', required=True)
@@ -17,6 +18,9 @@ NUM_CYCLES = args.cycles
 KEEP_DOCKER = args.keepdocker
 VERBOSE = args.verbose
 
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+results_file = f"./logs/results_{timestamp}.txt"
+
 if REPO_LINK == "ALL":
     with open("./data/meta/CSRBench100.txt") as f:
         REPO_LINKS = [line.strip() for line in f]
@@ -29,7 +33,9 @@ for repo_link in REPO_LINKS:
     agent = TestAgent()
 
     if NUM_CYCLES:
-        agent.run(env, cycles=NUM_CYCLES)
+        output = agent.run(env, cycles=NUM_CYCLES)
     else:
-        agent.run(env)
-    # env.log_environment_history()
+        output = agent.run(env)
+    
+    with open(results_file, "a") as f:
+        f.write(f"{REPO_NAME}: {output}\n")

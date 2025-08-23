@@ -60,7 +60,6 @@ class TestAgent():
             if content.type == 'text':
                 text = content.text
 
-        # print(f"{response}\n")
         if command:
             print(f"Agent current command: {command}")
         else:
@@ -74,14 +73,20 @@ class TestAgent():
     def run(self, environment: Environment, cycles=None):
         if cycles:
             for _ in range(cycles):
-                self.step(environment)
-                if "__SETUP_COMPLETE__" in environment.history[-1].output:
-                    return 1
+                try:
+                    self.step(environment)
+                    if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                        return 1
+                except:
+                    return 0
         else:
             while True:
-                self.step(environment)
-                if "__SETUP_COMPLETE__" in environment.history[-1].output:
-                    return 1
+                try: 
+                    self.step(environment)
+                    if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                        return 1
+                except:
+                    return 0
         return 0
         
 
