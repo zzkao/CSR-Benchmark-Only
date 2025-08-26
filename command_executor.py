@@ -68,8 +68,10 @@ class CommandExecutor:
         output = raw
         if start != -1 and end != -1 and end > start:
             output = raw[:start].rstrip("\r\n")
-
-        return self._clean_output(output)
+        
+        clean_output = self._clean_output(output)
+        # print(clean_output)
+        return clean_output
 
     def _clean_output(self, text: str) -> str:
         # remove exit markers

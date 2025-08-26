@@ -33,9 +33,9 @@ for repo_link in REPO_LINKS:
     agent = TestAgent()
 
     if NUM_CYCLES:
-        output = agent.run(env, cycles=NUM_CYCLES)
+        output, count = agent.run(env, cycles=NUM_CYCLES)
     else:
-        output = agent.run(env)
+        outputm, count = agent.run(env)
     
     with open(results_file, "a") as f:
-        f.write(f"{REPO_NAME}: {output}\n")
+        f.write(f"{REPO_NAME}: {output}, Cycles: {count}\n")

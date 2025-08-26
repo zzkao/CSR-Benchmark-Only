@@ -71,23 +71,26 @@ class TestAgent():
 
 
     def run(self, environment: Environment, cycles=None):
+        count = 0
         if cycles:
             for _ in range(cycles):
+                count += 1
                 try:
                     self.step(environment)
                     if "__SETUP_COMPLETE__" in environment.history[-1].output:
-                        return 1
+                        return 1, count
                 except:
-                    return 0
+                    return 0, count
         else:
             while True:
+                count += 1
                 try: 
                     self.step(environment)
                     if "__SETUP_COMPLETE__" in environment.history[-1].output:
-                        return 1
+                        return 1, count
                 except:
-                    return 0
-        return 0
+                    return 0, count
+        return 0, count
         
 
 

@@ -16,8 +16,7 @@ Provide a foundation for building and benchmarking custom agent frameworks.
 
 Defines the primary data structures:
 - Action – Represents a command the LLM intends to run.
-- BashOutput – Stores the resulting shell output after execution.
-- State – Bundles together an Action and its corresponding BashOutput.
+- State – Bundles together an Action and a string containing the bash output.
 
 ### `command_executor.py`
 
@@ -49,15 +48,6 @@ Currently incomplete.
 A planned orchestration layer for running full benchmark suites against a given Agent.
 Currently incomplete.
 
-## Dataset Setup
-To download the CSRBench100 dataset:
-
-```bash
-cd data
-python csrbench_scraper.py  # Downloads repositories
-python issue_scraper.py     # Downloads issues
-```
-
 ## Building the Docker Container
 To build the Docker image used for environment isolation:
 
@@ -75,9 +65,9 @@ python environment.py
 ## Test Dummy Agent Framework
 Once docker works, paste your `ANTHROPIC_API_KEY` into `.env` try running 
 ```bash
-python main.py --repo https://github.com/stanford-oval/storm --docker benchmark-image --cycles 5
+python main.py --repo https://github.com/stanford-oval/storm --docker benchmark-image --cycles 75
 ```
-to run the agent for 5 cycles. The logs of what the LLM tried to do will be in `logs/`. The cycle number can be adjusted. There is a known bug where the agent does not input the command into the environment on certain commands. I have yet to implement a stopping condition for the agent.
+to run the agent for a maximum of 75 cycles. The agent will automatically stop when setup is deemed complete and the log of the command history will be in `logs/`. Furthermore, a `results` file will be created to track the repos that were benchmarked, whether it was successful, and the number of cycles that were ran.
 
 
 ## TODO
