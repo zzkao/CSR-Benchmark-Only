@@ -2,6 +2,7 @@ import argparse
 import os
 from environment import Environment
 from test_agent_framework import TestAgent
+from test_eval_agent import TestScriptAgent
 from datetime import datetime
 
 parser = argparse.ArgumentParser(description='GSRBench100')
@@ -10,6 +11,7 @@ parser.add_argument('--docker', type=str, help='Docker image name', required=Tru
 parser.add_argument('--cycles', type=int, help='Number of cycles')
 parser.add_argument('--keepdocker', action='store_true', help='Keep docker container after running benchmark')
 parser.add_argument('--verbose', action='store_true')
+parser.add_argument('--script', action='store_true', help='run agent to draft test script instead')
 args = parser.parse_args()
 
 REPO_LINK = args.repo
@@ -17,6 +19,7 @@ DOCKER_IMAGE_NAME = args.docker
 NUM_CYCLES = args.cycles
 KEEP_DOCKER = args.keepdocker
 VERBOSE = args.verbose
+SCRIPT = args.script
 
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 results_file = f"./logs/results_{timestamp}.txt"
@@ -30,7 +33,11 @@ else:
 for repo_link in REPO_LINKS:
     REPO_NAME= repo_link.rsplit('/', 1)[-1]
     env = Environment(repo_link, keep_docker=KEEP_DOCKER, image_name=DOCKER_IMAGE_NAME, verbose=VERBOSE)
-    agent = TestAgent()
+
+    if SCRIPT:
+        agent = TestScriptAgent()
+    else:
+        agent = TestAgent()
 
     if NUM_CYCLES:
         output, count = agent.run(env, cycles=NUM_CYCLES)
