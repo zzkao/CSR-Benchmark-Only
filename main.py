@@ -2,7 +2,8 @@ import argparse
 import os
 from environment import Environment
 from test_agent_framework import TestAgent
-from test_eval_agent import EntrypointAgent
+from test_entrypoint_agent import EntrypointAgent
+from test_eval_agent import TestScriptAgent
 from datetime import datetime
 
 parser = argparse.ArgumentParser(description='GSRBench100')
@@ -30,19 +31,25 @@ if REPO_LINK == "ALL":
 else:
     REPO_LINKS = [f'{REPO_LINK}']
 
+
+def run_agent(agent):
+    if NUM_CYCLES:
+        output, count = agent.run(env, cycles=NUM_CYCLES)
+    else:
+        output, count = agent.run(env)
+    with open(results_file, "a") as f:
+        f.write(f"{REPO_NAME}: {output}, Cycles: {count}\n")
+
 for repo_link in REPO_LINKS:
     REPO_NAME= repo_link.rsplit('/', 1)[-1]
     env = Environment(repo_link, keep_docker=KEEP_DOCKER, image_name=DOCKER_IMAGE_NAME, verbose=VERBOSE)
 
     if SCRIPT:
         agent = EntrypointAgent()
+        run_agent(agent)
+        agent = TestScriptAgent()
+        run_agent(agent)
+
     else:
         agent = TestAgent()
-
-    if NUM_CYCLES:
-        output, count = agent.run(env, cycles=NUM_CYCLES)
-    else:
-        outputm, count = agent.run(env)
-    
-    with open(results_file, "a") as f:
-        f.write(f"{REPO_NAME}: {output}, Cycles: {count}\n")
+        run_agent(agent)

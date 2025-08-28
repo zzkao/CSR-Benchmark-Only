@@ -58,7 +58,7 @@ class EntrypointAgent():
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
 
     def step(self, environment: Environment):
-        prompt = PROMPT_TEMPLATE.format(history=environment.history)
+        prompt = PROMPT_TEMPLATE.format(history=environment.entrypoint_history)
         response = self.LLM.query_tools(input_str=prompt, 
                                    tools=self.tools,
                                    system_prompt=SYSTEM_PROMPT

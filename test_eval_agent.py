@@ -8,9 +8,11 @@ You are the **Verifier Agent**. Your role is to evaluate whether a repository en
 
 ### Your responsibilities:
 
-1. **Entrypoint data**
+1. **Entrypoint Exploration**
 
-   * You are provided a list of all the entrypoints of the respository as well as their contents.
+   * You are provided a file containing the names of all the entrypoints of the respository as well as supplementary information.
+   * Access to a **terminal** where you can inspect the contents of the entrypoints.
+   * A **command history** showing what has already been executed.
 
 2. **Error Classification**
 
@@ -35,26 +37,25 @@ You are the **Verifier Agent**. Your role is to evaluate whether a repository en
 
 ### Your goal:
 
-Write an evaluation script that, when executed, **confidently verifies whether the Setup Agent created a working development environment** by testing all real entrypoints of the repository, not just those listed in the README.
-
+Write an evaluation script that, when executed, **confidently verifies working development environment** by testing all real entrypoints of the repository, not just those listed in the README.
+Finally, output exactly `echo __SETUP_COMPLETE__` to indicate completion.
 """
 
 PROMPT_TEMPLATE = """
-[ENTRYPOINT LIST]
-{entrypoints}
+[ENTRYPOINT DATA]
+{entrypoint_data}
+
+[COMMAND HISTORY]
+{command_history}
 """
 
-class EntrypointAgent():
+class TestScriptAgent():
     def __init__(self):
         self.LLM = CoreAgent(model_id="claude-sonnet-4-20250514")
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
 
-    def run(self, entrypoint_file: str):
-        
-
-
-
-        prompt = PROMPT_TEMPLATE.format(history=environment.history)
+    def run(self, environment: Environment):
+        prompt = PROMPT_TEMPLATE.format(history=environment.eval_history)
         response = self.LLM.query_tools(input_str=prompt, 
                                    tools=self.tools,
                                    system_prompt=SYSTEM_PROMPT

@@ -36,7 +36,11 @@ class Environment:
         print(f"Repo cloned successfully to {self.repo_path}")
 
         print(f"Agent environment root at {self.repo_path}")
-        self.history = []
+
+        # Histories
+        self.agent_history = []
+        self.entrypoint_history = []
+        self.eval_history = []
 
         # Start the container
         subprocess.run([
@@ -73,21 +77,24 @@ class Environment:
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     def log_environment_history(self, pretty=True):
-        log_file = f"logs/{self.name}.jsonl"
 
-        # Ensure directory exists
-        os.makedirs(os.path.dirname(log_file) or ".", exist_ok=True)
+        for type in ["agent_history", "entrypoint_history", "eval_history"]:
 
-        with open(log_file, "a", encoding="utf-8") as f:
-            for state in self.history:
-                log_entry = {
-                    "timestamp": datetime.utcnow().isoformat() + "Z",
-                    "state": state.to_dict() if not pretty else str(state)
-                }
-                if pretty:
-                    f.write(f"{log_entry['timestamp']}\n{log_entry['state']}\n{'-'*60}\n")
-                else:
-                    f.write(json.dumps(log_entry) + "\n")
+            log_file = f"logs/{self.name}_{type}.jsonl"
+
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(log_file) or ".", exist_ok=True)
+
+            with open(log_file, "a", encoding="utf-8") as f:
+                for state in self.history:
+                    log_entry = {
+                        "timestamp": datetime.utcnow().isoformat() + "Z",
+                        "state": state.to_dict() if not pretty else str(state)
+                    }
+                    if pretty:
+                        f.write(f"{log_entry['timestamp']}\n{log_entry['state']}\n{'-'*60}\n")
+                    else:
+                        f.write(json.dumps(log_entry) + "\n")
 
     def __enter__(self):
         return self
