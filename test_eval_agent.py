@@ -46,7 +46,7 @@ PROMPT_TEMPLATE = """
 {entrypoint_data}
 
 [COMMAND HISTORY]
-{command_history}
+{history}
 """
 
 class TestScriptAgent():
@@ -56,7 +56,9 @@ class TestScriptAgent():
         self.name = "test_script_agent"
 
     def step(self, environment: Environment):
-        prompt = PROMPT_TEMPLATE.format(history=environment.history[self.name])
+        prompt = PROMPT_TEMPLATE.format(history=environment.history[self.name],
+                                        entrypoint_data=environment.history["entrypoint_agent"][-1].output
+                                        )
         response = self.LLM.query_tools(input_str=prompt, 
                                    tools=self.tools,
                                    system_prompt=SYSTEM_PROMPT
