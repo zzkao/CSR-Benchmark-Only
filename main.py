@@ -2,7 +2,7 @@ import argparse
 import os
 from environment import Environment
 from test_agent_framework import TestAgent
-from test_eval_agent import TestScriptAgent
+from test_eval_agent import EntrypointAgent
 from datetime import datetime
 
 parser = argparse.ArgumentParser(description='GSRBench100')
@@ -35,7 +35,7 @@ for repo_link in REPO_LINKS:
     env = Environment(repo_link, keep_docker=KEEP_DOCKER, image_name=DOCKER_IMAGE_NAME, verbose=VERBOSE)
 
     if SCRIPT:
-        agent = TestScriptAgent()
+        agent = EntrypointAgent()
     else:
         agent = TestAgent()
 
