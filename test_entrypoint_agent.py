@@ -60,7 +60,7 @@ class EntrypointAgent():
         self.name = "entrypoint_agent"
 
     def step(self, environment: Environment):
-        prompt = PROMPT_TEMPLATE.format(history=environment.entrypoint_history)
+        prompt = PROMPT_TEMPLATE.format(history=environment.history[self.name])
         response = self.LLM.query_tools(input_str=prompt, 
                                    tools=self.tools,
                                    system_prompt=SYSTEM_PROMPT
