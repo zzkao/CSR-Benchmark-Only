@@ -45,6 +45,7 @@ class TestAgent():
     def __init__(self):
         self.LLM = CoreAgent(model_id="claude-sonnet-4-20250514")
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
+        self.name = "test_agent"
 
     def step(self, environment: Environment):
         prompt = PROMPT_TEMPLATE.format(history=environment.agent_history)
@@ -65,7 +66,7 @@ class TestAgent():
         else:
             print(f"Agent no command. Agent message: {text}")
             return
-        action = Action(command=command, description=text)
+        action = Action(command=command, description=text, name=self.name)
         
         environment.execute(action)
 

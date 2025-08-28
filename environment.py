@@ -7,6 +7,7 @@ import os
 import time
 import json
 from datetime import datetime
+from collections import defaultdict
 
 class Environment:
     """
@@ -38,9 +39,7 @@ class Environment:
         print(f"Agent environment root at {self.repo_path}")
 
         # Histories
-        self.agent_history = []
-        self.entrypoint_history = []
-        self.eval_history = []
+        self.history = defaultdict(list)
 
         # Start the container
         subprocess.run([
@@ -58,9 +57,9 @@ class Environment:
 
     def execute(self, action: Action) -> State:
         """Executes an action in the container and stores the resulting state."""
-        output = self.executor.execute(action)
+        output, name = self.executor.execute(action)
         state = State(action, output)
-        self.history.append(state)
+        self.history[action.name].append(state)
         if self.verbose:
             print(state)
         return state
@@ -78,15 +77,15 @@ class Environment:
 
     def log_environment_history(self, pretty=True):
 
-        for type in ["agent_history", "entrypoint_history", "eval_history"]:
+        for name in self.history.keys():
 
-            log_file = f"logs/{self.name}_{type}.jsonl"
+            log_file = f"logs/{self.name}_{name}.jsonl"
 
             # Ensure directory exists
             os.makedirs(os.path.dirname(log_file) or ".", exist_ok=True)
 
             with open(log_file, "a", encoding="utf-8") as f:
-                for state in self.history:
+                for state in self.history[name]:
                     log_entry = {
                         "timestamp": datetime.utcnow().isoformat() + "Z",
                         "state": state.to_dict() if not pretty else str(state)

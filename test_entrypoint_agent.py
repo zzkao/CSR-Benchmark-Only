@@ -3,6 +3,7 @@ from base_agent import BaseAgent
 from environment import Environment
 from state import Action
 
+
 SYSTEM_PROMPT = """
 You are the **Entrypoint Finder Agent**.
 Your job is to analyze a given GitHub repository and identify **all possible entrypoints**—that is, any file, script, or command that a user might execute to start or use the project.
@@ -56,6 +57,7 @@ class EntrypointAgent():
     def __init__(self):
         self.LLM = CoreAgent(model_id="claude-sonnet-4-20250514")
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
+        self.name = "entrypoint_agent"
 
     def step(self, environment: Environment):
         prompt = PROMPT_TEMPLATE.format(history=environment.entrypoint_history)
@@ -76,7 +78,7 @@ class EntrypointAgent():
         else:
             print(f"Agent no command. Agent message: {text}")
             return
-        action = Action(command=command, description=text)
+        action = Action(command=command, description=text, name=self.name)
         
         environment.execute(action)
 

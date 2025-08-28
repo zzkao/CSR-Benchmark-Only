@@ -53,6 +53,7 @@ class TestScriptAgent():
     def __init__(self):
         self.LLM = CoreAgent(model_id="claude-sonnet-4-20250514")
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
+        self.name = "test_script_agent"
 
     def run(self, environment: Environment):
         prompt = PROMPT_TEMPLATE.format(history=environment.eval_history)
@@ -73,13 +74,9 @@ class TestScriptAgent():
         else:
             print(f"Agent no command. Agent message: {text}")
             return
-        action = Action(command=command, description=text)
+        action = Action(command=command, description=text, name=self.name)
         
         environment.execute(action)
-
-
-    
-
 
 if __name__ == "__main__":
     env = Environment(repo_path="data/CSRBench100/storm", image_name="benchmark-image")

@@ -1,9 +1,10 @@
 from typing import Optional
 
 class Action:
-    def __init__(self, command: str, description: Optional[str] = None):
+    def __init__(self, command: str, name: str, description: Optional[str] = None, ):
         self.command = command
         self.description = description
+        self.name = name
     
     def to_dict(self):
         return {"command": self.command, "description": self.description}
