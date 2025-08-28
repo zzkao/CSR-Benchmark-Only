@@ -77,7 +77,6 @@ class EntrypointAgent():
             print(f"Agent current command: {command}")
         else:
             print(f"Agent no command. Agent message: {text}")
-            return
         action = Action(command=command, description=text, name=self.name)
         
         environment.execute(action)

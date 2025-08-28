@@ -57,7 +57,7 @@ class Environment:
 
     def execute(self, action: Action) -> State:
         """Executes an action in the container and stores the resulting state."""
-        output, name = self.executor.execute(action)
+        output = self.executor.execute(action)
         state = State(action, output)
         self.history[action.name].append(state)
         if self.verbose:
