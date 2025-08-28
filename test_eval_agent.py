@@ -55,8 +55,8 @@ class TestScriptAgent():
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
         self.name = "test_script_agent"
 
-    def run(self, environment: Environment):
-        prompt = PROMPT_TEMPLATE.format(history=environment.eval_history)
+    def step(self, environment: Environment):
+        prompt = PROMPT_TEMPLATE.format(history=environment.entrypoint_history)
         response = self.LLM.query_tools(input_str=prompt, 
                                    tools=self.tools,
                                    system_prompt=SYSTEM_PROMPT
@@ -78,8 +78,32 @@ class TestScriptAgent():
         
         environment.execute(action)
 
+
+    def run(self, environment: Environment, cycles=None):
+        count = 0
+        if cycles:
+            for _ in range(cycles):
+                count += 1
+                try:
+                    self.step(environment)
+                    if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                        return 1, count
+                except:
+                    return 0, count
+        else:
+            while True:
+                count += 1
+                try: 
+                    self.step(environment)
+                    if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                        return 1, count
+                except:
+                    return 0, count
+        return 0, count
+        
+
 if __name__ == "__main__":
     env = Environment(repo_path="data/CSRBench100/storm", image_name="benchmark-image")
-    agent = EntrypointAgent()
+    agent = TestScriptAgent()
     agent.run(env)
     env.log_environment_history(log_file='logs/test.jsonl')
