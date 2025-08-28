@@ -87,7 +87,7 @@ class TestScriptAgent():
                 count += 1
                 try:
                     self.step(environment)
-                    if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                    if "__SETUP_COMPLETE__" in environment.history[self.name][-1].output:
                         return 1, count
                 except:
                     return 0, count
@@ -96,7 +96,7 @@ class TestScriptAgent():
                 count += 1
                 try: 
                     self.step(environment)
-                    if "__SETUP_COMPLETE__" in environment.history[-1].output:
+                    if "__SETUP_COMPLETE__" in environment.history[self.name][-1].output:
                         return 1, count
                 except:
                     return 0, count
