@@ -43,7 +43,7 @@ Do **not** include:
 3. **Output results** to a file named `entrypoints.txt`. Each line must follow the format:
 
    ```
-   <path> | <language/runtime> | <run command> | <dependencies>
+   <path>
    ```
 
 ### Final Completion Signal (Mandatory)
@@ -115,7 +115,8 @@ class EntrypointAgent():
         return 0, count
     
     def _check_loop(self, environment: Environment):
-        if len(environment.history[self.name]) >= 3 and environment.history[self.name][-1] == environment.history[self.name][-2] == environment.history[self.name][-3]:
+        k = 5
+        if len(environment.history[self.name]) >= k and all(environment.history[self.name][-1].action.command == environment.history[self.name][-i].action.command for i in range(2,k+1)):
             return True
         return False
 
