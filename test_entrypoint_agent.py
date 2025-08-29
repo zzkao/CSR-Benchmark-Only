@@ -67,6 +67,7 @@ class EntrypointAgent():
         self.LLM = CoreAgent(model_id="claude-sonnet-4-20250514")
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
         self.name = "entrypoint_agent"
+        self.repeat = 0
 
     def step(self, environment: Environment):
         prompt = PROMPT_TEMPLATE.format(history=environment.history[self.name])
@@ -98,7 +99,7 @@ class EntrypointAgent():
                 count += 1
                 try:
                     self.step(environment)
-                    if "__SETUP_COMPLETE__" in environment.history[self.name][-1].output:
+                    if "__SETUP_COMPLETE__" in environment.history[self.name][-1].output or self._check_loop(environment=environment):
                         return 1, count
                 except:
                     return 0, count
@@ -112,6 +113,12 @@ class EntrypointAgent():
                 except:
                     return 0, count
         return 0, count
+    
+    def _check_loop(self, environment: Environment):
+        if len(environment.history[self.name]) >= 3 and environment.history[self.name][-1] == environment.history[self.name][-2] == environment.history[self.name][-3]:
+            return True
+        return False
+
         
 
 
