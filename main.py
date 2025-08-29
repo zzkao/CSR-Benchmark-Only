@@ -47,8 +47,8 @@ for repo_link in REPO_LINKS:
     if SCRIPT:
         agent = EntrypointAgent()
         run_agent(agent)
-        agent = TestScriptAgent()
-        run_agent(agent)
+        # agent = TestScriptAgent()
+        # run_agent(agent)
 
     else:
         agent = TestAgent()

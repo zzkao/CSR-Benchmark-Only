@@ -56,6 +56,8 @@ class TestScriptAgent():
         self.name = "test_script_agent"
 
     def step(self, environment: Environment):
+        print(environment.history["entrypoint_agent"][-1].output)
+        
         prompt = PROMPT_TEMPLATE.format(history=environment.history[self.name],
                                         entrypoint_data=environment.history["entrypoint_agent"][-1].output
                                         )

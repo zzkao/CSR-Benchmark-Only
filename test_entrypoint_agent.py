@@ -20,7 +20,6 @@ You will be provided with:
 * Any explicitly defined application start point (e.g., a `main()` function in Python, a `__main__` block, a Node.js `index.js`, Go `main.go`, Java `Main.class`, etc.).
 * Any configuration in files like `pyproject.toml`, `setup.py`, `package.json`, `Cargo.toml`, `Makefile`, or `Dockerfile` that defines a run/start/build command.
 * Any CLI tools or commands registered via installation (`console_scripts`, `bin` entries, etc.).
-* Any services or servers that can be started (e.g., Flask/Django app entry, FastAPI app, Express.js server, etc.).
 
 ### Your tasks:
 
@@ -45,7 +44,16 @@ You will be provided with:
 * Assume some entrypoints may not work if dependencies are missing, but they must still be reported.
 
 ### Final Output
-Your output should be a comprehensive list of entrypoints separated by newlines with the command `echo __SETUP_COMPLETE__` to indicate completion.
+
+You must write to a file named `entrypoints.txt` containing only the list of entrypoints separated by newlines. 
+
+### Final Completion Signal:
+
+Once, `entrypoints.txt` has been created successfully, output exactly:
+```
+echo __SETUP_COMPLETE__  
+```
+and nothing else. This signals to the caller that setup is done.
 """
 
 PROMPT_TEMPLATE = """
