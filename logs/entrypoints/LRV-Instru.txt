@@ -1,0 +1,4 @@
+./MiniGPT-4/demo.py
+./MiniGPT-4/train.py
+./MiniGPT-4/inference.py
+./utils/inference.py
