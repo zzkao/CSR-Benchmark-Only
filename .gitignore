@@ -1,6 +1,8 @@
 .python-version
 __pycache__/
 .env
+.DS_Store
+logs/.DS_Store
 notes.md
 pyvenv.cfg
 venv/
