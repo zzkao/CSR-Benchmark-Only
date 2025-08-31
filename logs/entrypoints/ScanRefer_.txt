@@ -1,0 +1,11 @@
+    scripts/train.py
+    scripts/eval.py
+    scripts/visualize.py
+    scripts/compute_multiview_features.py
+    scripts/project_multiview_features.py
+    scripts/project_multiview_labels.py
+    benchmark/eval.py
+    benchmark/predict.py
+    data/scannet/batch_load_scannet_data.py
+    data/scannet/visualize.py
+    lib/pointnet2/setup.py

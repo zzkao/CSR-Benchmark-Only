@@ -1,0 +1,675 @@
+2025-08-31T08:39:44.496610Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.cpp" -o -name "*.c" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "docker-compose.yml" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "*.gradle" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and contents.
+Output:
+  ./data/open_graph_benchmark/ogbn_converter.py
+  ./convert.py
+  ./ipdps19_cpp/layer.cpp
+  ./ipdps19_cpp/util.cpp
+  ./ipdps19_cpp/optm.cpp
+  ./ipdps19_cpp/operation.cpp
+  ./ipdps19_cpp/train.cpp
+  ./ipdps19_cpp/convert.py
+  ./ipdps19_cpp/makefile
+  ./ipdps19_cpp/init.cpp
+  ./ipdps19_cpp/sample.cpp
+  ./graphsaint/metric.py
+  ./graphsaint/open_graph_benchmark/train_ogbn-products.py
+  ./graphsaint/pytorch_version/utils.py
+  ./graphsaint/pytorch_version/layers.py
+  ./graphsaint/pytorch_version/models.py
+  ./graphsaint/pytorch_version/train.py
+  ./graphsaint/pytorch_version/minibatch.py
+  ./graphsaint/utils.py
+  ./graphsaint/setup.py
+  ./graphsaint/globals.py
+  ./graphsaint/tensorflow_version/inits.py
+  ./graphsaint/tensorflow_version/layers.py
+  ./graphsaint/tensorflow_version/model.py
+  ./graphsaint/tensorflow_version/train.py
+  ./graphsaint/tensorflow_version/minibatch.py
+  ./graphsaint/graph_samplers.py
+  ./graphsaint/__init__.py
+------------------------------------------------------------
+2025-08-31T08:39:44.496683Z
+Action:
+  command:
+    find . -type f -name "*.md" -o -name "README*" -o -name "LICENSE*" | head -10
+  description:
+    I need to analyze the repository structure and identify proper entrypoints. Let me start by examining the repository structure and key configuration files.
+Output:
+  ./LICENSE
+  ./ipdps19_cpp/README.md
+  ./graphsaint/open_graph_benchmark/README.md
+  ./train_config/README.md
+  ./README.md
+  ./dataset_details.md
+------------------------------------------------------------
+2025-08-31T08:39:44.496700Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the repository structure and key files.
+Output:
+  total 644
+  drwxr-xr-x 7 benchmarkuser 1001   4096 Aug 31 08:37 .
+  drwxr-xr-x 1 root          root   4096 Aug 31 08:37 ..
+  drwxr-xr-x 8 benchmarkuser 1001   4096 Aug 31 08:37 .git
+  -rw-r--r-- 1 benchmarkuser 1001    310 Aug 31 08:37 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001   1084 Aug 31 08:37 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001  16286 Aug 31 08:37 README.md
+  -rw-r--r-- 1 benchmarkuser 1001 517436 Aug 31 08:37 converg.png
+  -rw-r--r-- 1 benchmarkuser 1001   1409 Aug 31 08:37 convert.py
+  drwxr-xr-x 3 benchmarkuser 1001   4096 Aug 31 08:37 data
+  -rw-r--r-- 1 benchmarkuser 1001   5382 Aug 31 08:37 dataset_details.md
+  drwxr-xr-x 5 benchmarkuser 1001   4096 Aug 31 08:37 graphsaint
+  drwxr-xr-x 3 benchmarkuser 1001   4096 Aug 31 08:37 ipdps19_cpp
+  -rw-r--r-- 1 benchmarkuser 1001  71237 Aug 31 08:37 overview_diagram.png
+  drwxr-xr-x 5 benchmarkuser 1001   4096 Aug 31 08:37 train_config
+------------------------------------------------------------
+2025-08-31T08:39:44.496721Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the repository structure and key files.
+Output:
+  # GraphSAINT: Graph <u>Sa</u>mpling Based <u>In</u>ductive Learning Me<u>t</u>hod
+  [Hanqing Zeng](https://sites.google.com/a/usc.edu/zengh/home)\*, [Hongkuan Zhou](https://tedzhouhk.github.io/about/)\*, [Ajitesh Srivastava](http://www-scf.usc.edu/~ajiteshs/), Rajgopal Kannan, [Viktor Prasanna](https://sites.usc.edu/prasanna/)
+  **Contact**
+  Hanqing Zeng (zengh@usc.edu), Hongkuan Zhou (hongkuaz@usc.edu)
+  Feel free to report bugs or tell us your suggestions!
+  ## Overview
+  GraphSAINT is a general and flexible framework for training GNNs on large graphs. GraphSAINT highlights a novel minibatch method specifically optimized for data with complex relationships (i.e., graphs). The traditional way of training a GNN is: 1). Construct a GNN on the full training graph; 2). For each minibatch, pick some nodes at the output layer as the root node. Backtrack the inter-layer connections from the root node until reaching the input layer; 3). Forward and backward propagation based on the loss on the roots. The way GraphSAINT trains a GNN is: 1). For each minibatch, sample a small subgraph from the full training graph; 2). Construct a **complete** GNN on the small subgraph. No sampling is performed within GNN layers; 3). Forward and backward propagation based on the loss on the subgraph nodes.
+  ![GraphSAINT training algorithm](./overview_diagram.png)
+  GraphSAINT performs "*graph sampling*" based training, whereas others perform "*layer sampling*" based training. Why does it matter to change the perspective of sampling? GraphSAINT achieves the following:
+  **Accuracy**: We perform simple yet effective normalization to eliminate the bias introduced by graph sampling. In addition, since any sampling process incurs information loss due to dropped neighbors, we propose light-weight graph samplers to preserve important neighbors based on topological characteristics. In fact, graph sampling can also be understood as data augmentation or training regularization (e.g., we may see the edge sampling as a minibatch version of [DropEdge](https://arxiv.org/abs/1907.10903)).
+  **Efficiency**: While "neighbor explosion" is a headache for many layer sampling based methods, GraphSAINT provides a clean solution to it thanks to the graph sampling philosophy. As each GNN layer is complete and unsampled, the number of neighbors keeps constant no matter how deep we go. Computation cost per minibatch reduces from exponential to linear, w.r.t. GNN depth.
+  **Flexibility**: Layer propagation on a minibatch subgraph of GraphSAINT is almost identical to that on the full graph. Therefore, most GNN architectures designed for the full graph can be seamlessly trained by GraphSAINT. On the other hand, some layer sampling algorithms only support limited number of GNN architectures. Take JK-net as an example: the jumping knowledge connection requires node samples in shallower layers as a superset of node samplers in the deeper layers --- minibatches of FastGCN and AS-GCN do not satisfy such condition.
+  **Scalability**: GraphSAINT achieves scalability w.r.t. 1). *graph size*: our subgraph size does not need to grow proportionally with the training graphs size. So even if we are dealing with a million-node graph, the subgraphs can still easily fit in the GPU memory; 2). *model size*: by resolving "neighbor explosion", training cost scales linearly with GNN width and depth; and 3). *amount of parallel resources*: graph sampling is highly scalable by trivial task parallelism. In addition, resolving "neighbor explosion" also implies dramatic reduction in communication overhead, which is critical in distributed setting (see our IEEE/IPDPS '19 or [hardware accelerator development](https://dl.acm.org/doi/abs/10.1145/3373087.3375312)).
+  #### [News]: Check out our new work that generalizes subgraph sampling to both the training and inference: [shaDow-GNN](https://github.com/facebookresearch/shaDow_GNN) (NeurIPS'21)!
+  ## About This Repo
+  This repo contains source code of our two papers (ICLR '20 and IEEE/IPDPS '19, see the [Citation](#Citation-&-Acknowledgement) Section).
+  The `./graphsaint` directory contains the Python implementation of the minibatch training algorithm in ICLR '20. We provide two implementations, one in Tensorflow and the other in PyTorch. The two versions follow the same algorithm. Note that all experiments in our paper are based on the Tensorflow implementation. New experiments on open graph benchmark are based on the PyTorch version. 
+  The `./ipdps19_cpp` directory contains the C++ implementation of the parallel training techniques described in IEEE/IPDPS '19 (see `./ipdps19_cpp/README.md`). All the rest of this repository are for GraphSAINT in ICLR '20.
+  The GNN architectures supported by this repo:
+  |  GNN arch  |  Tensorflow  |  PyTorch  |  C++  |
+  | -------------: |:-------------:|:-----:|:----:|
+  |GraphSAGE| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  |GAT| :heavy_check_mark: | :heavy_check_mark: | |
+  |JK-Net| :heavy_check_mark: | | |
+  | GaAN | | :heavy_check_mark: | |
+  |MixHop| :heavy_check_mark: | :heavy_check_mark: | |
+  The graph samplers supported by this repo:
+  |  Sampler  |  Tensorflow  |  PyTorch  |  C++  |
+  | -------------: |:-------------:|:-----:|:----:|
+  |Node| :heavy_check_mark: | :heavy_check_mark: |  |
+  |Edge| :heavy_check_mark: | :heavy_check_mark: | |
+  |RW| :heavy_check_mark: | :heavy_check_mark: | |
+  | MRW | :heavy_check_mark:| :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark:|
+  |Full graph| :heavy_check_mark: | :heavy_check_mark: | |
+  where
+  * RW: Random walk sampler
+  * MRW: Multi-dimensional random walk sampler
+  * Full graph: always returns the full training graph. Meant to be a baseline. No real "sampling" is going on.
+  You can add your own samplers and GNN layers easily. See the [Customization](#Customization) section.
+  ## Results
+  **New**: We are testing GraphSAINT on [Open Graph Benchmark](https://ogb.stanford.edu/). Currently, we have results for the `ogbn-products` graph. Note that the `ogbn-products` accuracy on the leaderboard trained with other methods are mostly under the transductive setting. Our results are under inductive learning (which is harder).
+  All results in ICLR '20 can be reproduced by running the config in `./train_config/`. For example, `./train_config/table2/*.yml` stores all the config for Table 2 of our paper. `./train_config/explore/*,yml` stores all the config for deeper GNNs and various GNN architectures (GAT, JK, etc.). In addition, results related to OGB are trained by the config in `./train_config/open_graph_benchmark/*.yml`.
+  Test set F1-mic score summarized below.
+  | Sampler | Depth|  GNN | PPI | PPI (large) | Flickr | Reddit | Yelp | Amazon | ogbn-products |
+  |---:|:----:|:---:|:----:|:---:|:----:|:----:|:----:|:----:|:----:|
+  | Node | 2 | SAGE | 0.960 |  | 0.507 | 0.962 | 0.641 | 0.782 | |
+  | Edge | 2 | SAGE | 0.981 | | 0.510 | 0.966 | 0.653 | 0.807 | |
+  | RW | 2 | SAGE | 0.981 | 0.941 | 0.511 | 0.966 | 0.653 | 0.815 | |
+  | MRW | 2 | SAGE | 0.980 |  | 0.510 | 0.964 | 0.652 | 0.809 | |
+  | RW | 5 | SAGE | | 0.995 | | | | | |
+  | Edge | 4 | JK | | | | 0.970 | | | |
+  | RW | 2 | GAT | | | 0.510 | 0.967 | 0.652 | 0.815 | |
+  | RW | 2 | GaAN | | | 0.508 | 0.968 | 0.651 | | |
+  | RW | 2 | MixHop | | | | 0.967 | | | |
+  | Edge | 3 | GAT | | | |  | | | 0.8027
+  ## Dependencies
+  * python >= 3.6.8
+  * tensorflow >=1.12.0  / pytorch >= 1.1.0
+  * cython >=0.29.2
+  * numpy >= 1.14.3
+  * scipy >= 1.1.0
+  * scikit-learn >= 0.19.1
+  * pyyaml >= 3.12
+  * g++ >= 5.4.0
+  * openmp >= 4.0
+  ## Datasets
+  All datasets used in our papers are available for download:
+  * PPI
+  * PPI-large (a larger version of PPI)
+  * Reddit
+  * Flickr
+  * Yelp
+  * Amazon
+  * ogbn-products
+  * ... (more to be added)
+  They are available on [Google Drive link](https://drive.google.com/open?id=1zycmmDES39zVlbVCYs88JTJ1Wm5FbfLz) (alternatively, [BaiduYun link (code: f1ao)](https://pan.baidu.com/s/1SOb0SiSAXavwAcNqkttwcg)). Rename the folder to `data` at the root directory.  The directory structure should be as below:
+  ```
+  GraphSAINT/
+  │   README.md
+  │   run_graphsaint.sh
+  │   ...
+  │
+  └───graphsaint/
+  │   │   globals.py
+  │   │   cython_sampler.pyx
+  │   │   ...
+  │   │
+  │   └───tensorflow_version/
+  │   │   │    train.py
+  │   │   │    model.py
+  │   │   │    ...
+  │   │
+  │   └───pytorch_version/
+  │       │    train.py
+  │       │    model.py
+  │       │    ...
+  │
+  └───data/
+  │   └───ppi/
+  │   │   │    adj_train.npz
+  │   │   │    adj_full.npz
+  │   │   │    ...
+  │   │
+  │   └───reddit/
+  │   │   │    ...
+  │   │
+  │   └───...
+  │
+  ```
+  We also have a script that converts datasets from our format to GraphSAGE format. To run the script,
+  `python convert.py <dataset name>`
+  For example `python convert.py ppi` will convert dataset PPI and save new data in GraphSAGE format to `./data.ignore/ppi/`
+  **New**: For data conversion from the OGB format to the GraphSAINT format, please use the script `./data/open_graph_benchmark/ogbn_converter.py`. Currently, this script can handle `ogbn-products` and `ogbn-arxiv`.
+  ## Cython Implemented Parallel Graph Sampler
+  We have a cython module which need compilation before training can start. Compile the module by running the following from the root directory:
+  `python graphsaint/setup.py build_ext --inplace`
+  ## Training Configuration
+  The hyperparameters needed in training can be set via the configuration file: `./train_config/<name>.yml`.
+  The configuration files to reproduce the Table 2 results are packed in `./train_config/table2/`.
+  For detailed description of the configuration file format, please see `./train_config/README.md`
+  ## Run Training
+  First of all, please compile cython samplers (see above).
+  We suggest looking through the available command line arguments defined in `./graphsaint/globals.py` (shared by both the Tensorflow and PyTorch versions). By properly setting the flags, you can maximize CPU utilization in the sampling step (by telling the number of available cores), select the directory to place log files, and turn on / off loggers (Tensorboard, Timeline, ...), etc.
+  *NOTE*: For all methods compared in the paper (GraphSAINT, GCN, GraphSAGE, FastGCN, S-GCN, AS-GCN, ClusterGCN), sampling or clustering is **only** performed during training.
+  To obtain the validation / test set accuracy, we run the full batch GNN on the full graph (training + validation + test nodes), and calculate F1 score only for the validation / test nodes. See also issue #11.
+  For simplicity of implementation, during validation / test set evaluation, we perform layer propagation using the full graph adjacency matrix. For Amazon or Yelp, this may cause memory issue for some GPUs. If an out-of-memory error occurs, please use the `--cpu_eval` flag to force the val / test set evaluation to take place on CPU (the minibatch training will still be performed on GPU). See below for other Flags.
+  To run the code on CPU
+  ```
+  ```
+  To run the code on GPU
+  ```
+  ```
+  We have also implemented dual-GPU training to further speedup runtime. Simply add the flag `--dualGPU` and assign two GPUs using the `--gpu` flag. Currently this only works for GPUs supporting memory pooling and connected by NvLink.
+  **New**: we have prepared specific scripts to train OGB graphs. See `./graphsaint/open_graph_benchmark/` for the scripts and instructions.
+  ## Customization
+  Below we describe how to customize this code base for your own research / product.
+  ### How to Prepare Your Own Dataset?
+  Suppose your full graph contains N nodes. Each node has C classes, and length-F initial attribute vector. If your train/val/test split is a/b/c (i.e., a+b+c=1), then:
+  `adj_full.npz`: a sparse matrix in CSR format, stored as a `scipy.sparse.csr_matrix`. The shape is N by N. Non-zeros in the matrix correspond to all the edges in the full graph. It doesn't matter if the two nodes connected by an edge are training, validation or test nodes. For unweighted graph, the non-zeros are all 1.
+  `adj_train.npz`: a sparse matrix in CSR format, stored as a `scipy.sparse.csr_matrix`. The shape is also N by N. However, non-zeros in the matrix only correspond to edges connecting two training nodes. The graph sampler only picks nodes/edges from this `adj_train`, not `adj_full`. Therefore, neither the attribute information nor the structural information are revealed during training. Also, note that only aN rows and cols of `adj_train` contains non-zeros. See also issue #11. For unweighted graph, the non-zeros are all 1.
+  `role.json`: a dictionary of three keys. Key `'tr'` corresponds to the list of all training node indices. Key `va` corresponds to the list of all validation node indices. Key `te` corresponds to the list of all test node indices. Note that in the raw data, nodes may have string-type ID. You would need to re-assign numerical ID (0 to N-1) to the nodes, so that you can index into the matrices of adj, features and class labels.
+  `class_map.json`: a dictionary of length N. Each key is a node index, and each value is either a length C binary list (for multi-class classification) or an integer scalar (0 to C-1, for single-class classification).
+  `feats.npy`: a `numpy` array of shape N by F. Row i corresponds to the attribute vector of node i.
+  ### How to Add Your Own Sampler?
+  All samplers are implemented as subclass of `GraphSampler` in `./graphsaint/graph_samplers.py`. There are two ways to implement your sampler subclass:
+  1) Implement in pure python. Overwrite the `par_sample` function of the super-class. We provide a basic example in the `NodeSamplingVanillaPython` class of `./graphsaint/graph_samplers.py`.
+  	* Pros: Easy to implement
+  	* Cons: May have slow execution speed. It is non-trivial to parallelize a pure python function.
+  2) Implement in cython. You need to add a subclass of the `Sampler` in `./graphsaint/cython_sampler.pyx`. In the subclass, you only need to overwrite the `__cinit__` and `sample` functions. The `sample` function defines the sequential behavior of the sampler. We automatically perform task-level parallelism by launching multiple samplers at the same time.
+  	* Pros: Fits in the parallel-execution framework. C++ level execution speed.
+  	* Cons: Hard to code
+  ### How to Support Your Own GNN Layer?
+  Add a layer in `./graphsaint/<tensorflow or pytorch>_version/layers.py`. You would also need to do some minor update to `__init__` function of the `GraphSAINT` class in `./graphsaint/<tensorflow or pytorch>_version/models.py`, so that the model knows how to lookup the correct class based on the keyword in the `yml` config.
+  ## Citation & Acknowledgement
+  Supported by DARPA under FA8750-17-C-0086, NSF under CCF-1919289 and OAC-1911229.
+  We thank Matthias Fey for providing a [reference implementation](https://pytorch-geometric.readthedocs.io/en/latest/modules/data.html#torch_geometric.data.GraphSAINTSampler) in the PyTorch Geometric library.
+  We thank the [OGB team](https://ogb.stanford.edu/) for using GraphSAINT on large scale experiments.
+  * ICLR 2020:
+  ```
+  @inproceedings{graphsaint-iclr20,
+  title={{GraphSAINT}: Graph Sampling Based Inductive Learning Method},
+  author={Hanqing Zeng and Hongkuan Zhou and Ajitesh Srivastava and Rajgopal Kannan and Viktor Prasanna},
+  booktitle={International Conference on Learning Representations},
+  year={2020},
+  url={https://openreview.net/forum?id=BJe8pkHFwS}
+  }
+  ```
+  * IEEE/IPDPS 2019:
+  ```
+  @INPROCEEDINGS{graphsaint-ipdps19,
+  author={Hanqing Zeng and Hongkuan Zhou and Ajitesh Srivastava and Rajgopal Kannan and Viktor Prasanna},
+  booktitle={2019 IEEE International Parallel and Distributed Processing Symposium (IPDPS)},
+  title={Accurate, Efficient and Scalable Graph Embedding},
+  year={2019},
+  month={May},
+  }
+------------------------------------------------------------
+2025-08-31T08:39:44.497015Z
+Action:
+  command:
+    cat graphsaint/setup.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the repository structure, configuration files, and documentation to find the intended entry points.
+Output:
+  # cython: language_level=3
+  from distutils.core import setup, Extension
+  from Cython.Build import cythonize
+  import numpy
+  # import cython_utils
+  import os
+  os.environ["CC"] = "g++"
+  os.environ["CXX"] = "g++"
+  setup(ext_modules = cythonize(["graphsaint/cython_sampler.pyx","graphsaint/cython_utils.pyx","graphsaint/norm_aggr.pyx"]), include_dirs = [numpy.get_include()])
+  # to compile: python graphsaint/setup.py build_ext --inplace
+------------------------------------------------------------
+2025-08-31T08:39:44.497040Z
+Action:
+  command:
+    cat graphsaint/tensorflow_version/train.py | head -30
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the repository structure, configuration files, and documentation to find the intended entry points.
+Output:
+  from graphsaint.globals import *
+  from graphsaint.tensorflow_version.inits import *
+  from graphsaint.tensorflow_version.model import GraphSAINT
+  from graphsaint.tensorflow_version.minibatch import Minibatch
+  from graphsaint.utils import *
+  from graphsaint.metric import *
+  from tensorflow.python.client import timeline
+  import sys, os, random
+  import tensorflow as tf
+  import numpy as np
+  import time
+  import pdb
+  import json
+  class TimeLiner:
+      _timeline_dict = None
+      def update_timeline(self, chrome_trace):
+          # convert crome trace to python dict
+          chrome_trace_dict = json.loads(chrome_trace)
+          # for first run store full trace
+          if self._timeline_dict is None:
+              self._timeline_dict = chrome_trace_dict
+          # for other - update only time consumption, not definitions
+          else:
+              for event in chrome_trace_dict['traceEvents']:
+                  # events time consumption started with 'ts' prefix
+                  if 'ts' in event:
+                      self._timeline_dict['traceEvents'].append(event)
+------------------------------------------------------------
+2025-08-31T08:39:44.497060Z
+Action:
+  command:
+    cat graphsaint/pytorch_version/train.py | head -30
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+  from graphsaint.globals import *
+  from graphsaint.pytorch_version.models import GraphSAINT
+  from graphsaint.pytorch_version.minibatch import Minibatch
+  from graphsaint.utils import *
+  from graphsaint.metric import *
+  from graphsaint.pytorch_version.utils import *
+  import torch
+  import time
+  def evaluate_full_batch(model, minibatch, mode='val'):
+      """
+      Full batch evaluation: for validation and test sets only.
+          When calculating the F1 score, we will mask the relevant root nodes
+          (e.g., those belonging to the val / test sets).
+      """
+      loss,preds,labels = model.eval_step(*minibatch.one_batch(mode=mode))
+      if mode == 'val':
+          node_target = [minibatch.node_val]
+      elif mode == 'test':
+          node_target = [minibatch.node_test]
+      else:
+          assert mode == 'valtest'
+          node_target = [minibatch.node_val, minibatch.node_test]
+      f1mic, f1mac = [], []
+      for n in node_target:
+          f1_scores = calc_f1(to_numpy(labels[n]), to_numpy(preds[n]), model.sigmoid_loss)
+          f1mic.append(f1_scores[0])
+------------------------------------------------------------
+2025-08-31T08:39:44.497085Z
+Action:
+  command:
+    find . -name "*.py" -path "*/train.py" -o -name "main.py" -o -name "run*.py" -o -name "cli.py"
+  description:
+    I'll analyze this GraphSAINT repository to identify all proper entrypoints by examining the structure, configuration files, and documentation.
+Output:
+  ./graphsaint/pytorch_version/train.py
+  ./graphsaint/tensorflow_version/train.py
+------------------------------------------------------------
+2025-08-31T08:39:44.497099Z
+Action:
+  command:
+    cat graphsaint/globals.py | grep -A 20 "def parse_args"
+  description:
+    I'll analyze this GraphSAINT repository to identify all proper entrypoints. Let me examine the repository structure, configuration files, and documentation systematically.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:39:44.497109Z
+Action:
+  command:
+    cat graphsaint/globals.py
+  description:
+    I'll analyze the repository structure and identify all proper entrypoints based on the command history and exploration. Let me examine the key files to determine the intended entry points.
+Output:
+  import numpy as np
+  import os,sys,time,datetime
+  from os.path import expanduser
+  import argparse
+  import subprocess
+  git_rev = subprocess.Popen("git rev-parse --short HEAD", shell=True, stdout=subprocess.PIPE, universal_newlines=True).communicate()[0]
+  git_branch = subprocess.Popen("git symbolic-ref --short -q HEAD", shell=True, stdout=subprocess.PIPE, universal_newlines=True).communicate()[0]
+  timestamp = time.time()
+  timestamp = datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H-%M-%S')
+  # Set random seed
+  #seed = 123
+  #np.random.seed(seed)
+  #tf.set_random_seed(seed)
+  parser = argparse.ArgumentParser(description="argument for GraphSAINT training")
+  parser.add_argument("--num_cpu_core",default=20,type=int,help="Number of CPU cores for parallel sampling")
+  parser.add_argument("--log_device_placement",default=False,action="store_true",help="Whether to log device placement")
+  parser.add_argument("--data_prefix",required=True,type=str,help="prefix identifying training data")
+  parser.add_argument("--dir_log",default=".",type=str,help="base directory for logging and saving embeddings")
+  parser.add_argument("--gpu",default="-1234",type=str,help="which GPU to use")
+  parser.add_argument("--eval_train_every",default=15,type=int,help="How often to evaluate training subgraph accuracy")
+  parser.add_argument("--train_config",required=True,type=str,help="path to the configuration of training (*.yml)")
+  parser.add_argument("--dtype",default="s",type=str,help="d for double, s for single precision floating point")
+  parser.add_argument("--timeline",default=False,action="store_true",help="to save timeline.json or not")
+  parser.add_argument("--tensorboard",default=False,action="store_true",help="to save data to tensorboard or not")
+  parser.add_argument("--dualGPU",default=False,action="store_true",help="whether to distribute the model to two GPUs")
+  parser.add_argument("--cpu_eval",default=False,action="store_true",help="whether to use CPU to do evaluation")
+  parser.add_argument("--saved_model_path",default="",type=str,help="path to pretrained model file")
+  args_global = parser.parse_args()
+  NUM_PAR_SAMPLER = args_global.num_cpu_core
+  SAMPLES_PER_PROC = -(-200 // NUM_PAR_SAMPLER) # round up division
+  EVAL_VAL_EVERY_EP = 1       # get accuracy on the validation set every this # epochs
+  # auto choosing available NVIDIA GPU
+  gpu_selected = args_global.gpu
+  if gpu_selected == '-1234':
+      # auto detect gpu by filtering on the nvidia-smi command output
+      gpu_stat = subprocess.Popen("nvidia-smi",shell=True,stdout=subprocess.PIPE,universal_newlines=True).communicate()[0]
+      gpu_avail = set([str(i) for i in range(8)])
+      for line in gpu_stat.split('\n'):
+          if 'python' in line:
+              if line.split()[1] in gpu_avail:
+                  gpu_avail.remove(line.split()[1])
+              if len(gpu_avail) == 0:
+                  gpu_selected = -2
+              else:
+                  gpu_selected = sorted(list(gpu_avail))[0]
+      if gpu_selected == -1:
+          gpu_selected = '0'
+      args_global.gpu = int(gpu_selected)
+  if str(gpu_selected).startswith('nvlink'):
+      os.environ["CUDA_VISIBLE_DEVICES"]=str(gpu_selected).split('nvlink')[1]
+  elif int(gpu_selected) >= 0:
+      os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
+      os.environ["CUDA_VISIBLE_DEVICES"]=str(gpu_selected)
+      GPU_MEM_FRACTION = 0.8
+  else:
+      os.environ["CUDA_VISIBLE_DEVICES"]="-1"
+  args_global.gpu = int(args_global.gpu)
+  # global vars
+  f_mean = lambda l: sum(l)/len(l)
+  DTYPE = "float32" if args_global.dtype=='s' else "float64"      # NOTE: currently not supporting float64 yet
+------------------------------------------------------------
+2025-08-31T08:39:44.497159Z
+Action:
+  command:
+    find . -name "Makefile" -o -name "makefile"
+  description:
+    I'll analyze this GraphSAINT repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  ./ipdps19_cpp/makefile
+------------------------------------------------------------
+2025-08-31T08:39:44.497170Z
+Action:
+  command:
+    cat ipdps19_cpp/makefile
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and structure. Let me examine the key components systematically.
+Output:
+  CC=icc
+  IDIR=./include
+  ODIR=./obj
+  LIBS=-L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5 
+  CFLAGS=-I${IDIR} -I${MKLROOT}/include -fopenmp -pthread -Wall -O3 --std=c++11
+  _DEPS=global.h optm.h		# global dependencies
+  DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
+  _OBJ=init.o layer.o operation.o util.o sample.o optm.o
+  OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
+  $(ODIR)/%.o: %.cpp $(IDIR)/%.h $(DEPS)
+  	@mkdir -p $(@D)
+  	$(CC) -c -o $@ $< $(CFLAGS)
+  train: train.cpp $(OBJ)
+  	$(CC) train.cpp -o $@ $(OBJ) $(CFLAGS) $(LIBS)
+  .PHONY: clean
+  clean:
+  	rm -f $(ODIR)/*.o
+------------------------------------------------------------
+2025-08-31T08:39:44.497186Z
+Action:
+  command:
+    find . -name "*.yml" -o -name "*.yaml" | head -10
+  description:
+    I'll analyze the GraphSAINT repository to identify all proper entrypoints based on the structure, configuration files, and documentation.
+Output:
+  ./train_config/ppi-large_2.yml
+  ./train_config/open_graph_benchmark/ogbn-products_3_e_gat.yml
+  ./train_config/ppi-large_5.yml
+  ./train_config/table2/ppi2_n.yml
+  ./train_config/table2/flickr2_e.yml
+  ./train_config/table2/yelp2_e.yml
+  ./train_config/table2/yelp2_mrw.yml
+  ./train_config/table2/amazon_2_mrw.yml
+  ./train_config/table2/ppi2_e.yml
+  ./train_config/table2/amazon_2_n.yml
+------------------------------------------------------------
+2025-08-31T08:39:44.497199Z
+Action:
+  command:
+    ls -la graphsaint/open_graph_benchmark/
+  description:
+    I'll analyze the repository structure and identify all proper entrypoints based on the command history and examination of the files.
+Output:
+  total 20
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:37 .
+  drwxr-xr-x 5 benchmarkuser 1001 4096 Aug 31 08:37 ..
+  -rw-r--r-- 1 benchmarkuser 1001 1561 Aug 31 08:37 README.md
+  -rwxr-xr-x 1 benchmarkuser 1001 7401 Aug 31 08:37 train_ogbn-products.py
+------------------------------------------------------------
+2025-08-31T08:39:44.497209Z
+Action:
+  command:
+    cat graphsaint/open_graph_benchmark/train_ogbn-products.py | head -30
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  """
+  See README in the current directory and in the root directory for training instructions. 
+  The graph format is converted via data/open_graph_benchmark/ogbn_converter.py
+  Implementation is based on the PyTorch version.
+  Contact: 
+  Hanqing Zeng (zengh@usc.edu);   Hongkuan Zhou (hongkuaz@usc.edu)
+  """
+  from graphsaint.globals import *
+  from graphsaint.pytorch_version.models import GraphSAINT
+  from graphsaint.pytorch_version.minibatch import Minibatch
+  from graphsaint.utils import *
+  from graphsaint.metric import *
+  from graphsaint.pytorch_version.utils import *
+  from  ogb.nodeproppred import Evaluator
+  import torch
+  import time
+  evaluator=Evaluator(name='ogbn-products')
+  def evaluate_full_batch(model, minibatch, mode='val'):
+      """
+      Full batch evaluation: for validation and test sets only.
+          When calculating the F1 score, we will mask the relevant root nodes
+          (e.g., those belonging to the val / test sets).
+      """
+      loss,preds,labels = model.eval_step(*minibatch.one_batch(mode=mode))
+------------------------------------------------------------
+2025-08-31T08:39:44.497225Z
+Action:
+  command:
+    ls -la data/
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure. Let me systematically examine the available files and configurations.
+Output:
+  total 12
+  drwxr-xr-x 3 benchmarkuser 1001 4096 Aug 31 08:37 .
+  drwxr-xr-x 7 benchmarkuser 1001 4096 Aug 31 08:37 ..
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:37 open_graph_benchmark
+------------------------------------------------------------
+2025-08-31T08:39:44.497258Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    graphsaint/tensorflow_version/train.py
+    graphsaint/pytorch_version/train.py
+    graphsaint/open_graph_benchmark/train_ogbn-products.py
+    ipdps19_cpp/train.cpp
+    convert.py
+    data/open_graph_benchmark/ogbn_converter.py
+    EOF
+  description:
+    Based on my analysis of the GraphSAINT repository and the command history, I'll identify all proper entrypoints as intended by the repository authors.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:39:44.497274Z
+Action:
+  command:
+    cat data/open_graph_benchmark/ogbn_converter.py | head -20
+  description:
+    Based on the command history and analysis of the GraphSAINT repository, I can identify the proper entrypoints that are intended by the repository authors. Let me examine a few more files to ensure completeness and then create the entrypoints.txt file.
+Output:
+  import json
+  import sys
+  import os
+  import numpy as np
+  import scipy.sparse as sp
+  from tqdm import tqdm
+  from ogb.nodeproppred import PygNodePropPredDataset
+  """
+  Run this script to convert the graph from the open graph benchmark format
+  to the GraphSAINT format.
+  Right now, ogbn-products and ogbn-arxiv can be converted by this script.
+  """
+  dataset = PygNodePropPredDataset(name=sys.argv[1])
+  split_idx = dataset.get_idx_split()
+  train_idx, valid_idx, test_idx = split_idx['train'], split_idx['valid'], split_idx['test']
+  graph = dataset[0]
+------------------------------------------------------------
+2025-08-31T08:39:44.497289Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    graphsaint/tensorflow_version/train.py
+    graphsaint/pytorch_version/train.py
+    graphsaint/open_graph_benchmark/train_ogbn-products.py
+    data/open_graph_benchmark/ogbn_converter.py
+    convert.py
+    EOF
+  description:
+    I need to analyze the GraphSAINT repository to identify all proper entrypoints. Let me examine the repository structure and documentation systematically based on the command history provided.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:39:44.497300Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    graphsaint/tensorflow_version/train.py
+    graphsaint/pytorch_version/train.py
+    graphsaint/open_graph_benchmark/train_ogbn-products.py
+    data/open_graph_benchmark/ogbn_converter.py
+    convert.py
+    EOF
+  description:
+    Based on the command history and analysis of the GraphSAINT repository, I can identify the proper entrypoints that are intended by the repository authors. Let me examine the structure and create the final entrypoints file.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:39:44.497311Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze the GraphSAINT repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  graphsaint/tensorflow_version/train.py
+  graphsaint/pytorch_version/train.py
+  graphsaint/open_graph_benchmark/train_ogbn-products.py
+  data/open_graph_benchmark/ogbn_converter.py
+  convert.py
+------------------------------------------------------------
+2025-08-31T08:39:44.497321Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze the repository structure and identify all proper entrypoints based on the command history and examination of the GraphSAINT repository.
+Output:
+  graphsaint/tensorflow_version/train.py
+  graphsaint/pytorch_version/train.py
+  graphsaint/open_graph_benchmark/train_ogbn-products.py
+  data/open_graph_benchmark/ogbn_converter.py
+  convert.py
+------------------------------------------------------------
+2025-08-31T08:39:44.497331Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on my analysis of the GraphSAINT repository from the command history, I can see that the proper entrypoints have already been identified and saved to `entrypoints.txt`. Let me verify the contents and complete the analysis.
+Output:
+  graphsaint/tensorflow_version/train.py
+  graphsaint/pytorch_version/train.py
+  graphsaint/open_graph_benchmark/train_ogbn-products.py
+  data/open_graph_benchmark/ogbn_converter.py
+  convert.py
+------------------------------------------------------------
+2025-08-31T08:39:44.497341Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see that proper entrypoints have already been identified for this GraphSAINT repository. Let me verify the current `entrypoints.txt` file and ensure completeness:
+Output:
+  graphsaint/tensorflow_version/train.py
+  graphsaint/pytorch_version/train.py
+  graphsaint/open_graph_benchmark/train_ogbn-products.py
+  data/open_graph_benchmark/ogbn_converter.py
+  convert.py
+------------------------------------------------------------
+2025-08-31T08:39:44.497351Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see that the GraphSAINT repository has already been analyzed and the proper entrypoints have been identified. Let me verify the current `entrypoints.txt` file and complete the analysis:
+Output:
+  graphsaint/tensorflow_version/train.py
+  graphsaint/pytorch_version/train.py
+  graphsaint/open_graph_benchmark/train_ogbn-products.py
+  data/open_graph_benchmark/ogbn_converter.py
+  convert.py
+------------------------------------------------------------

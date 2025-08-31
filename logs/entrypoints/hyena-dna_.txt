@@ -1,0 +1,7 @@
+    ./train.py
+    ./huggingface.py
+    ./standalone_hyenadna.py
+    ./evals/hg38_inference.py
+    ./evals/hg38_inference_decoder.py
+    ./evals/instruction_tuned_genomics.py
+    ./evals/soft_prompting_genomics.py

@@ -1,0 +1,494 @@
+2025-08-31T09:36:13.540264Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.json" -o -name "*.toml" -o -name "*.yaml" -o -name "*.yml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.gradle" -o -name "pom.xml" -o -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure to understand what we're working with.
+Output:
+  ./model/base/conv4d.py
+  ./model/base/correlation.py
+  ./model/base/geometry.py
+  ./model/base/feature.py
+  ./model/resnet.py
+  ./model/CVlearner.py
+  ./model/CVNet_Rerank_model.py
+  ./config.py
+  ./test.py
+  ./modules/coarse_retrieval/sgem.py
+  ./modules/coarse_retrieval/relup.py
+  ./modules/coarse_retrieval/gemp.py
+  ./modules/coarse_retrieval/rgem.py
+  ./modules/reranking/MDescAug.py
+  ./modules/reranking/RerankwMDA.py
+  ./extract_rop1m.py
+  ./core/CVNet_tester.py
+  ./core/checkpoint.py
+  ./core/transforms.py
+  ./core/__init__.py
+  ./test/test_model.py
+  ./test/evaluate.py
+  ./test/test_utils.py
+  ./test/config_gnd.py
+  ./test/test_loader.py
+  ./test/dataset_1m.py
+  ./test/dataset.py
+  ./test/__init__.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540328Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+  total 12984
+  drwxr-xr-x 7 benchmarkuser 1001     4096 Aug 31 09:34 .
+  drwxr-xr-x 1 root          root     4096 Aug 31 09:34 ..
+  drwxr-xr-x 8 benchmarkuser 1001     4096 Aug 31 09:34 .git
+  -rw-r--r-- 1 benchmarkuser 1001     1066 Aug 31 09:34 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001     4089 Aug 31 09:34 README.md
+  -rw-r--r-- 1 benchmarkuser 1001     4562 Aug 31 09:34 config.py
+  drwxr-xr-x 2 benchmarkuser 1001     4096 Aug 31 09:34 core
+  -rw-r--r-- 1 benchmarkuser 1001 13239439 Aug 31 09:34 demo.gif
+  -rw-r--r-- 1 benchmarkuser 1001     2401 Aug 31 09:34 extract_rop1m.py
+  drwxr-xr-x 3 benchmarkuser 1001     4096 Aug 31 09:34 model
+  drwxr-xr-x 4 benchmarkuser 1001     4096 Aug 31 09:34 modules
+  drwxr-xr-x 2 benchmarkuser 1001     4096 Aug 31 09:34 test
+  -rw-r--r-- 1 benchmarkuser 1001      307 Aug 31 09:34 test.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540349Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the key files to understand the intended entry points for this project.
+Output:
+  # SuperGlobal
+  [![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2308.06954)
+  [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/global-features-are-all-you-need-for-image/image-retrieval-on-roxford-hard)](https://paperswithcode.com/sota/image-retrieval-on-roxford-hard?p=global-features-are-all-you-need-for-image)
+  [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/global-features-are-all-you-need-for-image/image-retrieval-on-rparis-hard)](https://paperswithcode.com/sota/image-retrieval-on-rparis-hard?p=global-features-are-all-you-need-for-image)
+  ICCV 2023 Paper *Global Features are All You Need for Image Retrieval and Reranking* Official Repository🚀🚀🚀
+  Leveraging global features only, our series of methods contribute to state-of-the-art performance in ROxford (+1M), RParis (+1M), and GLD test set with orders-of-magnitude speedup.
+  ## News
+  9/14/2023 Evaluation code on 1M is released!
+  ## Demo
+  ![image](https://github.com/ShihaoShao-GH/SuperGlobal/blob/main/demo.gif)
+  ## Results Reproduce
+  1) Download Revisited Oxford & Paris from https://github.com/filipradenovic/revisitop, and
+  save to path `./revisitop`.
+  2) Download CVNet pretrained weights from https://github.com/sungonce/CVNet, and save to path `./weights`.
+  3) Run 
+  `python test.py MODEL.DEPTH [50, 101] TEST.WEIGHTS ./weights TEST.DATA_DIR ./revisitop
+  SupG.gemp SupG.rgem SupG.sgem SupG.relup SupG.rerank SupG.onemeval False`
+  And you will get the exact reported results in `log.txt`.
+  ## Evaluation on 1M distractors
+  1) Run `python ./extract_rop1m.py --weight [path-to-weight] --depth [depth]`, and it gives you a `.pth` file in the current path.
+  2) Run `python test.py MODEL.DEPTH [50, 101] TEST.WEIGHTS ./weights TEST.DATA_DIR ./revisitop
+  SupG.gemp SupG.rgem SupG.sgem SupG.relup SupG.rerank SupG.onemeval`
+  3) See results in `log.txt`.
+  ## Application
+  If you would like to try out our methods on other benchmarks or tasks, 
+  I recommend to go over `./modules` in this repository, and plug in your desired 
+  modules. They are very easy to use, and can be directly attached to your trained model!
+  ## Acknowledgement
+  Many thanks to [CVNet](https://github.com/sungonce/CVNet), [DELG-pytorch](https://github.com/feymanpriv/DELG),
+  where we found resources to build our repository 
+  and they inspired us to have this work published!
+  ## Contact us
+  Feel free to reach out our co-corresponding authors at shaoshihao@pku.edu.cn, and bingyi@google.com.
+------------------------------------------------------------
+2025-08-31T09:36:13.540395Z
+Action:
+  command:
+    cat test.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the key files to understand what entrypoints are intended by the authors.
+Output:
+  # written by Seongwon Lee (won4113@yonsei.ac.kr)
+  import config as config
+  import core.CVNet_tester as CVNet_tester
+  from config import cfg
+  def main():
+      config.load_cfg_fom_args("test a CVNet model.")
+      cfg.NUM_GPUS=1
+      cfg.freeze()
+      CVNet_tester.__main__()
+  if __name__ == "__main__":
+      main()
+------------------------------------------------------------
+2025-08-31T09:36:13.540410Z
+Action:
+  command:
+    cat config.py | head -50
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me examine the key files and understand the structure.
+Output:
+  #!/usr/bin/env python3
+  # Copyright (c) Facebook, Inc. and its affiliates.
+  #
+  # This source code is licensed under the MIT license found in the
+  # LICENSE file in the root directory of this source tree.
+  """Configuration file (powered by YACS)."""
+  import argparse
+  import os
+  import sys
+  from yacs.config import CfgNode as CfgNode
+  # Global config object
+  _C = CfgNode()
+  # Example usage:
+  #   from core.config import cfg
+  cfg = _C
+  _C.MODEL_NAME = ""
+  # ------------------------------------------------------------------------------------ #
+  # Model options
+  # ------------------------------------------------------------------------------------ #
+  _C.MODEL = CfgNode()
+  # Model type
+  _C.MODEL.TYPE = "RESNET"
+  # Number of weight layers
+  _C.MODEL.DEPTH = 50
+  # Loss function (see pycls/models/loss.py for options)
+  _C.MODEL.LOSSES = CfgNode()
+  _C.MODEL.LOSSES.NAME = "cross_entropy"
+  # ------------------------------------------------------------------------------------ #
+  # Heads options
+  # ------------------------------------------------------------------------------------
+  _C.MODEL.HEADS = CfgNode()
+  _C.MODEL.HEADS.NAME = "LinearHead"
+  # Normalization method for the convolution layers.
+  # Input feature dimension
+  _C.MODEL.HEADS.IN_FEAT = 2048
+  # Reduction dimension in head
+------------------------------------------------------------
+2025-08-31T09:36:13.540431Z
+Action:
+  command:
+    cat extract_rop1m.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints by examining the structure, configuration files, and understanding the intended usage.
+Output:
+  import torch
+  from model.CVNet_Rerank_model import CVNet_Rerank
+  from test.dataset_1m import DataSet
+  from tqdm import tqdm
+  import torch.nn.functional as F
+  import argparse
+  @torch.no_grad()
+  def extract_feature(model, test_loader, scale_list):
+      with torch.no_grad():
+          img_feats = [[] for i in range(1)] 
+          count = 0
+          for im_list in tqdm(test_loader):
+              if count % 10000 == 0:
+                  print(f"Image Processed {count}")
+              count+=1
+              for idx in range(len(im_list)):
+                  im_list[idx] = im_list[idx].cuda()
+                  desc = model.extract_global_descriptor(im_list[idx], True, True, True, scale_list)
+                  if len(desc.shape) == 1:
+                      desc.unsqueeze_(0)
+                  desc = F.normalize(desc, p=2, dim=1)
+                  img_feats[idx].append(desc.detach().cpu())
+          for idx in range(len(img_feats)):
+              img_feats[idx] = torch.cat(img_feats[idx], dim=0)
+              if len(img_feats[idx].shape) == 1:
+                  img_feats[idx].unsqueeze_(0)
+          img_feats_agg = F.normalize(torch.mean(torch.cat([img_feat.unsqueeze(0) for img_feat in img_feats], dim=0), dim=0), p=2, dim=1)
+      return img_feats_agg
+  def main():
+      parser = argparse.ArgumentParser(description='Generate 1M embedding')
+      parser.add_argument('--weight',
+                          help='Path to weight')
+      parser.add_argument('--depth', default=101, type=int,
+                          help='Depth of ResNet')
+      args = parser.parse_args()
+      weight_path, depth =  args.weight,  args.depth
+      model1 = CVNet_Rerank(depth, 2048, True)
+      weight = torch.load(weight_path)
+      weight_new = {}
+      for i,j in zip(weight['model_state'].keys(), weight['model_state'].values()):
+              weight_new[i.replace('globalmodel','encoder_q')] = j
+      mis_key = model1.load_state_dict(weight_new, strict=False)
+      model1.cuda()
+      dataset = DataSet("/data1/shaoshihao/rop1m/RevistedOP")
+      dataloader = torch.utils.data.DataLoader(
+          dataset,
+          batch_size=1,
+          shuffle=False,
+          sampler=None,
+          num_workers=4,
+          pin_memory=True,
+          drop_last=False,
+      )
+      features = extract_feature(model1, dataloader, 3)
+      torch.save(features, f"feats_1m_RN{depth}.pth")
+  if __name__ == "__main__":
+      main()
+------------------------------------------------------------
+2025-08-31T09:36:13.540492Z
+Action:
+  command:
+    find . -name "*.py" -type f -exec grep -l "if __name__ == ['\"]__main__['\"]" {} \;
+  description:
+    Looking at the repository structure and analyzing the code, I can identify the proper entrypoints for this SuperGlobal project. Let me examine the key files to identify all intended entrypoints.
+Output:
+  ./test.py
+  ./extract_rop1m.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540507Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile"
+  description:
+    I'll analyze this SuperGlobal repository to identify all proper entrypoints. Based on the command history and files shown, let me examine the key configuration files and structure to understand the intended entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:36:13.540520Z
+Action:
+  command:
+    cat core/CVNet_tester.py | grep -A 10 -B 5 "__main__\|def main"
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure shown.
+Output:
+      cur_device = torch.cuda.current_device()
+      model = model.cuda(device=cur_device)
+      return model
+  def __main__():
+      """Test the model."""
+      if cfg.TEST.WEIGHTS == "":
+          print("no test weights exist!!")
+      else:
+          # Construct the model
+          model = setup_model()
+          # Load checkpoint
+          checkpoint.load_checkpoint(cfg.TEST.WEIGHTS, model)
+          test_model(model, cfg.TEST.DATA_DIR, cfg.TEST.DATASET_LIST, cfg.TEST.SCALE_LIST, cfg.SupG.rerank, cfg.SupG.gemp, cfg.SupG.rgem, cfg.SupG.sgem, cfg.SupG.onemeval, cfg.MODEL.DEPTH, logger)
+------------------------------------------------------------
+2025-08-31T09:36:13.540534Z
+Action:
+  command:
+    grep -r "if __name__ == ['\"]__main__['\"]" . --include="*.py" -l
+  description:
+    Looking at the repository structure and examining the key files, I need to identify all proper entrypoints for this SuperGlobal project. Let me analyze the files systematically.
+Output:
+  ./test.py
+  ./extract_rop1m.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540545Z
+Action:
+  command:
+    find . -name "bin" -type d
+  description:
+    I'll analyze this SuperGlobal repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:36:13.540555Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the SuperGlobal repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  total 12984
+  drwxr-xr-x 7 benchmarkuser 1001     4096 Aug 31 09:34 .
+  drwxr-xr-x 1 root          root     4096 Aug 31 09:34 ..
+  drwxr-xr-x 8 benchmarkuser 1001     4096 Aug 31 09:34 .git
+  -rw-r--r-- 1 benchmarkuser 1001     1066 Aug 31 09:34 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001     4089 Aug 31 09:34 README.md
+  -rw-r--r-- 1 benchmarkuser 1001     4562 Aug 31 09:34 config.py
+  drwxr-xr-x 2 benchmarkuser 1001     4096 Aug 31 09:34 core
+  -rw-r--r-- 1 benchmarkuser 1001 13239439 Aug 31 09:34 demo.gif
+  -rw-r--r-- 1 benchmarkuser 1001     2401 Aug 31 09:34 extract_rop1m.py
+  drwxr-xr-x 3 benchmarkuser 1001     4096 Aug 31 09:34 model
+  drwxr-xr-x 4 benchmarkuser 1001     4096 Aug 31 09:34 modules
+  drwxr-xr-x 2 benchmarkuser 1001     4096 Aug 31 09:34 test
+  -rw-r--r-- 1 benchmarkuser 1001      307 Aug 31 09:34 test.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540568Z
+Action:
+  command:
+    cat test.py
+  description:
+    I'll analyze this SuperGlobal repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files systematically.
+Output:
+  # written by Seongwon Lee (won4113@yonsei.ac.kr)
+  import config as config
+  import core.CVNet_tester as CVNet_tester
+  from config import cfg
+  def main():
+      config.load_cfg_fom_args("test a CVNet model.")
+      cfg.NUM_GPUS=1
+      cfg.freeze()
+      CVNet_tester.__main__()
+  if __name__ == "__main__":
+      main()
+------------------------------------------------------------
+2025-08-31T09:36:13.540580Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the repository systematically.
+Output:
+  # SuperGlobal
+  [![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2308.06954)
+  [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/global-features-are-all-you-need-for-image/image-retrieval-on-roxford-hard)](https://paperswithcode.com/sota/image-retrieval-on-roxford-hard?p=global-features-are-all-you-need-for-image)
+  [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/global-features-are-all-you-need-for-image/image-retrieval-on-rparis-hard)](https://paperswithcode.com/sota/image-retrieval-on-rparis-hard?p=global-features-are-all-you-need-for-image)
+  ICCV 2023 Paper *Global Features are All You Need for Image Retrieval and Reranking* Official Repository🚀🚀🚀
+  Leveraging global features only, our series of methods contribute to state-of-the-art performance in ROxford (+1M), RParis (+1M), and GLD test set with orders-of-magnitude speedup.
+  ## News
+  9/14/2023 Evaluation code on 1M is released!
+  ## Demo
+  ![image](https://github.com/ShihaoShao-GH/SuperGlobal/blob/main/demo.gif)
+  ## Results Reproduce
+  1) Download Revisited Oxford & Paris from https://github.com/filipradenovic/revisitop, and
+  save to path `./revisitop`.
+  2) Download CVNet pretrained weights from https://github.com/sungonce/CVNet, and save to path `./weights`.
+  3) Run 
+  `python test.py MODEL.DEPTH [50, 101] TEST.WEIGHTS ./weights TEST.DATA_DIR ./revisitop
+  SupG.gemp SupG.rgem SupG.sgem SupG.relup SupG.rerank SupG.onemeval False`
+  And you will get the exact reported results in `log.txt`.
+  ## Evaluation on 1M distractors
+  1) Run `python ./extract_rop1m.py --weight [path-to-weight] --depth [depth]`, and it gives you a `.pth` file in the current path.
+  2) Run `python test.py MODEL.DEPTH [50, 101] TEST.WEIGHTS ./weights TEST.DATA_DIR ./revisitop
+  SupG.gemp SupG.rgem SupG.sgem SupG.relup SupG.rerank SupG.onemeval`
+  3) See results in `log.txt`.
+  ## Application
+  If you would like to try out our methods on other benchmarks or tasks, 
+  I recommend to go over `./modules` in this repository, and plug in your desired 
+  modules. They are very easy to use, and can be directly attached to your trained model!
+  ## Acknowledgement
+  Many thanks to [CVNet](https://github.com/sungonce/CVNet), [DELG-pytorch](https://github.com/feymanpriv/DELG),
+  where we found resources to build our repository 
+  and they inspired us to have this work published!
+  ## Contact us
+  Feel free to reach out our co-corresponding authors at shaoshihao@pku.edu.cn, and bingyi@google.com.
+------------------------------------------------------------
+2025-08-31T09:36:13.540630Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "requirements.txt" -o -name "environment.yml" -o -name "Pipfile" -o -name "poetry.lock"
+  description:
+    I'll analyze this SuperGlobal repository to identify all proper entrypoints based on the command history and file structure provided.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:36:13.540640Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this SuperGlobal repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  total 12984
+  drwxr-xr-x 7 benchmarkuser 1001     4096 Aug 31 09:34 .
+  drwxr-xr-x 1 root          root     4096 Aug 31 09:34 ..
+  drwxr-xr-x 8 benchmarkuser 1001     4096 Aug 31 09:34 .git
+  -rw-r--r-- 1 benchmarkuser 1001     1066 Aug 31 09:34 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001     4089 Aug 31 09:34 README.md
+  -rw-r--r-- 1 benchmarkuser 1001     4562 Aug 31 09:34 config.py
+  drwxr-xr-x 2 benchmarkuser 1001     4096 Aug 31 09:34 core
+  -rw-r--r-- 1 benchmarkuser 1001 13239439 Aug 31 09:34 demo.gif
+  -rw-r--r-- 1 benchmarkuser 1001     2401 Aug 31 09:34 extract_rop1m.py
+  drwxr-xr-x 3 benchmarkuser 1001     4096 Aug 31 09:34 model
+  drwxr-xr-x 4 benchmarkuser 1001     4096 Aug 31 09:34 modules
+  drwxr-xr-x 2 benchmarkuser 1001     4096 Aug 31 09:34 test
+  -rw-r--r-- 1 benchmarkuser 1001      307 Aug 31 09:34 test.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540652Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    test.py
+    extract_rop1m.py
+    EOF
+  description:
+    I'll analyze the SuperGlobal repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:36:13.540663Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    test.py
+    extract_rop1m.py
+    EOF
+  description:
+    I'll analyze this SuperGlobal repository to identify all proper entrypoints based on the command history and repository structure provided.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:36:13.540672Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository structure analysis, I need to identify all proper entrypoints for this SuperGlobal repository. Let me examine the current state and create the entrypoints file.
+Output:
+  test.py
+  extract_rop1m.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540680Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see that the SuperGlobal repository has been thoroughly examined. Let me verify the entrypoints and ensure the file is properly created.
+Output:
+  test.py
+  extract_rop1m.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540688Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see that the SuperGlobal repository has been thoroughly examined. The analysis shows two clear entrypoints that are explicitly intended by the repository authors:
+    
+    1. `test.py` - The main testing script for evaluating CVNet models, as documented in the README
+    2. `extract_rop1m.py` - Script for extracting features on 1M distractors, also documented in the README
+    
+    Let me verify the current entrypoints file and complete the task:
+Output:
+  test.py
+  extract_rop1m.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540703Z
+Action:
+  command:
+    ls -la entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see that the SuperGlobal repository has been thoroughly examined. The analysis shows two clear entrypoints that are explicitly intended by the repository authors as documented in the README:
+    
+    1. `test.py` - The main testing script for evaluating CVNet models
+    2. `extract_rop1m.py` - Script for extracting features on 1M distractors
+    
+    The entrypoints.txt file has already been created with the correct format. Let me verify it exists and complete the task:
+Output:
+  -rw-r--r-- 1 benchmarkuser benchmarkuser 25 Aug 31 09:35 entrypoints.txt
+------------------------------------------------------------
+2025-08-31T09:36:13.540716Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see that the SuperGlobal repository has been thoroughly examined. The analysis shows two clear entrypoints that are explicitly intended by the repository authors as documented in the README:
+    
+    1. `test.py` - The main testing script for evaluating CVNet models
+    2. `extract_rop1m.py` - Script for extracting features on 1M distractors
+    
+    The entrypoints.txt file has already been created with the correct format. Let me verify it and complete the task:
+Output:
+  test.py
+  extract_rop1m.py
+------------------------------------------------------------
+2025-08-31T09:36:13.540728Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

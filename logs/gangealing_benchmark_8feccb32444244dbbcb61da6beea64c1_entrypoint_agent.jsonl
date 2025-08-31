@@ -1,0 +1,813 @@
+2025-08-31T08:12:30.421198Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.class" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "docker-compose.yml" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "build.gradle" -o -name "pom.xml" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the file structure and contents.
+Output:
+  ./train_cluster_classifier.py
+  ./models/latent_learner.py
+  ./models/spatial_transformers/antialiased_sampling.py
+  ./models/spatial_transformers/warping_heads.py
+  ./models/spatial_transformers/spatial_transformer.py
+  ./models/spatial_transformers/__init__.py
+  ./models/cluster_classifier.py
+  ./models/losses/loss.py
+  ./models/losses/lpips.py
+  ./models/losses/lpips_backbones.py
+  ./models/losses/__init__.py
+  ./models/stylegan2/op/upfirdn2d.py
+  ./models/stylegan2/op/fused_act.py
+  ./models/stylegan2/op/conv2d_gradfix.py
+  ./models/stylegan2/op/__init__.py
+  ./models/stylegan2/__init__.py
+  ./models/stylegan2/networks.py
+  ./models/__init__.py
+  ./utils/annealing.py
+  ./utils/download.py
+  ./utils/distributed.py
+  ./utils/laplacian_blending.py
+  ./utils/vis_tools/helpers.py
+  ./utils/vis_tools/flow_vis.py
+  ./utils/vis_tools/training_vis.py
+  ./utils/vis_tools/__init__.py
+  ./utils/CUB_data_utils.py
+  ./utils/base_argparse.py
+  ./utils/splat2d_cuda/splat.py
+  ./utils/splat2d_cuda/__init__.py
+  ./utils/splat2d_cuda/functional.py
+  ./utils/__init__.py
+  ./datasets/pck_dataset.py
+  ./datasets/dataset.py
+  ./datasets/__init__.py
+  ./applications/vis_correspondence.py
+  ./applications/congeal_dataset.py
+  ./applications/pck.py
+  ./applications/propagate_to_images.py
+  ./applications/mixed_reality.py
+  ./applications/__init__.py
+  ./applications/flow_scores.py
+  ./train.py
+  ./prepare_data.py
+------------------------------------------------------------
+2025-08-31T08:12:30.421328Z
+Action:
+  command:
+    find . -name "*.py" | grep -E "(main\.py|__main__\.py|cli\.py)" | head -10
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the file structure and key configuration files.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:12:30.421345Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the file structure and key configuration files that were already discovered.
+Output:
+  total 132
+  drwxr-xr-x 10 benchmarkuser 1001  4096 Aug 31 08:11 .
+  drwxr-xr-x  1 root          root  4096 Aug 31 08:11 ..
+  drwxr-xr-x  8 benchmarkuser 1001  4096 Aug 31 08:11 .git
+  -rw-r--r--  1 benchmarkuser 1001  2466 Aug 31 08:11 .gitignore
+  -rw-r--r--  1 benchmarkuser 1001  1295 Aug 31 08:11 LICENSE.txt
+  -rw-r--r--  1 benchmarkuser 1001 22053 Aug 31 08:11 README.md
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:11 applications
+  drwxr-xr-x  5 benchmarkuser 1001  4096 Aug 31 08:11 assets
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:11 datasets
+  -rw-r--r--  1 benchmarkuser 1001   365 Aug 31 08:11 environment.yml
+  -rw-r--r--  1 benchmarkuser 1001   386 Aug 31 08:11 environment_cu102.yml
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:11 images
+  drwxr-xr-x  5 benchmarkuser 1001  4096 Aug 31 08:11 models
+  -rw-r--r--  1 benchmarkuser 1001 20465 Aug 31 08:11 prepare_data.py
+  -rw-r--r--  1 benchmarkuser 1001   145 Aug 31 08:11 process_video.sh
+  drwxr-xr-x  3 benchmarkuser 1001  4096 Aug 31 08:11 scripts
+  -rw-r--r--  1 benchmarkuser 1001 14270 Aug 31 08:11 train.py
+  -rw-r--r--  1 benchmarkuser 1001 11759 Aug 31 08:11 train_cluster_classifier.py
+  drwxr-xr-x  4 benchmarkuser 1001  4096 Aug 31 08:11 utils
+------------------------------------------------------------
+2025-08-31T08:12:30.421371Z
+Action:
+  command:
+    cat README.md | head -50
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the file structure and contents. Let me examine the key files more closely.
+Output:
+  ## GAN-Supervised Dense Visual Alignment (GANgealing)<br><sub>Official PyTorch Implementation of the CVPR 2022 Paper (Oral, Best Paper Finalist)</sub>
+  ### [Paper](https://arxiv.org/abs/2112.05143) | [Project Page](https://www.wpeebles.com/gangealing) | [Video](https://youtu.be/Qa1ASS_NuzE) | [Two Minute Papers](https://www.youtube.com/watch?v=qtOkktTNs-k) | Mixed Reality Playground [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JkUjhTjR8MyLxwarJjqnh836BICfocTu?usp=sharing)
+  ![Teaser image](images/snowpuppy.gif) ![Teaser image](images/elon.gif) ![Teaser image](images/catpet2teaser.gif)
+  This repo contains training, evaluation, and visualization code for the GANgealing algorithm from our GAN-Supervised Dense Visual Alignment paper. Please see our [project page](https://www.wpeebles.com/gangealing) for high quality results.
+  GAN-Supervised Learning is a method for learning discriminative models and their GAN-generated training data jointly end-to-end. We apply our framework to the dense visual alignment problem. Inspired by the classic Congealing method, our GANgealing algorithm trains a Spatial Transformer to
+  warp random samples from a GAN trained on unaligned data to a common, jointly-learned target mode. The target mode is
+  updated to make the Spatial Transformer's job "as easy as possible." The Spatial Transformer is trained exclusively on GAN images and generalizes
+  to real images at test time automatically.
+  [![Watch the video](images/method.png)](https://www.wpeebles.com/images/gangealing_visuals/gangealing.mp4)
+  Once trained, the average aligned image is a _template_ from which you can propagate anything. For example, by drawing 
+  cartoon eyes on our average congealed cat image, you can propagate them realistically to any video or image of a cat.
+  This repository contains:
+  * 🎱 Pre-trained GANgealing models for eight datasets, including both the Spatial Transformers and generators
+  * 💥 Training code which fully supports Distributed Data Parallel and the torchrun API
+  * 🎥 Scripts and a self-contained [Colab notebook](https://colab.research.google.com/drive/1JkUjhTjR8MyLxwarJjqnh836BICfocTu?usp=sharing) for running mixed reality with our Spatial Transformers
+  * ⚡ A lightning-fast CUDA implementation of splatting to generate high-quality warping visualizations
+  * 🚀 An implementation of anti-aliased grid sampling useful for Spatial Transformers (thanks Tim Brooks!)
+  * 🎆 Several additional evaluation and visualization scripts to reproduce results from our paper and website
+  ## Setup
+  First, download the repo and add it to your `PYTHONPATH`:
+  ```bash
+  git clone https://github.com/wpeebles/gangealing.git
+  cd gangealing
+  export PYTHONPATH="${PYTHONPATH}:${PWD}"
+  ```
+  We provide an [`environment.yml`](environment.yml) file that can be used to create a Conda environment:
+  ```bash
+  conda env create -f environment.yml
+  conda activate gg
+  ```
+  This will install PyTorch with a recent version of CUDA/cuDNN. To install CUDA 10.2/cuDNN 7.6.5 specifically, you can use [`environment_cu102.yml`](environment_cu102.yml) in the above command. See [below](#note-on-cudnncuda-versions) for details on performance differences between CUDA/cuDNN versions.
+------------------------------------------------------------
+2025-08-31T08:12:30.421447Z
+Action:
+  command:
+    cat README.md | grep -A 20 -B 5 "python\|train\|run\|execute\|script"
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me examine the key files and configurations to find the intended ways to run this project.
+Output:
+  ### [Paper](https://arxiv.org/abs/2112.05143) | [Project Page](https://www.wpeebles.com/gangealing) | [Video](https://youtu.be/Qa1ASS_NuzE) | [Two Minute Papers](https://www.youtube.com/watch?v=qtOkktTNs-k) | Mixed Reality Playground [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JkUjhTjR8MyLxwarJjqnh836BICfocTu?usp=sharing)
+  ![Teaser image](images/snowpuppy.gif) ![Teaser image](images/elon.gif) ![Teaser image](images/catpet2teaser.gif)
+  This repo contains training, evaluation, and visualization code for the GANgealing algorithm from our GAN-Supervised Dense Visual Alignment paper. Please see our [project page](https://www.wpeebles.com/gangealing) for high quality results.
+  GAN-Supervised Learning is a method for learning discriminative models and their GAN-generated training data jointly end-to-end. We apply our framework to the dense visual alignment problem. Inspired by the classic Congealing method, our GANgealing algorithm trains a Spatial Transformer to
+  warp random samples from a GAN trained on unaligned data to a common, jointly-learned target mode. The target mode is
+  updated to make the Spatial Transformer's job "as easy as possible." The Spatial Transformer is trained exclusively on GAN images and generalizes
+  to real images at test time automatically.
+  [![Watch the video](images/method.png)](https://www.wpeebles.com/images/gangealing_visuals/gangealing.mp4)
+  Once trained, the average aligned image is a _template_ from which you can propagate anything. For example, by drawing 
+  cartoon eyes on our average congealed cat image, you can propagate them realistically to any video or image of a cat.
+  This repository contains:
+  * 🎱 Pre-trained GANgealing models for eight datasets, including both the Spatial Transformers and generators
+  * 💥 Training code which fully supports Distributed Data Parallel and the torchrun API
+  * 🎥 Scripts and a self-contained [Colab notebook](https://colab.research.google.com/drive/1JkUjhTjR8MyLxwarJjqnh836BICfocTu?usp=sharing) for running mixed reality with our Spatial Transformers
+  * ⚡ A lightning-fast CUDA implementation of splatting to generate high-quality warping visualizations
+  * 🚀 An implementation of anti-aliased grid sampling useful for Spatial Transformers (thanks Tim Brooks!)
+  * 🎆 Several additional evaluation and visualization scripts to reproduce results from our paper and website
+  ## Setup
+  First, download the repo and add it to your `PYTHONPATH`:
+  ```bash
+  git clone https://github.com/wpeebles/gangealing.git
+  cd gangealing
+  export PYTHONPATH="${PYTHONPATH}:${PWD}"
+  ```
+  We provide an [`environment.yml`](environment.yml) file that can be used to create a Conda environment:
+  ```bash
+  conda env create -f environment.yml
+  conda activate gg
+  ```
+  This will install PyTorch with a recent version of CUDA/cuDNN. To install CUDA 10.2/cuDNN 7.6.5 specifically, you can use [`environment_cu102.yml`](environment_cu102.yml) in the above command. See [below](#note-on-cudnncuda-versions) for details on performance differences between CUDA/cuDNN versions.
+  If you use your own environment, you need a recent version of PyTorch (1.10.1+). Older versions of PyTorch will likely have problems building the StyleGAN2 extensions.
+  ## Running Pre-trained Models
+  The [`applications`](applications) directory contains several files for evaluating and visualizing pre-trained GANgealing models.
+  **Using our Pre-trained Models:** We provide several pre-trained GANgealing models: `bicycle`, `cat`, `celeba`, `cub`, `dog` and `tvmonitor`. We also have pre-trained checkpoints
+  for our `car` and `horse` clustering models. You can use any of these models by specifying them with the `--ckpt` argument; this will automatically download and cache
+  the weights. The relevant hyperparameters for running the model (most importantly, the `--iters` argument) will be automatically loaded as well. If you want to use your own test time hyperparameters, add `--override` to the command; see an example [here](utils/download.py).
+  The `--output_resolution` argument controls the size of congealed images output by the Spatial Transformer. For the highest quality results, we recommend setting this equal to the value you provide to `--real_size` (default value is 128).
+  ## Preparing Real Data
+  We use LMDBs for storing data. You can use [`prepare_data.py`](prepare_data.py) to pre-process input datasets. Note that setting-up real data is not
+  required for training.
+  **LSUN:** The following command will automatically download and pre-process the first 10,000 images from LSUN Cats (you can change `--lsun_category` and `--max_images`):
+  ```python
+  python prepare_data.py --input_is_lmdb --lsun_category cat --out data/lsun_cats --size 512 --max_images 10000
+  ```
+  If you previously downloaded an LSUN LMDB yourself (e.g., at `path_to_lsun_cats_download`), you can instead use the following command:
+  ```python
+  python prepare_data.py --input_is_lmdb --path path_to_lsun_cats_download --out data/lsun_cats --size 512 --max_images 10000
+  ```
+  **Image Folders:** For any dataset where you have all images in a single folder, you can pre-process them with:
+  ```python
+  python prepare_data.py --path folder_of_images --out data/my_new_dataset --pad [center/border/zero] --size S
+  ```
+  where `S` is the square resolution of the resized images.
+  **SPair-71K:** You can download and prepare SPair for PCK evaluation (e.g., for Cats) with:
+  ```python
+  python prepare_data.py --spair_category cat --spair_split test --out data/spair_cats_test --size 256
+  ```
+  **CUB:** We closely follow the pre-processing steps used by [ACSM](https://github.com/nileshkulkarni/acsm) for CUB PCK evaluation. You can download and prepare the CUB validation split with:
+  ```python
+  python prepare_data.py --cub_acsm --out data/cub_val --size 256
+  ```
+  ## Congealing and Dense Correspondence Visualization
+  ![Teaser image](images/cats_cube_light_mode.gif#gh-light-mode-only)
+  ![Teaser image](images/cats_cube_dark_mode.gif#gh-dark-mode-only)
+  [`vis_correspondence.py`](applications/vis_correspondence.py) produces a video depicting real images being gradually aligned with our Spatial Transformer network.
+  It also can be used to visualize label/object propagation:
+  ```python
+  python applications/vis_correspondence.py --ckpt cat --real_data_path data/lsun_cats --vis_in_stages --real_size 512 --output_resolution 512 --resolution 256 --label_path assets/masks/cat_mask.png --dset_indices 2363 9750 7432 1946
+  ```
+  ## Mixed Reality (Object Lenses) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JkUjhTjR8MyLxwarJjqnh836BICfocTu?usp=sharing)
+  ![Teaser image](images/catpet2teaser.gif) ![Teaser image](images/goldens.gif) ![Teaser image](images/bike_ornament.gif)
+  <table cellpadding="0" cellspacing="0" >
+    <tr>
+    </tr>
+  </table>
+  [`mixed_reality.py`](applications/mixed_reality.py) applies a pre-trained Spatial Transformer per-frame to an input video. We include several objects
+  and masks you can propagate in the [`assets`](assets) folder.
+  The first step is to prepare the video dataset. If you have the video saved as an image folder (with filenames in order based on timestamp), you can run:
+  ```python
+  python prepare_data.py --path folder_of_frames --out data/my_video_dataset --pad center --size 1024
+  ```
+  This command will pre-process the images to square with center-cropping and resize them to 1024x1024 resolution.
+  You can specify `--pad border` to perform border padding instead of cropping or `--pad resize_small_side` to preserve aspect ratio. No matter what you choose for `--pad`, the value you use for `--size` needs to be a multiple of 128. 
+  If your video is saved in `mp4`, `mov`, etc. format, we provide a script that will convert it into frames via FFmpeg:
+  ```bash
+  ./process_video.sh path_to_video
+  ```
+  This will save a folder of frames in the `data/video_frames` folder, which you can then run `prepare_data.py` on as described above.
+  Now we can run GANgealing on the video. For example, this will propagate a cartoon face via our LSUN Cats
+  model:
+  ```python
+  torchrun --nproc_per_node=NUM_GPUS applications/mixed_reality.py --ckpt cat --objects --label_path assets/objects/cat/cat_cartoon.png --sigma 0.3 --opacity 1 --real_size 1024 --resolution 8192 --real_data_path path_to_my_video --no_flip_inference
+  ```
+  This will efficiently parallelize the evaluation of the video over `NUM_GPUS`. Here is a quick overview of some arguments you can use with this script (see [`mixed_reality.py`](applications/mixed_reality.py) for all options):
+  * `--save_frames` can be specified to significantly reduce GPU memory usage (at the cost of speed)
+  * `--label_path` points to the RGBA `png` file containing the object/mask you are propagating
+  * `--objects` will propagate RGB values from your `label_path` image. If you omit this argument, only the alpha channel of the `label_path` image will be used, and an RGB colorscale will be created (useful for visualizing tracking when propagating masks)
+  * `--no_flip_inference` disables flipping, which is recommended for models that do not benefit much from flipping (e.g., `cat`, `celeba`, `tvmonitor`)
+  * `--resolution` controls the number of pixels propagated. When using `mixed_reality.py`to propagate objects, we recommend making this value very large (e.g., `8192` for a 1K resolution video)
+  * `--blend_alg` controls the blending algorithm (`alpha`, `laplacian`, or `laplacian_light`)
+  * `--sigma` controls the radius of splatted pixels
+  * `--opacity` controls the opacity of splatted pixels
+  * `--save_correspondences` will save a tensor of shape `(num_frames, num_points, 2)` containing predicted pixel correspondences in `(x,y)` format
+  ### Creating New Object Lenses
+  To propagate your own custom object, you need to create a new RGBA image saved as a `png`. You can take the
+  pre-computed average congealed image for your model of interest (located in [`assets/averages`](assets/averages)) and load it
+  into an image editor like Photoshop. Then, overlay your custom object on the template and export the object as an RGBA `png` image.
+  Pass the `png` file to the `--label_path` argument like above.
+  We recommend saving the object at a high resolution for the highest quality results (e.g., 4K resolution or higher if you are propagating to a 1K resolution video).
+  ## Running on Images
+  ![Teaser image](images/edit_light.png#gh-light-mode-only)
+  ![Teaser image](images/edit_dark.png#gh-dark-mode-only)
+  [`propagate_to_images.py`](applications/propagate_to_images.py) runs the Spatial Transformer on real images. It will save 
+  the congealed (aligned) output images to disk. Basic usage:
+  ```python
+  python applications/propagate_to_images.py --ckpt cat --real_data_path data/lsun_cats --real_size 512 --dset_indices 1922 2363 8558 7401 9750 7432 2105 53 1946
+  ```
+  **Edit Propagation:** Add `--label_path assets/objects/cat/cat_vr_headset.png --objects -s 0.3 -o 1 --resolution 4096` to propagate a VR headset to the cat images.
+  **Dense Correspondence:** Add `--label_path assets/masks/cat_mask.png` to propagate a mask.
+  **Average Image:** Add `--n_mean 5200` to compute the average congealed image over 5200 input images. If you use this argument, you can call the script with `torchrun --nproc_per_node NUM_GPUS` instead of `python` to speed it up.
+  The main difference between this script and [`vis_correspondence.py`](applications/vis_correspondence.py) is that this one just saves images instead of fancy video visualizations. It's much faster and takes less GPU memory as a result.
+  ## PCK-Transfer Evaluation
+  Our repo includes a fast implementation of PCK-Transfer in [`pck.py`](applications/pck.py) that supports multi-GPU evaluation. First, make sure you've set up either SPair-71K or CUB as described [earlier](#preparing-real-data). You can evaluate PCK-Transfer as follows:
+  To evaluate SPair-71K (e.g., `cats` category):
+  ```python
+  torchrun --nproc_per_node=NUM_GPUS applications/pck.py --ckpt cat --real_data_path data/spair_cats_test --real_size 256
+  ```
+  To evaluate CUB:
+  ```python
+  torchrun --nproc_per_node=NUM_GPUS applications/pck.py --ckpt cub --real_data_path data/cub_val --real_size 256 --num_pck_pairs 10000 --transfer_both_ways
+  ```
+  You can also add the `--vis_transfer` argument to save a visualization of keypoint transfer.
+  Note that different methods compute PCK in slightly different ways depending on dataset. For CUB, the protocol used by past methods is to sample 10,000 random pairs from the validation set and evaluate bidirectional transfers. For SPair, fixed pairs are always used and the transfers are one-way. Our implementation of PCK supports both of these protocols to ensure accurate comparisons against baselines.
+  ## Learned Pre-Processing of Datasets
+  Finally, we also include a script that applies a pre-trained Spatial Transformer to align and filter an input dataset (e.g., for downstream GAN training): [`congeal_dataset.py`](applications/congeal_dataset.py)
+  To use this, you will need two versions of your unaligned input dataset: (1) a pre-processed version (via `prepare_data.py` as described [above](#preparing-real-data)), and (2) a raw, unprocessed version of the dataset stored in LMDB format. We'll explain how to create this second unprocessed copy below. 
+  The first (pre-processed) dataset will be used to quickly compute flow scores in batch mode. The second (unprocessed) dataset will be fed into the Spatial Transformer to obtain the highest quality output images possible.
+  The first recommended step is to compute _flow smoothness scores_ for each image in the dataset. As described in our paper, these scores
+  do a good job at identifying (1) images the Spatial Transformer fails on and (2) images that are impossible to align to the learned target mode. The scores can be computed as follows:
+  ```python
+  torchrun --nproc_per_node=NUM_GPUS applications/flow_scores.py --ckpt cat --real_data_path my_dataset --real_size S --no_flip_inference
+  ```
+  , where `my_dataset` should be created with our `prepare_data.py` script as described above. This will cache a tensor of flow scores at `my_dataset/flow_scores.pt`.
+  Next is the alignment step. Create an LMDB of the raw, unprocessed images in your unaligned dataset using the `--pad none` argument:
+  ```python
+  python prepare_data.py --path folder_of_frames --out data/new_lmdb_data --pad none --size 0
+  ```
+  Finally, you can generate a new, aligned and filtered dataset:
+  ```python
+  torchrun --nproc_per_node=NUM_GPUS applications/congeal_dataset.py --ckpt cat --real_data_path data/new_lmdb_data --out data/my_new_aligned_dataset --real_size 0 --flow_scores my_dataset/flow_scores.pt --fraction_retained 0.25 --output_resolution O
+  ```
+  , where `O` is the desired output resolution of the aligned dataset and the `--fraction_retained` argument controls the percentage of images that will be retained based on flow scores. There are some other arguments you can adjust; see documentation in [`congeal_dataset.py`](applications/congeal_dataset.py) for details.
+  ## Using the Spatial Transformer in Your Code
+  Here's an example of loading and running our pre-trained unimodal Spatial Transformers to align an input image:
+  ```python
+  from models import get_stn
+  from utils.download import download_model, PRETRAINED_TEST_HYPERPARAMS
+  from utils.vis_tools.helpers import load_pil, save_image
+  model_class = 'cat'  # choose the class you want to use
+  resolution = 512  # resolution the input image will be resized to (can be any power of 2)
+  image_path = 'my_image.jpeg'  # path to image you want to align
+  input_img = load_pil(image_path, resolution)  # load, resize to (resolution, resolution) and normalize to [-1, 1]
+  ckpt = download_model(model_class)  # download model weights
+  stn = get_stn(['similarity', 'flow'], flow_size=128, supersize=resolution).to('cuda')  # instantiate STN
+  stn.load_state_dict(ckpt['t_ema'])  # load weights
+  test_kwargs = PRETRAINED_TEST_HYPERPARAMS[model_class]  # load test-time hyperparameters
+  aligned_img = stn.forward_with_flip(input_img, output_resolution=resolution, **test_kwargs)  # forward pass through the STN
+  save_image(aligned_img, 'output.png', normalize=True, range=(-1, 1))  # save to disk
+  ```
+  If your input image isn't square you may want to pad or crop it beforehand. Also, `stn` supports batch mode, so `input_img` can be an `(N, C, H, W)` tensor containing multiple images, in which case `aligned_image` will also be `(N, C, H, W)`.
+  ## Using Pre-trained Clustering Models
+  The clustering models are usable in most places the unimodal models are (with a few current exceptions, such as `flow_scores.py` and `congeal_dataset.py`). To load the clustering models, add `--num_heads K` (we do this automatically if you're using one of our pre-trained models). There are also several files that let you propagate from a chosen cluster with the `--cluster cluster_index` argument (e.g., `mixed_reality.py` and `vis_correspondence.py`). Please refer to the documentation in those files for details.
+  ## Training
+  We include several training scripts [here](scripts/training). Running these scripts will automatically download pre-trained StyleGAN2 generator weights (included in our GANgealing checkpoints) and begin training. There are lots of training hyperparameters you can change; see the documentation [here](utils/base_argparse.py).
+  **Training with Custom StyleGANs:** If you would like to run GANgealing with a custom StyleGAN2(-ADA) checkpoint, convert it using the [`convert_weight.py`](https://github.com/rosinality/stylegan2-pytorch/blob/master/convert_weight.py) script in the [rosinality repository](https://github.com/rosinality/stylegan2-pytorch), and then pass it to `--ckpt` when calling `train.py`. If you're using an architecture other than the `config-f` StyleGAN2 (e.g., the `auto` config for StyleGAN2-ADA), make sure to specify values for `--n_mlp`, `--dim_latent`, `--gen_channel_multiplier` and `--num_fp16_res` so the correct generator architecture is instantiated.
+  **Perceptual Loss:** You can choose between two perceptual losses: LPIPS (`--loss_fn lpips`) or a self-supervised VGG pre-trained with SimCLR on ImageNet-1K (`--loss_fn vgg_ssl`). The weights will be automatically downloaded for both. Note that we recommend higher `--tv_weight` values when using `lpips`. We found 1000 to be a good default for `vgg_ssl` and 2500 a good default for `lpips`.
+  ## Note on cuDNN/CUDA Versions
+  We have found on some GPUs that GANgealing training and inference runs faster at low batch sizes with CUDA 10.2/cuDNN 7.6.5 compared to CUDA 11/cuDNN 8. For example, on RTX 6000 GPUs with a per-GPU batch size of 5, training is 3x faster with CUDA 10.2/cuDNN 7.6.5. However, for high per-GPU batch sizes (32+), CUDA 11/cuDNN 8 seems to be faster. We have also observed very good performance with CUDA 11 on A100 GPUs using a per-GPU batch size of 5. We include two environments in this repo: [`environment.yml`](environment.yml) will install recent versions of CUDA/cuDNN whereas [`environment_cu102.yml`](environment_cu102.yml) will install CUDA 10.2/cuDNN 7.6.5. See [here](https://github.com/pytorch/pytorch/issues/47908) for more discussion.
+  ## Citation
+  If our code or models aided your research, please cite our [paper](https://arxiv.org/abs/2112.05143):
+  ```bibtex
+  @inproceedings{peebles2022gansupervised,
+    title={GAN-Supervised Dense Visual Alignment},
+    author={William Peebles and Jun-Yan Zhu and Richard Zhang and Antonio Torralba and Alexei Efros and Eli Shechtman},
+    booktitle={CVPR},
+    year={2022}
+  }
+  ```
+  ## Acknowledgments
+  We thank Tim Brooks for his anti-aliased sampling code and helpful discussions. We thank Tete Xiao, Ilija Radosavovic, Taesung Park, Assaf Shocher, Phillip Isola, Angjoo Kanazawa, Shubham Goel, Allan Jabri, Shubham Tulsiani, and Dave Epstein for helpful discussions. This material is based upon work supported by the National Science Foundation Graduate Research Fellowship Program under Grant No. DGE 2146752. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation. Additional funding provided by Berkeley DeepDrive, SAP and Adobe.
+  This repository is built on top of rosinality's excellent [PyTorch re-implementation of StyleGAN2](https://github.com/rosinality/stylegan2-pytorch).
+------------------------------------------------------------
+2025-08-31T08:12:30.421795Z
+Action:
+  command:
+    cat environment.yml
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and examine the key files and configurations.
+Output:
+  name: gg
+  channels:
+    - pytorch
+    - plotly
+    - defaults
+  dependencies:
+    - pillow
+    - pip
+    - python=3.8
+    - pytorch>=1.10.1
+    - scipy
+    - torchvision
+    - pip:
+      - moviepy
+      - numpy
+      - opencv-python
+      - pandas
+      - plotly
+      - tensorboard>=1.15
+      - tqdm
+      - wget
+      - lmdb
+      - ray
+      - ninja
+      - scikit-learn
+      - termcolor
+      - imageio==2.4.1
+------------------------------------------------------------
+2025-08-31T08:12:30.421821Z
+Action:
+  command:
+    cat process_video.sh
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history and examine the key files.
+Output:
+  file=${1}
+  filename=$(basename "${file%.*}")
+  folder="data/video_frames/${filename}"
+  mkdir -p "${folder}"
+  ffmpeg -i "${file}" "${folder}/%07d.png"
+------------------------------------------------------------
+2025-08-31T08:12:30.421838Z
+Action:
+  command:
+    find . -type f -name "*.py" | grep -E "(main\.py|__main__\.py|cli\.py|setup\.py|pyproject\.toml)" | head -20
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:12:30.421849Z
+Action:
+  command:
+    cat prepare_data.py | head -30
+Output:
+  import argparse
+  import multiprocessing
+  from functools import partial
+  from io import BytesIO
+  import lmdb
+  from PIL import Image
+  from tqdm import tqdm
+  import torch
+  import numpy as np
+  import pandas as pd
+  import cv2
+  import sys
+  import json
+  import os
+  from glob import glob
+  from utils.CUB_data_utils import square_bbox, perturb_bbox, acsm_crop
+  from utils.download import download_spair, download_lsun, download_cub, download_cub_metadata
+  # When an image is mirrored, any key points with left/right distinction need to be swapped.
+  # These are the permutations of key point indices that accomplishes this:
+  CUB_PERMUTATION = [0, 1, 2, 3, 4, 5, 10, 11, 12, 9, 6, 7, 8, 13, 14]
+  SPAIR_PERMUTATIONS = {
+      'bicycle': [0, 1, 3, 2, 4, 5, 7, 6, 8, 10, 9, 11],
+      'cat': [1, 0, 3, 2, 5, 4, 7, 6, 8, 10, 9, 12, 11, 13, 14],
+      'dog': [1, 0, 3, 2, 5, 4, 6, 7, 8, 10, 9, 12, 11, 13, 14, 15],
+      'tvmonitor': [2, 1, 0, 7, 6, 5, 4, 3, 10, 9, 8, 15, 14, 13, 12, 11],
+  }
+------------------------------------------------------------
+2025-08-31T08:12:30.421866Z
+Action:
+  command:
+    cat train.py | head -20
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the file structure and documentation.
+Output:
+  """
+  GANgealing training script.
+  """
+  import torch
+  from torch import nn, optim
+  import numpy as np
+  from tqdm import tqdm
+  import json
+  import os
+  from models import Generator, get_stn, DirectionInterpolator, PCA, get_perceptual_loss, kmeans_plusplus, BilinearDownsample, accumulate, requires_grad
+  from models import gangealing_loss, gangealing_cluster_loss, total_variation_loss, flow_identity_loss
+  from datasets import img_dataloader, sample_infinite_data
+  from utils.vis_tools.training_vis import GANgealingWriter, create_training_visuals, create_training_cluster_visuals
+  from utils.distributed import all_gather, get_rank, setup_distributed, reduce_loss_dict, get_world_size, primary
+  from utils.base_argparse import base_training_argparse
+  from utils.annealing import DecayingCosineAnnealingWarmRestarts, lr_cycle_iters, get_psi_annealing_fn
+  from utils.download import find_model
+------------------------------------------------------------
+2025-08-31T08:12:30.421883Z
+Action:
+  command:
+    cat train_cluster_classifier.py | head -20
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  """
+  GANgealing cluster classifier training script. This script is only relevant for the clustering versions of GANgealing.
+  The point of this script is to train a classifier that takes as input an image and predicts two things:
+  (1) which of our learned clusters that image should be assigned to
+  (2) whether or not the image should be flipped before being processed by its assigned STN (if --flips is specified)
+  """
+  import torch
+  from torch import nn, optim
+  import numpy as np
+  from tqdm import tqdm
+  import json
+  import os
+  from models import Generator, get_stn, DirectionInterpolator, ResnetClassifier, get_perceptual_loss, BilinearDownsample, requires_grad
+  from models import assign_fake_images_to_clusters, accuracy
+  from datasets import img_dataloader
+  from utils.vis_tools.training_vis import GANgealingWriter, create_training_cluster_visuals, create_training_cluster_classifier_visuals
+  from utils.distributed import get_rank, setup_distributed, reduce_loss_dict, get_world_size, primary
+------------------------------------------------------------
+2025-08-31T08:12:30.421902Z
+Action:
+  command:
+    cat scripts/training/train_cat.sh
+Output:
+  cat: scripts/training/train_cat.sh: No such file or directory
+------------------------------------------------------------
+2025-08-31T08:12:30.421908Z
+Action:
+  command:
+    find scripts -name "*.sh" -type f | head -10
+Output:
+  scripts/training/lsun_cats_lpips.sh
+  scripts/training/lsun_cats_ssl.sh
+  scripts/training/lsun_cars_cluster_classifier.sh
+  scripts/training/lsun_dogs.sh
+  scripts/training/lsun_bicycles.sh
+  scripts/training/lsun_tvmonitors.sh
+  scripts/training/lsun_cars.sh
+  scripts/training/celeba.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.421918Z
+Action:
+  command:
+    cat scripts/training/lsun_cats_lpips.sh
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the file structure and documentation shown in the command history.
+Output:
+  # Note: if you're training with fewer than 8 gpus, you should increase the per-gpu batch size controlled by
+  # the --batch argument so total batch size is preserved. Default value of --batch is 5 (assumes 8 gpus for training
+  # for a total batch size of 40 across all gpus)
+  torchrun --nproc_per_node=8 train.py \
+  --ckpt cat --load_G_only --padding_mode border --vis_every 5000 --ckpt_every 50000 \
+  --iter 1500000 --tv_weight 2500 --loss_fn lpips --exp-name lsun_cats_lpips
+------------------------------------------------------------
+2025-08-31T08:12:30.421930Z
+Action:
+  command:
+    ls applications/
+Output:
+  __init__.py         mixed_reality.py        vis_correspondence.py
+  congeal_dataset.py  pck.py
+  flow_scores.py      propagate_to_images.py
+------------------------------------------------------------
+2025-08-31T08:12:30.421937Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "build.gradle" -o -name "pom.xml" -o -name "Makefile" -o -name "makefile"
+  description:
+    I need to analyze this GANgealing repository to identify all proper entrypoints. Based on the command history and file structure, let me examine the key files and configurations.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:12:30.421946Z
+Action:
+  command:
+    find . -type f -executable -name "*.py" | head -10
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the file structure and documentation I've seen.
+Output:
+  ./models/losses/lpips.py
+  ./models/stylegan2/op/upfirdn2d.py
+  ./models/stylegan2/op/fused_act.py
+  ./models/stylegan2/op/__init__.py
+  ./utils/distributed.py
+  ./datasets/dataset.py
+------------------------------------------------------------
+2025-08-31T08:12:30.421955Z
+Action:
+  command:
+    ls -la *.py
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the file structure and documentation.
+Output:
+  -rw-r--r-- 1 benchmarkuser 1001 20465 Aug 31 08:11 prepare_data.py
+  -rw-r--r-- 1 benchmarkuser 1001 14270 Aug 31 08:11 train.py
+  -rw-r--r-- 1 benchmarkuser 1001 11759 Aug 31 08:11 train_cluster_classifier.py
+------------------------------------------------------------
+2025-08-31T08:12:30.421980Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./prepare_data.py
+    ./train.py
+    ./train_cluster_classifier.py
+    ./applications/vis_correspondence.py
+    ./applications/mixed_reality.py
+    ./applications/propagate_to_images.py
+    ./applications/pck.py
+    ./applications/flow_scores.py
+    ./applications/congeal_dataset.py
+    ./process_video.sh
+    EOF
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:12:30.421998Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./prepare_data.py
+    ./train.py
+    ./train_cluster_classifier.py
+    ./applications/vis_correspondence.py
+    ./applications/mixed_reality.py
+    ./applications/propagate_to_images.py
+    ./applications/pck.py
+    ./applications/flow_scores.py
+    ./applications/congeal_dataset.py
+    ./process_video.sh
+    EOF
+  description:
+    Based on the command history and analysis of the GANgealing repository, I'll identify all proper entrypoints by examining the file structure, documentation, and intended usage patterns.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:12:30.422014Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history and file structure I can see.
+Output:
+  total 136
+  drwxr-xr-x 10 benchmarkuser          1001  4096 Aug 31 08:11 .
+  drwxr-xr-x  1 root          root           4096 Aug 31 08:11 ..
+  drwxr-xr-x  8 benchmarkuser          1001  4096 Aug 31 08:11 .git
+  -rw-r--r--  1 benchmarkuser          1001  2466 Aug 31 08:11 .gitignore
+  -rw-r--r--  1 benchmarkuser          1001  1295 Aug 31 08:11 LICENSE.txt
+  -rw-r--r--  1 benchmarkuser          1001 22053 Aug 31 08:11 README.md
+  drwxr-xr-x  2 benchmarkuser          1001  4096 Aug 31 08:11 applications
+  drwxr-xr-x  5 benchmarkuser          1001  4096 Aug 31 08:11 assets
+  drwxr-xr-x  2 benchmarkuser          1001  4096 Aug 31 08:11 datasets
+  -rw-r--r--  1 benchmarkuser benchmarkuser   271 Aug 31 08:12 entrypoints.txt
+  -rw-r--r--  1 benchmarkuser          1001   365 Aug 31 08:11 environment.yml
+  -rw-r--r--  1 benchmarkuser          1001   386 Aug 31 08:11 environment_cu102.yml
+  drwxr-xr-x  2 benchmarkuser          1001  4096 Aug 31 08:11 images
+  drwxr-xr-x  5 benchmarkuser          1001  4096 Aug 31 08:11 models
+  -rw-r--r--  1 benchmarkuser          1001 20465 Aug 31 08:11 prepare_data.py
+  -rw-r--r--  1 benchmarkuser          1001   145 Aug 31 08:11 process_video.sh
+  drwxr-xr-x  3 benchmarkuser          1001  4096 Aug 31 08:11 scripts
+  -rw-r--r--  1 benchmarkuser          1001 14270 Aug 31 08:11 train.py
+  -rw-r--r--  1 benchmarkuser          1001 11759 Aug 31 08:11 train_cluster_classifier.py
+  drwxr-xr-x  4 benchmarkuser          1001  4096 Aug 31 08:11 utils
+------------------------------------------------------------
+2025-08-31T08:12:30.422034Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history, file structure, and documentation.
+Output:
+  ./prepare_data.py
+  ./train.py
+  ./train_cluster_classifier.py
+  ./applications/vis_correspondence.py
+  ./applications/mixed_reality.py
+  ./applications/propagate_to_images.py
+  ./applications/pck.py
+  ./applications/flow_scores.py
+  ./applications/congeal_dataset.py
+  ./process_video.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422046Z
+Action:
+  command:
+    ls scripts/training/
+  description:
+    Looking at the command history and examining the GANgealing repository, I need to identify all proper entrypoints based on the documentation and intended usage patterns.
+Output:
+  celeba.sh         lsun_cars_cluster_classifier.sh  lsun_dogs.sh
+  lsun_bicycles.sh  lsun_cats_lpips.sh               lsun_tvmonitors.sh
+  lsun_cars.sh      lsun_cats_ssl.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422055Z
+Action:
+  command:
+    cat entrypoints.txt
+Output:
+  ./prepare_data.py
+  ./train.py
+  ./train_cluster_classifier.py
+  ./applications/vis_correspondence.py
+  ./applications/mixed_reality.py
+  ./applications/propagate_to_images.py
+  ./applications/pck.py
+  ./applications/flow_scores.py
+  ./applications/congeal_dataset.py
+  ./process_video.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422064Z
+Action:
+  command:
+    find scripts/training -name "*.sh" -type f
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history, file structure, and documentation.
+Output:
+  scripts/training/lsun_cats_lpips.sh
+  scripts/training/lsun_cats_ssl.sh
+  scripts/training/lsun_cars_cluster_classifier.sh
+  scripts/training/lsun_dogs.sh
+  scripts/training/lsun_bicycles.sh
+  scripts/training/lsun_tvmonitors.sh
+  scripts/training/lsun_cars.sh
+  scripts/training/celeba.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422076Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./prepare_data.py
+    ./train.py
+    ./train_cluster_classifier.py
+    ./applications/vis_correspondence.py
+    ./applications/mixed_reality.py
+    ./applications/propagate_to_images.py
+    ./applications/pck.py
+    ./applications/flow_scores.py
+    ./applications/congeal_dataset.py
+    ./process_video.sh
+    ./scripts/training/lsun_cats_lpips.sh
+    ./scripts/training/lsun_cats_ssl.sh
+    ./scripts/training/lsun_cars_cluster_classifier.sh
+    ./scripts/training/lsun_dogs.sh
+    ./scripts/training/lsun_bicycles.sh
+    ./scripts/training/lsun_tvmonitors.sh
+    ./scripts/training/lsun_cars.sh
+    ./scripts/training/celeba.sh
+    EOF
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history, file structure, and documentation.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:12:30.422097Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze the GANgealing repository based on the command history and identify all proper entrypoints that are intended by the repository authors.
+Output:
+  ./prepare_data.py
+  ./train.py
+  ./train_cluster_classifier.py
+  ./applications/vis_correspondence.py
+  ./applications/mixed_reality.py
+  ./applications/propagate_to_images.py
+  ./applications/pck.py
+  ./applications/flow_scores.py
+  ./applications/congeal_dataset.py
+  ./process_video.sh
+  ./scripts/training/lsun_cats_lpips.sh
+  ./scripts/training/lsun_cats_ssl.sh
+  ./scripts/training/lsun_cars_cluster_classifier.sh
+  ./scripts/training/lsun_dogs.sh
+  ./scripts/training/lsun_bicycles.sh
+  ./scripts/training/lsun_tvmonitors.sh
+  ./scripts/training/lsun_cars.sh
+  ./scripts/training/celeba.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422111Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  ./prepare_data.py
+  ./train.py
+  ./train_cluster_classifier.py
+  ./applications/vis_correspondence.py
+  ./applications/mixed_reality.py
+  ./applications/propagate_to_images.py
+  ./applications/pck.py
+  ./applications/flow_scores.py
+  ./applications/congeal_dataset.py
+  ./process_video.sh
+  ./scripts/training/lsun_cats_lpips.sh
+  ./scripts/training/lsun_cats_ssl.sh
+  ./scripts/training/lsun_cars_cluster_classifier.sh
+  ./scripts/training/lsun_dogs.sh
+  ./scripts/training/lsun_bicycles.sh
+  ./scripts/training/lsun_tvmonitors.sh
+  ./scripts/training/lsun_cars.sh
+  ./scripts/training/celeba.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422146Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze this GANgealing repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  ./prepare_data.py
+  ./train.py
+  ./train_cluster_classifier.py
+  ./applications/vis_correspondence.py
+  ./applications/mixed_reality.py
+  ./applications/propagate_to_images.py
+  ./applications/pck.py
+  ./applications/flow_scores.py
+  ./applications/congeal_dataset.py
+  ./process_video.sh
+  ./scripts/training/lsun_cats_lpips.sh
+  ./scripts/training/lsun_cats_ssl.sh
+  ./scripts/training/lsun_cars_cluster_classifier.sh
+  ./scripts/training/lsun_dogs.sh
+  ./scripts/training/lsun_bicycles.sh
+  ./scripts/training/lsun_tvmonitors.sh
+  ./scripts/training/lsun_cars.sh
+  ./scripts/training/celeba.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422159Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see that the repository has been thoroughly analyzed and proper entrypoints have already been identified and written to `entrypoints.txt`. Let me verify the current state and complete the task.
+Output:
+  ./prepare_data.py
+  ./train.py
+  ./train_cluster_classifier.py
+  ./applications/vis_correspondence.py
+  ./applications/mixed_reality.py
+  ./applications/propagate_to_images.py
+  ./applications/pck.py
+  ./applications/flow_scores.py
+  ./applications/congeal_dataset.py
+  ./process_video.sh
+  ./scripts/training/lsun_cats_lpips.sh
+  ./scripts/training/lsun_cats_ssl.sh
+  ./scripts/training/lsun_cars_cluster_classifier.sh
+  ./scripts/training/lsun_dogs.sh
+  ./scripts/training/lsun_bicycles.sh
+  ./scripts/training/lsun_tvmonitors.sh
+  ./scripts/training/lsun_cars.sh
+  ./scripts/training/celeba.sh
+------------------------------------------------------------
+2025-08-31T08:12:30.422173Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+  description:
+    Based on the command history and analysis of this GANgealing repository, I can see that all proper entrypoints have already been identified and written to `entrypoints.txt`. The file contains the complete list of intended entrypoints as documented in the README and discovered through the file structure analysis.
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

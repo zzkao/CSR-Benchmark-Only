@@ -1,0 +1,585 @@
+2025-08-31T10:25:01.701762Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.c" -o -name "*.cpp" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.gradle" -o -name "pom.xml" | head -20
+  description:
+    I'll help you find all proper entrypoints in this repository. Let me start by exploring the repository structure to understand what we're working with.
+Output:
+  ./run.py
+  ./src/trainer.py
+  ./src/label_search.py
+  ./src/models.py
+  ./src/dataset.py
+  ./src/processors.py
+  ./tools/sort_prompt.py
+  ./tools/gather_result.py
+  ./tools/sort_template.py
+  ./tools/sort_mapping.py
+  ./tools/generate_k_shot_data.py
+  ./tools/ensemble.py
+  ./tools/generate_template.py
+  ./tools/get_sbert_embedding.py
+  ./tools/generate_labels.py
+------------------------------------------------------------
+2025-08-31T10:25:01.701823Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to find all proper entrypoints. Let me start by examining the repository structure and the key configuration files.
+Output:
+  total 100
+  drwxr-xr-x  9 benchmarkuser 1001  4096 Aug 31 10:23 .
+  drwxr-xr-x  1 root          root  4096 Aug 31 10:23 ..
+  drwxr-xr-x  8 benchmarkuser 1001  4096 Aug 31 10:23 .git
+  -rw-r--r--  1 benchmarkuser 1001  2146 Aug 31 10:23 .gitignore
+  -rw-r--r--  1 benchmarkuser 1001  1094 Aug 31 10:23 LICENSE
+  -rw-r--r--  1 benchmarkuser 1001 17931 Aug 31 10:23 README.md
+  drwxr-xr-x 17 benchmarkuser 1001  4096 Aug 31 10:23 auto_label_mapping
+  drwxr-xr-x 17 benchmarkuser 1001  4096 Aug 31 10:23 auto_template
+  drwxr-xr-x  3 benchmarkuser 1001  4096 Aug 31 10:23 data
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 10:23 figs
+  -rw-r--r--  1 benchmarkuser 1001   627 Aug 31 10:23 requirements.txt
+  -rw-r--r--  1 benchmarkuser 1001 24424 Aug 31 10:23 run.py
+  -rw-r--r--  1 benchmarkuser 1001  4919 Aug 31 10:23 run_experiment.sh
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 10:23 src
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 10:23 tools
+------------------------------------------------------------
+2025-08-31T10:25:01.701845Z
+Action:
+  command:
+    head -20 run.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the key files and configuration.
+Output:
+  """Finetuning the library models for sequence classification on GLUE."""
+  import dataclasses
+  import logging
+  import os
+  import sys
+  from dataclasses import dataclass, field
+  from typing import Callable, Dict, Optional
+  import torch
+  import numpy as np
+  import transformers
+  from transformers import AutoConfig, AutoModelForSequenceClassification, AutoTokenizer, EvalPrediction
+  from transformers import GlueDataTrainingArguments as DataTrainingArguments
+  from transformers import HfArgumentParser, TrainingArguments, set_seed
+  from src.dataset import FewShotDataset
+  from src.models import BertForPromptFinetuning, RobertaForPromptFinetuning, resize_token_type_embeddings
+  from src.trainer import Trainer
+------------------------------------------------------------
+2025-08-31T10:25:01.701865Z
+Action:
+  command:
+    cat README.md | head -50
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the key files and configuration files to understand the project structure.
+Output:
+  # LM-BFF (**B**etter **F**ew-shot **F**ine-tuning of **L**anguage **M**odels)
+  This is the implementation of the paper [Making Pre-trained Language Models Better Few-shot Learners](https://arxiv.org/pdf/2012.15723.pdf). LM-BFF is short for **b**etter **f**ew-shot **f**ine-tuning of **l**anguage **m**odels.
+  ## Quick links
+  * [Overview](#overview)
+  * [Requirements](#requirements)
+  * [Prepare the data](#prepare-the-data)
+  * [Run the model](#run-lm-bff)
+    * [Quick start](#quick-start)
+    * [Experiments with multiple runs](#experiments-with-multiple-runs)
+    * [Using demonstrations with filtering](#using-demonstrations-with-filtering)
+    * [Automatically searched prompt](#automatically-searched-prompt)
+    * [Ensemble](#ensemble-model)
+    * [Zero-shot experiments](#zero-shot-experiments)
+    * [How to design your own templates](#how-to-design-your-own-templates)
+  * [Citation](#citation)
+  ## Overview
+  ![](./figs/lmbff.png)
+  In this work we present LM-BFF, a suite of simple and complementary techniques for fine-tuning pre-trained language models on a small number of training examples. Our approach includes:
+  1. Prompt-based fine-tuning together with a novel pipeline for automating prompt generation.
+  2. A refined strategy for incorporating demonstrations into context.
+  You can find more details of this work in our [paper](https://arxiv.org/pdf/2012.15723.pdf).
+  ## Requirements
+  To run our code, please install all the dependency packages by using the following command:
+  ```
+  pip install -r requirements.txt
+  ```
+  **NOTE**: Different versions of packages (like `pytorch`, `transformers`, etc.) may lead to different results from the paper. However, the trend should still hold no matter what versions of packages you use.
+  ## Prepare the data
+  We pack the original datasets (SST-2, SST-5, MR, CR, MPQA, Subj, TREC, CoLA, MNLI, SNLI, QNLI, RTE, MRPC, QQP, STS-B) [here](https://nlp.cs.princeton.edu/projects/lm-bff/datasets.tar). Please download it and extract the files to `./data/original`, or run the following commands:
+  ```bash
+  cd data
+  bash download_dataset.sh
+  ```
+------------------------------------------------------------
+2025-08-31T10:25:01.701892Z
+Action:
+  command:
+    cat run_experiment.sh | head -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the key files and configuration to understand the project structure.
+Output:
+  # Required environment variables:
+  # TAG: tag for the trail
+  # TYPE: finetune / prompt / prompt-demo  
+  # TASK: SST-2 / sst-5 / mr / cr / mpqa / subj / trec / CoLA / MNLI / SNLI / QNLI / RTE / MRPC / QQP / STS-B
+  # BS: batch size (recommendation: 2 / 4 / 8)
+  # LR: learning rate (recommendation: 1e-5 / 2e-5 / 5e-5)
+  # SEED: random seed (13 / 21 / 42 / 87 / 100)
+  # MODEL: pre-trained model name (roberta-*, bert-*), see Transformers model list
+  # Number of training instances per label
+  K=16
+  # Training steps
+  MAX_STEP=1000
+  # Validation steps
+  EVAL_STEP=100
+  # Task specific parameters
+  # The default length is 128 and the default number of samples is 16.
+------------------------------------------------------------
+2025-08-31T10:25:01.701914Z
+Action:
+  command:
+    find . -name "pyproject.toml" -o -name "setup.py" -o -name "package.json" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.gradle" -o -name "pom.xml"
+  description:
+    I'll analyze this repository to find all proper entrypoints by examining the file structure, configuration files, and command history.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:25:01.701925Z
+Action:
+  command:
+    cat README.md | grep -A 20 "## Run the model"
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me examine the structure and files to understand what this repository is intended to run.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:25:01.701937Z
+Action:
+  command:
+    cat README.md | grep -A 30 "## Run LM-BFF"
+  description:
+    I'll analyze the repository to find all proper entrypoints based on the command history and repository structure. Let me examine the key files and documentation to identify the intended ways to run this project.
+Output:
+  ## Run LM-BFF
+  ### Quick start
+  Our code is built on [transformers](https://github.com/huggingface/transformers) and we use its `3.4.0` version. Other versions of `transformers` might cause unexpected errors.
+  Before running any experiments, create the result folder by `mkdir result` to save checkpoints. Then you can run our code with the following example:
+  ```bash
+  python run.py \
+      --task_name SST-2 \
+      --data_dir data/k-shot/SST-2/16-42 \
+      --overwrite_output_dir \
+      --do_train \
+      --do_eval \
+      --do_predict \
+      --evaluate_during_training \
+      --model_name_or_path roberta-large \
+      --few_shot_type prompt-demo \
+      --num_k 16 \
+      --max_steps 1000 \
+      --eval_steps 100 \
+      --per_device_train_batch_size 2 \
+      --learning_rate 1e-5 \
+      --num_train_epochs 0 \
+      --output_dir result/tmp \
+      --seed 42 \
+      --template "*cls**sent_0*_It_was*mask*.*sep+*" \
+      --mapping "{'0':'terrible','1':'great'}" \
+      --num_sample 16 \
+  ```
+------------------------------------------------------------
+2025-08-31T10:25:01.701997Z
+Action:
+  command:
+    cat README.md | grep -E "^(python|bash|sh|./)" | head -20
+  description:
+    I'll analyze the repository structure and documentation to identify all proper entrypoints. Let me examine the key files and configurations.
+Output:
+  bash download_dataset.sh
+  python tools/generate_k_shot_data.py
+  python run.py \
+  python tools/gather_result.py --condition "{'tag': 'exp', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  bash tools/get_sbert_embedding.sh roberta-large
+  python tools/gather_result.py --condition "{'tag': 'LM-BFF', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  python tools/generate_template.py \
+  python tools/sort_template.py --condition "{'tag': 'exp-template', 'task_name': 'sst-2'}" --template_dir my_auto_template
+  bash tools/run_generate_labels.sh
+  python tools/sort_mapping.py --condition "{'tag': 'exp-mapping', 'task_name': 'sst-2'}" --mapping_dir my_auto_label_mapping/manual_template
+  python tools/ensemble.py --condition "{'tag': 'exp-ensemble', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}" --n_models 20
+------------------------------------------------------------
+2025-08-31T10:25:01.702014Z
+Action:
+  command:
+    cat README.md | grep -A 50 "## Run LM-BFF"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the key files and documentation.
+Output:
+  ## Run LM-BFF
+  ### Quick start
+  Our code is built on [transformers](https://github.com/huggingface/transformers) and we use its `3.4.0` version. Other versions of `transformers` might cause unexpected errors.
+  Before running any experiments, create the result folder by `mkdir result` to save checkpoints. Then you can run our code with the following example:
+  ```bash
+  python run.py \
+      --task_name SST-2 \
+      --data_dir data/k-shot/SST-2/16-42 \
+      --overwrite_output_dir \
+      --do_train \
+      --do_eval \
+      --do_predict \
+      --evaluate_during_training \
+      --model_name_or_path roberta-large \
+      --few_shot_type prompt-demo \
+      --num_k 16 \
+      --max_steps 1000 \
+      --eval_steps 100 \
+      --per_device_train_batch_size 2 \
+      --learning_rate 1e-5 \
+      --num_train_epochs 0 \
+      --output_dir result/tmp \
+      --seed 42 \
+      --template "*cls**sent_0*_It_was*mask*.*sep+*" \
+      --mapping "{'0':'terrible','1':'great'}" \
+      --num_sample 16 \
+  ```
+  Most arguments are inherited from `transformers` and are easy to understand. We further explain some of the LM-BFF's arguments:
+  * `few_shot_type`: There are three modes
+    * `finetune`: Standard fine-tuning
+    * `prompt`: Prompt-based fine-tuning.
+    * `prompt-demo`: Prompt-based fine-tuning with demonstrations.
+  * `num_k`: Number of training instances for each class. We take `num_k`=16 in our paper. This argument is mainly used for indexing logs afterwards (because the training example numbers are actually decided by the data split you use).
+  * `template`: Template for prompt-based fine-tuning. We will introduce the template format later.
+  * `mapping`: Label word mapping for prompt-based fine-tuning. It is a string of dictionary indicating the mapping from label names to label words. **NOTE**: For RoBERTa, the model will automatically add space before the word. See the paper appendix for details.
+  * `num_sample`: When using demonstrations during inference, the number of samples for each input query. Say `num_sample`=16, then we sample 16 different sets of demonstrations for one input, do the forward seperately, and average the logits for all 16 samples as the final prediction.
+  Also, this codebase supports BERT-series and RoBERTa-series pre-trained models in Huggingface's `transformers`. You can check [Huggingface's website](https://huggingface.co/models) for available models and pass models with a "bert" or "roberta" in their names to `--model_name_or_path`. Some examples would be `bert-base-uncased`, `bert-large-uncased`, `roberta-base`, `roberta-large`, etc.
+  To easily run our experiments, you can also use `run_experiment.sh` (this command runs prompt-based fine-tuning with demonstrations, no filtering, manual prompt):
+  ```bash
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh
+  ```
+  We have already defined the templates and label word mappings in it, so you only need manipulate several hyper-parameters and `TAG` (you can use whatever tag you want and it just makes finding results easier). See `run_experiment.sh` for more options of these environment variables. Besides, you can add extra arguments by
+------------------------------------------------------------
+2025-08-31T10:25:01.702070Z
+Action:
+  command:
+    cat README.md | grep -A 10 "bash run_experiment.sh"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh
+  ```
+  We have already defined the templates and label word mappings in it, so you only need manipulate several hyper-parameters and `TAG` (you can use whatever tag you want and it just makes finding results easier). See `run_experiment.sh` for more options of these environment variables. Besides, you can add extra arguments by
+  ```bash
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--output_dir result/exp --max_seq_length 512"
+  ```
+  ### Experiments with multiple runs
+  To carry out experiments with multiple data splits, as the evaluation protocol detailed in \$3.3 of [our paper](https://arxiv.org/pdf/2012.15723.pdf) (grid-search for each seed and aggregate the results over 5 different seeds), you can use the following scripts:
+  ```bash
+  for seed in 13 21 42 87 100
+  do
+      for bs in 2 4 8
+  --
+              bash run_experiment.sh
+          done
+      done
+  done
+  ```
+  All the results will be stored in `./log`. To gather all the results, run the following command:
+  ```bash
+  python tools/gather_result.py --condition "{'tag': 'exp', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  ```
+  --
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--demo_filter --demo_filter_model sbert-roberta-large"
+  ```
+  ### Automatically searched prompt
+  We provide our automatic search results in `auto_template` and `auto_label_mapping`. There are three types of files:
+  * `SST-2/16-42.txt`: Initial search results for SST-2 dataset, K=16 and SEED=42.
+  * `SST-2/16-42.sort.txt`: Do prompt-based fine-tuning on initial results and sort them based on dev set performance.
+  * `SST-2/16-42.score.txt`: Same as above, but with dev set scores.
+  --
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--template_path auto_template/SST-2/16-42.sort.txt --template_id 0"
+  ```
+  You can also use the _i_-th automatic result by specifying different `template_id`.
+  Similarly, to use automatic label (`auto-L` in the paper), use the following command:
+  ```bash
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--mapping_path auto_label_mapping/SST-2/16-42.sort.txt --mapping_id 0"
+  ```
+  **NOTE**: Make sure to use the corresponding automatic search results with different data split seeds.
+  **Our final results (LM-BFF) take prompt-based fine-tuning with demonstrations, filtering and automatic template, for example**:
+  ```bash
+  for seed in 13 21 42 87 100
+  do
+      for bs in 2 4 8
+  --
+              bash run_experiment.sh "--template_path auto_template/SST-2/16-$seed.sort.txt --template_id 0 --demo_filter --demo_filter_model sbert-roberta-large"
+          done
+      done
+  done
+  python tools/gather_result.py --condition "{'tag': 'LM-BFF', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  ```
+  #### Search for automatic templates
+  If you want to try automatically generating templates by yourself, here are the instructions. Note that it is an extremely long process :)
+  --
+          bash run_experiment.sh "--template_path my_auto_template/SST-2/16-$seed.txt --template_id $template_id --no_predict"
+      done
+  done
+  ```
+  ... and sort them based on dev set performance:
+  ```bash
+  python tools/sort_template.py --condition "{'tag': 'exp-template', 'task_name': 'sst-2'}" --template_dir my_auto_template
+  ```
+  --
+          bash run_experiment.sh "--mapping_path my_auto_label_mapping/manual_template/SST-2/16-$seed.txt --mapping_id $mapping_id --no_predict"
+      done
+  done
+  ```
+  ... and sort them based on dev set performance:
+  ```bash
+  python tools/sort_mapping.py --condition "{'tag': 'exp-mapping', 'task_name': 'sst-2'}" --mapping_dir my_auto_label_mapping/manual_template
+  ```
+  --
+                  bash run_experiment.sh "--template_path auto_template/SST-2/16-$seed.sort.txt --template_id $template_id --model_id $template_id --array_id $array_id --save_logit --save_logit_dir ensemble_predict_results"
+                  array_id=$(expr $array_id + 1)
+              done
+          done
+      done
+  done
+  ```
+  Looks a little complicated? It's actually pretty easy to understand: `--model_id` and `--array_id` is used to distinguish different runs, and `--save_logit` tells the program to save the prediction results for ensemble.
+  --
+  TAG=zero-shot TYPE=prompt TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--no_train"
+  ```
+  To do "GPT-3 style" in-context learning:
+  ```bash
+  TAG=gpt3-in-context TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--no_train --num_sample 1 --gpt3_in_context_head --gpt3_in_context_num 32 --truncate_head --use_full_length"
+  ```
+  ### How to design your own templates
+  Here are two template examples:
+------------------------------------------------------------
+2025-08-31T10:25:01.702176Z
+Action:
+  command:
+    ls -la tools/
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files and documentation to understand how this project is intended to be run.
+Output:
+  total 116
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:23 .
+  drwxr-xr-x 9 benchmarkuser 1001  4096 Aug 31 10:23 ..
+  -rw-r--r-- 1 benchmarkuser 1001 12727 Aug 31 10:23 ensemble.py
+  -rw-r--r-- 1 benchmarkuser 1001  7008 Aug 31 10:23 gather_result.py
+  -rw-r--r-- 1 benchmarkuser 1001  7274 Aug 31 10:23 generate_k_shot_data.py
+  -rw-r--r-- 1 benchmarkuser 1001  9134 Aug 31 10:23 generate_labels.py
+  -rw-r--r-- 1 benchmarkuser 1001 16621 Aug 31 10:23 generate_template.py
+  -rw-r--r-- 1 benchmarkuser 1001  4217 Aug 31 10:23 get_sbert_embedding.py
+  -rw-r--r-- 1 benchmarkuser 1001   711 Aug 31 10:23 get_sbert_embedding.sh
+  -rwxr-xr-x 1 benchmarkuser 1001  5789 Aug 31 10:23 run_generate_labels.sh
+  -rw-r--r-- 1 benchmarkuser 1001  7365 Aug 31 10:23 sort_mapping.py
+  -rw-r--r-- 1 benchmarkuser 1001  7345 Aug 31 10:23 sort_prompt.py
+  -rw-r--r-- 1 benchmarkuser 1001  7385 Aug 31 10:23 sort_template.py
+------------------------------------------------------------
+2025-08-31T10:25:01.702200Z
+Action:
+  command:
+    cat README.md | grep -E "(python|bash)" | grep -E "(run|tools)" | head -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  python tools/generate_k_shot_data.py
+  python run.py \
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--output_dir result/exp --max_seq_length 512"
+              bash run_experiment.sh
+  python tools/gather_result.py --condition "{'tag': 'exp', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  bash tools/get_sbert_embedding.sh roberta-large
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--demo_filter --demo_filter_model sbert-roberta-large"
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--template_path auto_template/SST-2/16-42.sort.txt --template_id 0"
+  TAG=exp TYPE=prompt-demo TASK=SST-2 BS=2 LR=1e-5 SEED=42 MODEL=roberta-large bash run_experiment.sh "--mapping_path auto_label_mapping/SST-2/16-42.sort.txt --mapping_id 0"
+              bash run_experiment.sh "--template_path auto_template/SST-2/16-$seed.sort.txt --template_id 0 --demo_filter --demo_filter_model sbert-roberta-large"
+  python tools/gather_result.py --condition "{'tag': 'LM-BFF', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  python tools/generate_template.py \
+          bash run_experiment.sh "--template_path my_auto_template/SST-2/16-$seed.txt --template_id $template_id --no_predict"
+  python tools/sort_template.py --condition "{'tag': 'exp-template', 'task_name': 'sst-2'}" --template_dir my_auto_template
+  bash tools/run_generate_labels.sh
+          bash run_experiment.sh "--mapping_path my_auto_label_mapping/manual_template/SST-2/16-$seed.txt --mapping_id $mapping_id --no_predict"
+  python tools/sort_mapping.py --condition "{'tag': 'exp-mapping', 'task_name': 'sst-2'}" --mapping_dir my_auto_label_mapping/manual_template
+                  bash run_experiment.sh "--template_path auto_template/SST-2/16-$seed.sort.txt --template_id $template_id --model_id $template_id --array_id $array_id --save_logit --save_logit_dir ensemble_predict_results"
+  python tools/ensemble.py --condition "{'tag': 'exp-ensemble', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}" --n_models 20
+------------------------------------------------------------
+2025-08-31T10:25:01.702228Z
+Action:
+  command:
+    head -10 run.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  """Finetuning the library models for sequence classification on GLUE."""
+  import dataclasses
+  import logging
+  import os
+  import sys
+  from dataclasses import dataclass, field
+  from typing import Callable, Dict, Optional
+  import torch
+------------------------------------------------------------
+2025-08-31T10:25:01.702246Z
+Action:
+  command:
+    cat README.md | grep -E "^\s*(python|bash|sh)" | grep -v "^#" | head -30
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  bash download_dataset.sh
+  python tools/generate_k_shot_data.py
+  python run.py \
+              bash run_experiment.sh
+  python tools/gather_result.py --condition "{'tag': 'exp', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  bash tools/get_sbert_embedding.sh roberta-large
+              bash run_experiment.sh "--template_path auto_template/SST-2/16-$seed.sort.txt --template_id 0 --demo_filter --demo_filter_model sbert-roberta-large"
+  python tools/gather_result.py --condition "{'tag': 'LM-BFF', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}"
+  python tools/generate_template.py \
+          bash run_experiment.sh "--template_path my_auto_template/SST-2/16-$seed.txt --template_id $template_id --no_predict"
+  python tools/sort_template.py --condition "{'tag': 'exp-template', 'task_name': 'sst-2'}" --template_dir my_auto_template
+  bash tools/run_generate_labels.sh
+          bash run_experiment.sh "--mapping_path my_auto_label_mapping/manual_template/SST-2/16-$seed.txt --mapping_id $mapping_id --no_predict"
+  python tools/sort_mapping.py --condition "{'tag': 'exp-mapping', 'task_name': 'sst-2'}" --mapping_dir my_auto_label_mapping/manual_template
+                  bash run_experiment.sh "--template_path auto_template/SST-2/16-$seed.sort.txt --template_id $template_id --model_id $template_id --array_id $array_id --save_logit --save_logit_dir ensemble_predict_results"
+  python tools/ensemble.py --condition "{'tag': 'exp-ensemble', 'task_name': 'sst-2', 'few_shot_type': 'prompt-demo'}" --n_models 20
+------------------------------------------------------------
+2025-08-31T10:25:01.702261Z
+Action:
+  command:
+    head -20 run.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  """Finetuning the library models for sequence classification on GLUE."""
+  import dataclasses
+  import logging
+  import os
+  import sys
+  from dataclasses import dataclass, field
+  from typing import Callable, Dict, Optional
+  import torch
+  import numpy as np
+  import transformers
+  from transformers import AutoConfig, AutoModelForSequenceClassification, AutoTokenizer, EvalPrediction
+  from transformers import GlueDataTrainingArguments as DataTrainingArguments
+  from transformers import HfArgumentParser, TrainingArguments, set_seed
+  from src.dataset import FewShotDataset
+  from src.models import BertForPromptFinetuning, RobertaForPromptFinetuning, resize_token_type_embeddings
+  from src.trainer import Trainer
+------------------------------------------------------------
+2025-08-31T10:25:01.702275Z
+Action:
+  command:
+    cat run.py | grep -A 10 "if __name__ == '__main__':"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:25:01.702283Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    run.py
+    run_experiment.sh
+    tools/generate_k_shot_data.py
+    tools/gather_result.py
+    tools/generate_template.py
+    tools/sort_template.py
+    tools/run_generate_labels.sh
+    tools/sort_mapping.py
+    tools/ensemble.py
+    tools/get_sbert_embedding.sh
+    EOF
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:25:01.702295Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    run.py
+    run_experiment.sh
+    tools/generate_k_shot_data.py
+    tools/gather_result.py
+    tools/generate_template.py
+    tools/sort_template.py
+    tools/run_generate_labels.sh
+    tools/sort_mapping.py
+    tools/ensemble.py
+    tools/get_sbert_embedding.sh
+    EOF
+  description:
+    Based on the command history and analysis of this repository, I can identify the proper entrypoints for the LM-BFF project. Let me examine the files and create the entrypoints.txt file.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:25:01.702310Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    run.py
+    run_experiment.sh
+    tools/generate_k_shot_data.py
+    tools/gather_result.py
+    tools/generate_template.py
+    tools/sort_template.py
+    tools/run_generate_labels.sh
+    tools/sort_mapping.py
+    tools/ensemble.py
+    tools/get_sbert_embedding.sh
+    tools/get_sbert_embedding.py
+    EOF
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure I can see from the provided information.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:25:01.702324Z
+Action:
+  command:
+    cat run.py | tail -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files and documentation to understand what entrypoints are intended by the authors.
+Output:
+                      predictions = output.predictions
+                      num_logits = predictions.shape[-1]
+                      logits = predictions.reshape([test_dataset.num_sample, -1, num_logits]).mean(axis=0)
+                      np.save(os.path.join(training_args.save_logit_dir, "{}-{}-{}.npy".format(test_dataset.task_name, training_args.model_id, training_args.array_id)), logits)
+              test_results.update(test_result)
+      with FileLock('log.lock'):
+          with open('log', 'a') as f:
+              final_result.update(vars(model_args))
+              final_result.update(vars(training_args))
+              final_result.update(vars(data_args))
+              if 'evaluation_strategy' in final_result:
+                  final_result.pop('evaluation_strategy')
+              f.write(str(final_result) + '\n')
+      return eval_results
+  if __name__ == "__main__":
+      main()
+------------------------------------------------------------
+2025-08-31T10:25:01.702352Z
+Action:
+  command:
+    cat entrypoints.txt
+Output:
+  run.py
+  run_experiment.sh
+  tools/generate_k_shot_data.py
+  tools/gather_result.py
+  tools/generate_template.py
+  tools/sort_template.py
+  tools/run_generate_labels.sh
+  tools/sort_mapping.py
+  tools/ensemble.py
+  tools/get_sbert_embedding.sh
+  tools/get_sbert_embedding.py
+------------------------------------------------------------
+2025-08-31T10:25:01.702362Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

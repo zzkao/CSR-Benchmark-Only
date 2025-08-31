@@ -1,0 +1,644 @@
+2025-08-31T10:20:33.627209Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.go" -o -name "*.java" -o -name "*.rs" -o -name "*.sh" -o -name "*.bat" -o -name "*.cmd" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "Makefile" -o -name "Dockerfile" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the file structure and contents.
+Output:
+  ./run_pretrain.py
+  ./src/dataloader.py
+  ./src/trainer.py
+  ./src/op_deepspeed.py
+  ./src/training_args.py
+  ./src/sampling.py
+  ./src/test.py
+  ./src/benchmark/trainer.py
+  ./src/benchmark/metrics.py
+  ./src/benchmark/models.py
+  ./src/benchmark/GNN_PPI/gnn_train.py
+  ./src/benchmark/GNN_PPI/gnn_model.py
+  ./src/benchmark/GNN_PPI/gnn_test.py
+  ./src/benchmark/GNN_PPI/gnn_data.py
+  ./src/benchmark/GNN_PPI/convert.py
+  ./src/benchmark/dataset.py
+  ./src/optimization.py
+  ./src/models.py
+  ./src/dataset.py
+  ./run_downstream.py
+  ./script/run_pretrain.sh
+  ./script/run_ss8.sh
+  ./script/run_stability.sh
+  ./script/run_fluorescence.sh
+  ./script/run_ss3.sh
+  ./script/run_contact.sh
+  ./script/run_remote_homology.sh
+  ./run_main.sh
+  ./deepspeed.py
+  ./gen_onto_protein_data.py
+------------------------------------------------------------
+2025-08-31T10:20:33.627276Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining the file structure, configuration files, and scripts. Let me start by exploring the repository structure and key files.
+Output:
+  total 104
+  drwxr-xr-x 6 benchmarkuser 1001  4096 Aug 31 10:19 .
+  drwxr-xr-x 1 root          root  4096 Aug 31 10:19 ..
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Aug 31 10:19 .git
+  -rw-r--r-- 1 benchmarkuser 1001  1063 Aug 31 10:19 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001  9694 Aug 31 10:19 README.md
+  -rw-r--r-- 1 benchmarkuser 1001 17035 Aug 31 10:19 deepspeed.py
+  -rw-r--r-- 1 benchmarkuser 1001   614 Aug 31 10:19 dp_config.json
+  -rw-r--r-- 1 benchmarkuser 1001 10634 Aug 31 10:19 gen_onto_protein_data.py
+  -rw-r--r-- 1 benchmarkuser 1001    48 Aug 31 10:19 requirements.txt
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 10:19 resources
+  -rw-r--r-- 1 benchmarkuser 1001 10753 Aug 31 10:19 run_downstream.py
+  -rw-r--r-- 1 benchmarkuser 1001  1899 Aug 31 10:19 run_main.sh
+  -rw-r--r-- 1 benchmarkuser 1001  5270 Aug 31 10:19 run_pretrain.py
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:19 script
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Aug 31 10:19 src
+------------------------------------------------------------
+2025-08-31T10:20:33.627299Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me examine the key files and configurations systematically.
+Output:
+  # OntoProtein
+  This is the implement of the ICLR2022 paper "[OntoProtein: Protein Pretraining With Ontology Embedding](https://arxiv.org/pdf/2201.11147.pdf)". OntoProtein is an effective method that make use of structure in GO (Gene Ontology) into text-enhanced protein pre-training model.
+  - ❗NOTE: We provide a NLP for science paper-list at [https://github.com/zjunlp/NLP4Science_Papers](https://github.com/zjunlp/NLP4Science_Papers).
+  <div align=center><img src="resources/img/model.png" width="80%" height="80%" /></div>
+  ## Quick links
+  * [Overview](#overview)
+  * [Requirements](#requirements)
+    * [Environment for pre-training data generation](#environment-for-pre-training-data-generation)
+    * [Environmen for OntoProtein pre-training](#environment-for-ontoprotein-pre-training)
+    * [Environment for protein-related tasks](#environment-for-protein-related-tasks)
+  * [Data preparation](#data-preparation)
+    * [Pre-training data](#pre-training-data)
+    * [Downstream task data](#downstream-task-data)
+  * [Protein pre-training model](#protein-pre-training-model)
+  * [Usage for protein-related tasks](#usage-for-protein-related-tasks)
+  * [Citation](#citation)
+  ## Overview
+  <span id="overview"></span>
+  In this work we present OntoProtein, a knowledge-enhanced protein language model that jointly optimize the KE and MLM objectives, which bring excellent improvements to a wide range of protein tasks. And we introduce **ProteinKG25**, a new large-scale KG dataset, promting the research on protein language pre-training.
+  <div align=center><img src="resources/img/main.jpg" width="60%" height="60%" /></div>
+  ## Requirements
+  <span id="requirements"></span>
+  To run our code, please install dependency packages for related steps.
+  ### Environment for pre-training data generation
+  <span id="environment-for-pre-training-data-generation"></span>
+  python3.8 / biopython 1.37 / goatools
+  For extracting the definition of the GO term, we motified the code in `goatools` library. The changes in `goatools.obo_parser` are as follows:
+  ```python
+  # line 132
+  elif line[:5] == "def: ":
+      rec_curr.definition = line[5:]
+  # line 169
+  self.definition = ""
+  ```
+  ### Environment for OntoProtein pre-training
+  <span id="environment-for-ontoprotein-pre-training"></span>
+  python3.8 / pytorch 1.9 / transformer 4.5.1+ / deepspeed 0.5.1/ lmdb / 
+  ### Environment for protein-related tasks
+  <span id="environment-for-protein-related-tasks"></span>
+  python3.8 / pytorch 1.9 / transformer 4.5.1+ / lmdb / tape_proteins
+  Specially, in library `tape_proteins`, it only implements the calculation of metric `P@L` for the contact prediction task. So, for reporting the metrics P@K taking different K values, in which the metrics P@K are precisions for the top K contacts, we made some changes in the library. Detailed changes could be seen in [[isssue #8]](https://github.com/zjunlp/OntoProtein/issues/8#issuecomment-1109975025) 
+  **Note:** environments configurations of some baseline models or methods in our experiments, e.g. BLAST, DeepGraphGO, we provide related links to configurate as follows:
+  [BLAST](https://www.ncbi.nlm.nih.gov/books/NBK569861/) / [Interproscan](https://github.com/ebi-pf-team/interproscan) / [DeepGraphGO](https://github.com/yourh/DeepGraphGO) / [GNN-PPI](https://github.com/lvguofeng/GNN_PPI)
+  ## Data preparation
+  <span id="data-preparation"></span>
+  For pretraining OntoProtein, fine-tuning on protein-related tasks and inference, we provide acquirement approach of related data.
+  ### Pre-training data
+  <span id="pre-training-data"></span>
+  To incorporate Gene Ontology knowledge into language models and train OntoProtein, we construct [ProteinKG25](https://zjunlp.github.io/project/ProteinKG25/), a large-scale KG dataset with aligned descriptions and protein sequences respectively to GO terms and protein entities. There have two approach to acquire the pre-training data: 1) download our prepared data **ProteinKG25**, 2) generate your own pre-training data.
+  <div align=center><img src="resources/img/times.png" width="50%" height="50%" /></div>
+  #### Download released data
+  We have released our prepared data **ProteinKG25** in [Google Drive](https://drive.google.com/file/d/1iTC2-zbvYZCDhWM_wxRufCvV6vvPk8HR/view).
+  The whole compressed package includes following files:
+  - `go_def.txt`: GO term definition, which is text data. We concatenate GO term name and corresponding definition by colon.
+  - `go_type.txt`: The ontology type which the specific GO term belong to. The index is correponding to GO ID in `go2id.txt` file.
+  - `go2id.txt`: The ID mapping of GO terms.
+  - `go_go_triplet.txt`: GO-GO triplet data. The triplet data constitutes the interior structure of Gene Ontology. The data format is < `h r t`>, where `h` and `t` are respectively head entity and tail entity, both GO term nodes. `r` is relation between two GO terms, e.g. `is_a` and `part_of`.
+  - `protein_seq.txt`: Protein sequence data. The whole protein sequence data are used as inputs in MLM module and protein representations in KE module.
+  - `protein2id.txt`: The ID mapping of proteins.
+  - `protein_go_train_triplet.txt`: Protein-GO triplet data. The triplet data constitutes the exterior structure of Gene Ontology, i.e. Gene annotation. The data format is <`h r t`>, where `h` and `t` are respectively head entity and tail entity. It is different from GO-GO triplet that a triplet in Protein-GO triplet means a specific gene annotation, where the head entity is a specific protein and tail entity is the corresponding GO term, e.g. protein binding function. `r` is relation between the protein and GO term.
+  - `relation2id.txt`:  The ID mapping of relations. We mix relations in two triplet relation.
+  #### Generate your own pre-training data
+  For generating your own pre-training data, you need download following raw data:
+  - `go.obo`: the structure data of Gene Ontology. The download link and detailed format see in [Gene Ontology](http://geneontology.org/docs/download-ontology/)`
+  - `uniprot_sprot.dat`: protein Swiss-Prot database. [[link]](https://www.uniprot.org/downloads)
+  - `goa_uniprot_all.gaf`: Gene Annotation data. [[link]](https://ftp.ebi.ac.uk/pub/databases/GO/goa/old/UNIPROT/)
+  When download these raw data, you can excute following script to generate pre-training data:
+  ```bash
+  python tools/gen_onto_protein_data.py
+  ```
+  ### Downstream task data
+  <span id="downstream-task-data"></span>
+  Our experiments involved with several protein-related downstream tasks. [[Download datasets]](https://drive.google.com/file/d/12d5wzNcuPxPyW8KIzwmvGg2dOKo0K0ag/view?usp=sharing)
+  ## Protein pre-training model
+  <span id="protein-pre-training-model"></span>
+  You can pre-training your own OntoProtein based above pretraining dataset. Before pretraining OntoProtein, you need to download two pretrained model, respectively [ProtBERT](https://huggingface.co/Rostlab/prot_bert) and [PubMedBERT](https://huggingface.co/microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext) and save them in `data/model_data/ProtBERT` and `data/model_data/PubMedBERT`. We provide the script `bash script/run_pretrain.sh` to run pre-training. And the detailed arguments are all listed in `src/training_args.py`, you can set pre-training hyperparameters to your  need.
+  ## Usage for protein-related tasks
+  <span id="usage-for-protein-related-tasks"></span>
+  We have released the checkpoint of pretrained model on the model library of `Hugging Face`. [[Download model]](https://huggingface.co/zjunlp/OntoProtein).
+  ### Running examples
+  The shell files of training and evaluation for every task are provided in `script/` , and could directly run. Also, you can utilize the running codes `run_downstream.py` , and write your shell files according to your need:
+  - `run_downstream.py`: support `{ss3, ss8, contact, remote_homology, fluorescence, stability}` tasks;
+  #### Training models
+  Running shell files: `bash script/run_{task}.sh`, and the contents of shell files are as follow:
+  ```shell
+  bash run_main.sh \
+      --model model_data/ProtBertModel \
+      --output_file ss3-ProtBert \
+      --task_name ss3 \
+      --do_train True \
+      --epoch 5 \
+      --optimizer AdamW \
+      --per_device_batch_size 2 \
+      --gradient_accumulation_steps 8 \
+      --eval_step 100 \
+      --eval_batchsize 4 \
+      --warmup_ratio 0.08 \
+      --frozen_bert False
+  ```
+  Arguments for the training and evalution script are as follows,
+  - `--task_name`: Specify which task to evaluate on, and now the script supports `{ss3, ss8, contact, remote_homology, fluorescence, stability}` tasks;
+  - `--model`: The name or path of a protein pre-trained checkpoint.
+  - `--output_file`: The path of the fine-tuned checkpoint saved.
+  - `--do_train`: Specify if you want to finetune the pretrained model on downstream tasks.
+  - `--epoch`: Epochs for training model.
+  - `--optimizer`: The optimizer to use, e.g., `AdamW`.
+  - `--per_device_batch_size`: Batch size per GPU.
+  - `--gradient_accumulation_steps`: The number of gradient accumulation steps.
+  - `--warmup_ratio`: Ratio of total training steps used for a linear warmup from 0 to `learning_rate`.
+  - `--frozen_bert`: Specify if you want to frozen the encoder in the pretrained model.
+  Additionally, you can set more detailed parameters in `run_main.sh`.
+  **Notice: the best checkpoint is saved in** `OUTPUT_DIR/`.
+  ## How to Cite
+  ```
+  @inproceedings{
+  zhang2022ontoprotein,
+  title={OntoProtein: Protein Pretraining With Gene Ontology Embedding},
+  author={Ningyu Zhang and Zhen Bi and Xiaozhuan Liang and Siyuan Cheng and Haosen Hong and Shumin Deng and Qiang Zhang and Jiazhang Lian and Huajun Chen},
+  booktitle={International Conference on Learning Representations},
+  year={2022},
+  url={https://openreview.net/forum?id=yfe1VMYAXa4}
+  }
+  ```
+------------------------------------------------------------
+2025-08-31T10:20:33.627453Z
+Action:
+  command:
+    cat run_main.sh
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining the files, scripts, and configurations in detail.
+Output:
+  #!/bin/bash
+  ARGS=`getopt -o "t:d:e:m:o:b:g:s:w:a:f:" -l "task_name:,data_cat:,epoch:,mean_output:,optimizer:,per_device_batch_size:,gradient_accumulation_steps:,eval_step:,warmup_ratio:,eval_batchsize:,frozen_bert:,model:,do_train:,output_file:" -n "test.sh" -- "$@"`
+  eval set -- "$ARGS"
+  while true ; do
+          case "$1" in
+                  -c|--model) MODEL=$2 ; shift 2 ;;
+                  -t|--task_name) TASK_NAME=$2 ; shift 2 ;;
+                  -e|--epoch) EPOCHS=$2 ; shift 2 ;;
+                  -m|--mean_output) MEAN_OUTPUT=$2 ; shift 2 ;;
+                  -o|--optimizer) OPTIMIZER=$2 ; shift 2 ;;
+                  -b|--per_device_batch_size) BS=$2 ; shift 2 ;;
+                  -g|--gradient_accumulation_steps) GS=$2 ; shift 2 ;;
+                  -s|--eval_step) ES=$2 ; shift 2 ;;
+                  -a|--eval_batchsize) EB=$2 ; shift 2 ;;
+                  -w|--warmup_ratio) WR=$2 ; shift 2 ;;
+                  -f|--frozen_bert) FROZEN_BERT=$2 ; shift 2 ;;
+                  --do_train) DO_TRAIN=$2 ; shift 2 ;;
+                  --output_file) OI=$2 ; shift 2 ;;
+                  --) shift ; break ;;
+                  *) echo "Internal error!" ; exit 1 ;;
+          esac
+  done
+  # MODEL='Rostlab/prot_bert_bfd'
+  LR=3e-5
+  SEED=3
+  DATA_DIR=data/datasets
+  OUTPUT_DIR=data/output_data/$TASK_NAME-$SEED-$OI
+  #OUTPUT_DIR=data/output_data/$TASK_NAME-$SEED-$MODEL
+  python run_downstream.py \
+    --task_name $TASK_NAME \
+    --data_dir $DATA_DIR \
+    --do_train $DO_TRAIN \
+    --do_predict True \
+    --model_name_or_path $MODEL \
+    --per_device_train_batch_size $BS \
+    --per_device_eval_batch_size $EB \
+    --gradient_accumulation_steps $GS \
+    --learning_rate $LR \
+    --num_train_epochs $EPOCHS \
+    --warmup_ratio $WR \
+    --logging_steps $ES \
+    --eval_steps $ES \
+    --output_dir $OUTPUT_DIR \
+    --seed $SEED \
+    --optimizer $OPTIMIZER \
+    --frozen_bert $FROZEN_BERT \
+    --mean_output $MEAN_OUTPUT \
+  # rm -r ./$OUTPUT_DIR
+------------------------------------------------------------
+2025-08-31T10:20:33.627482Z
+Action:
+  command:
+    cat setup.py
+  description:
+    I'll analyze this OntoProtein repository to identify all proper entrypoints. Let me examine the key configuration files and scripts systematically.
+Output:
+  cat: setup.py: No such file or directory
+------------------------------------------------------------
+2025-08-31T10:20:33.627491Z
+Action:
+  command:
+    cat pyproject.toml
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and available files.
+Output:
+  cat: pyproject.toml: No such file or directory
+------------------------------------------------------------
+2025-08-31T10:20:33.627500Z
+Action:
+  command:
+    ls -la script/
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the file structure, command history, and documentation. Let me examine the key files and scripts.
+Output:
+  total 36
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 10:19 .
+  drwxr-xr-x 6 benchmarkuser 1001 4096 Aug 31 10:19 ..
+  -rw-r--r-- 1 benchmarkuser 1001  467 Aug 31 10:19 run_contact.sh
+  -rw-r--r-- 1 benchmarkuser 1001  503 Aug 31 10:19 run_fluorescence.sh
+  -rw-r--r-- 1 benchmarkuser 1001 3075 Aug 31 10:19 run_pretrain.sh
+  -rw-r--r-- 1 benchmarkuser 1001  515 Aug 31 10:19 run_remote_homology.sh
+  -rw-r--r-- 1 benchmarkuser 1001  438 Aug 31 10:19 run_ss3.sh
+  -rw-r--r-- 1 benchmarkuser 1001  442 Aug 31 10:19 run_ss8.sh
+  -rw-r--r-- 1 benchmarkuser 1001  483 Aug 31 10:19 run_stability.sh
+------------------------------------------------------------
+2025-08-31T10:20:33.627515Z
+Action:
+  command:
+    cat script/run_pretrain.sh
+  description:
+    I'll analyze the OntoProtein repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files and scripts systematically.
+Output:
+  #!/bin/bash
+  OUTPUT_DIR=data/output_data/filtered_ke_text
+  PRETRAIN_DATA_DIR=data/pretrain_data/pretrain_data_2021
+  # protein sequence setting
+  PROTEIN_DATA_FILE_NAME="swiss_seq"
+  IN_MEMORY=true
+  MAX_PROTEIN_SEQ_LENGTH=1024
+  # Go setting
+  USE_DESC=true
+  MAX_TEXT_SEQ_LENGTH=128
+  PROTEIN_GO_NUM_WORKERS=1
+  GO_GO_NUM_WORKERS=1
+  PROTEIN_SEQ_NUM_WORKERS=1
+  # negative sampling
+  NUM_PROTEIN_GO_NEG_SAMPLE=128
+  NUM_GO_GO_NEG_SAMPLE=128
+  NEGTIVE_SAMPLING_FN="simple_random"
+  PROTEIN_GO_SAMPLE_HEAD=false
+  PROTEIN_GO_SAMPLE_TAIL=true
+  GO_GO_SAMPLE_HEAD=true
+  GO_GO_SAMPLE_TAIL=true
+  # Protein sequence pretrained model
+  PROTEIN_MODEL_PATH='data/model_data/ProtBERT'
+  # OntoModel
+  TEXT_MODEL_PATH='data/model_data/OntoModel'
+  GO_ENCODER_CLS="bert"
+  PROTEIN_ENCODER_CLS="bert"
+  KE_EMBEDDING_SIZE=512
+  DOUBLE_ENTITY_EMBEDDING_SIZE=false
+  # Train
+  MAX_STEPS=60000
+  BATCH_SIZE=4
+  PROTEIN_SEQ_BATCH_SIZE=8
+  PROTEIN_GO_BATCH_SIZE=8
+  GO_GO_BATCH_SIZE=64
+  ACCUMULATION_STEPS=256
+  SCHEDULER_TYPE="linear"
+  WEIGHT_DECAY=0.01
+  OPTIMIZE_MEMORY=true
+  # MLM Loss
+  MLM_LAMBDA=1.0
+  MLM_LEARNING_RATE=1e-5
+  LM_WARMUP_STEPS=50000
+  # KE Loss
+  KE_LAMBDA=1.0
+  KE_LEARNING_RATE=2e-5
+  KE_MAX_SCORE=12.0
+  KE_SCORE_FN='transE'
+  KE_WARMUP_STEPS=50000
+  deepspeed --num_gpus=4 run_pretrain.py \
+    --do_train \
+    --output_dir $OUTPUT_DIR \
+    --pretrain_data_dir $PRETRAIN_DATA_DIR \
+    --protein_seq_data_file_name $PROTEIN_DATA_FILE_NAME \
+    --in_memory $IN_MEMORY \
+    --max_protein_seq_length $MAX_PROTEIN_SEQ_LENGTH \
+    --model_protein_seq_data true \
+    --model_protein_go_data true \
+    --model_go_go_data true \
+    --use_desc $USE_DESC \
+    --max_text_seq_length $MAX_TEXT_SEQ_LENGTH \
+    --dataloader_protein_go_num_workers $PROTEIN_GO_NUM_WORKERS \
+    --dataloader_go_go_num_workers $GO_GO_NUM_WORKERS \
+    --dataloader_protein_seq_num_workers $PROTEIN_SEQ_NUM_WORKERS \
+    --num_protein_go_neg_sample $NUM_PROTEIN_GO_NEG_SAMPLE \
+    --num_go_go_neg_sample $NUM_GO_GO_NEG_SAMPLE \
+    --negative_sampling_fn $NEGTIVE_SAMPLING_FN \
+    --protein_go_sample_head $PROTEIN_GO_SAMPLE_HEAD \
+    --protein_go_sample_tail $PROTEIN_GO_SAMPLE_TAIL \
+    --go_go_sample_head $GO_GO_SAMPLE_HEAD \
+    --go_go_sample_tail $GO_GO_SAMPLE_TAIL \
+    --protein_model_file_name $PROTEIN_MODEL_PATH \
+    --text_model_file_name $TEXT_MODEL_PATH \
+    --go_encoder_cls $GO_ENCODER_CLS \
+    --protein_encoder_cls $PROTEIN_ENCODER_CLS \
+    --ke_embedding_size $KE_EMBEDDING_SIZE \
+    --double_entity_embedding_size $DOUBLE_ENTITY_EMBEDDING_SIZE \
+    --max_steps $MAX_STEPS \
+    --per_device_train_batch_size $BATCH_SIZE \
+    --weight_decay $WEIGHT_DECAY \
+    --optimize_memory $OPTIMIZE_MEMORY \
+    --gradient_accumulation_steps $ACCUMULATION_STEPS \
+    --lr_scheduler_type $SCHEDULER_TYPE \
+    --mlm_lambda $MLM_LAMBDA \
+    --lm_learning_rate $MLM_LEARNING_RATE \
+    --lm_warmup_steps $LM_WARMUP_STEPS \
+    --ke_warmup_steps $KE_WARMUP_STEPS \
+    --ke_lambda $KE_LAMBDA \
+    --ke_learning_rate $KE_LEARNING_RATE \
+    --ke_max_score $KE_MAX_SCORE \
+    --ke_score_fn $KE_SCORE_FN \
+    --ke_warmup_ratio $KE_WARMUP_RATIO \
+    --seed 2021 \
+    --deepspeed dp_config.json \
+    --fp16 \
+    --dataloader_pin_memory \
+------------------------------------------------------------
+2025-08-31T10:20:33.627562Z
+Action:
+  command:
+    head -20 run_pretrain.py
+  description:
+    I'll analyze the OntoProtein repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  import os
+  import logging
+  from transformers import HfArgumentParser, set_seed, logging
+  from transformers import BertTokenizer, AutoTokenizer
+  from src.models import OntoProteinPreTrainedModel
+  from src.trainer import OntoProteinTrainer
+  from src.sampling import negative_sampling_strategy
+  from src.dataset import ProteinSeqDataset, ProteinGoDataset, GoGoDataset
+  from src.dataloader import DataCollatorForGoGo, DataCollatorForLanguageModeling, DataCollatorForProteinGo
+  from src.training_args import OntoProteinModelArguments, OntoProteinDataTrainingArguments, OntoProteinTrainingArguments
+  logger = logging.get_logger(__name__)
+  DEVICE = 'cuda'
+  def main():
+      parser = HfArgumentParser((OntoProteinTrainingArguments, OntoProteinDataTrainingArguments, OntoProteinModelArguments))
+      training_args, data_args, model_args = parser.parse_args_into_dataclasses()
+------------------------------------------------------------
+2025-08-31T10:20:33.627590Z
+Action:
+  command:
+    cat run_downstream.py | head -20
+  description:
+    Based on the analysis of the OntoProtein repository and the command history, I'll identify all proper entrypoints by examining the files, scripts, and documentation.
+Output:
+  import os
+  from typing import Optional
+  from dataclasses import dataclass, field
+  from transformers import HfArgumentParser, TrainingArguments, BertTokenizerFast, set_seed, Trainer
+  import logging
+  from src.benchmark.models import model_mapping, load_adam_optimizer_and_scheduler
+  from src.benchmark.datasets import dataset_mapping, output_modes_mapping
+  from src.benchmark.metrics import build_compute_metrics_fn
+  from src.benchmark.trainer import OntoProteinTrainer
+  import warnings
+  warnings.filterwarnings("ignore")
+  # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+  logger = logging.getLogger(__name__)
+  # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+  # DEVICE = "cuda"
+------------------------------------------------------------
+2025-08-31T10:20:33.627605Z
+Action:
+  command:
+    cat gen_onto_protein_data.py | head -20
+  description:
+    I'll analyze this OntoProtein repository to identify all proper entrypoints based on the file structure, command history, and documentation.
+Output:
+  import os
+  import numpy as np
+  import lmdb
+  import pickle as pkl
+  from Bio import SwissProt
+  from goatools.obo_parser import GODag, GOTerm
+  NODE_TYPE_MAPPING = {
+      'biological_process': 'Process',
+      'molecular_function': 'Function',
+      'cellular_component': 'Component'
+  }
+  def create_goa_triplet(fin_path, fout_path, protein_path):
+      print('Loading gene ontology annotation...')
+      cnt = 0
+      protein_set = set()
+------------------------------------------------------------
+2025-08-31T10:20:33.627619Z
+Action:
+  command:
+    head -10 deepspeed.py
+Output:
+  # Copyright 2020 The HuggingFace Team. All rights reserved.
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+------------------------------------------------------------
+2025-08-31T10:20:33.627628Z
+Action:
+  command:
+    cat script/run_ss3.sh
+  description:
+    Based on the command history and analysis of the OntoProtein repository, I'll identify all proper entrypoints by examining the files and configurations systematically.
+Output:
+  cd ../
+  # Training on 2 v100s
+  nohup sh run_main.sh \
+        --model ./model/ss3/ProtBertModel \
+        --output_file ss3-ProtBert \
+        --task_name ss3 \
+        --do_train True \
+        --epoch 5 \
+        --optimizer AdamW \
+        --per_device_batch_size 2 \
+        --gradient_accumulation_steps 8 \
+        --eval_step 100 \
+        --eval_batchsize 4 \
+        --warmup_ratio 0.08 \
+        --frozen_bert False >./task/result/ss3-ProtBert.out 2>&1
+------------------------------------------------------------
+2025-08-31T10:20:33.627642Z
+Action:
+  command:
+    cat requirements.txt
+  description:
+    I'll analyze the OntoProtein repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  transformers==4.5.1
+  deepspeed==0.5.1
+  torch==1.9
+------------------------------------------------------------
+2025-08-31T10:20:33.627650Z
+Action:
+  command:
+    cat Makefile 2>/dev/null || echo "No Makefile found"
+  description:
+    I'll analyze the OntoProtein repository to identify all proper entrypoints based on the file structure, command history, and documentation.
+Output:
+  No Makefile found
+------------------------------------------------------------
+2025-08-31T10:20:33.627658Z
+Action:
+  command:
+    find . -type f -name "Dockerfile" -o -name "docker-compose.yml" -o -name "main.py" -o -name "cli.py" -o -name "__main__.py"
+  description:
+    I'll analyze the OntoProtein repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:20:33.627667Z
+Action:
+  command:
+    cat run_pretrain.py | grep -A 10 "if __name__"
+  description:
+    Based on the command history and repository analysis, I'll identify all proper entrypoints for the OntoProtein project. Let me examine the files systematically to identify the intended entry points.
+Output:
+  if __name__ == "__main__":
+      main()
+------------------------------------------------------------
+2025-08-31T10:20:33.627675Z
+Action:
+  command:
+    cat run_downstream.py | grep -A 10 "if __name__"
+  description:
+    Based on my analysis of the OntoProtein repository, I need to examine the key files to identify all proper entrypoints. Let me check a few more details and then create the entrypoints file.
+Output:
+  if __name__ == '__main__':
+      main()
+------------------------------------------------------------
+2025-08-31T10:20:33.627683Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    run_pretrain.py
+    run_downstream.py
+    gen_onto_protein_data.py
+    run_main.sh
+    script/run_pretrain.sh
+    script/run_ss3.sh
+    script/run_ss8.sh
+    script/run_contact.sh
+    script/run_remote_homology.sh
+    script/run_fluorescence.sh
+    script/run_stability.sh
+    EOF
+  description:
+    Based on the command history and my analysis of the OntoProtein repository, I need to identify all proper entrypoints - files, scripts, or commands intended by the repository authors to start, build, or run the project.
+    
+    Let me examine the repository structure and identify the proper entrypoints:
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:20:33.627701Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    run_pretrain.py
+    run_downstream.py
+    gen_onto_protein_data.py
+    run_main.sh
+    script/run_pretrain.sh
+    script/run_ss3.sh
+    script/run_ss8.sh
+    script/run_contact.sh
+    script/run_remote_homology.sh
+    script/run_fluorescence.sh
+    script/run_stability.sh
+    EOF
+  description:
+    Based on the command history and my analysis of the OntoProtein repository, I can identify all proper entrypoints. Let me examine the repository structure and create the entrypoints file.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:20:33.627716Z
+Action:
+  command:
+    cat entrypoints.txt
+Output:
+  run_pretrain.py
+  run_downstream.py
+  gen_onto_protein_data.py
+  run_main.sh
+  script/run_pretrain.sh
+  script/run_ss3.sh
+  script/run_ss8.sh
+  script/run_contact.sh
+  script/run_remote_homology.sh
+  script/run_fluorescence.sh
+  script/run_stability.sh
+------------------------------------------------------------
+2025-08-31T10:20:33.627724Z
+Action:
+  command:
+    ls -la entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I need to identify all proper entrypoints for the OntoProtein repository. Let me verify the entrypoints file has been created successfully and then provide the completion signal.
+Output:
+  -rw-r--r-- 1 benchmarkuser benchmarkuser 233 Aug 31 10:20 entrypoints.txt
+------------------------------------------------------------
+2025-08-31T10:20:33.627749Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+  description:
+    Based on the command history and my analysis of the OntoProtein repository, I have identified all proper entrypoints - the files, scripts, and commands that are intended by the repository authors to start, build, or run the project.
+    
+    The repository contains:
+    
+    1. **Main Python executables**:
+       - `run_pretrain.py` - For pre-training the OntoProtein model
+       - `run_downstream.py` - For fine-tuning on downstream protein tasks
+       - `gen_onto_protein_data.py` - For generating pre-training data
+    
+    2. **Shell script entrypoints**:
+       - `run_main.sh` - Main wrapper script for downstream tasks
+       - `script/run_pretrain.sh` - Pre-training execution script
+       - `script/run_ss3.sh` - Secondary structure 3-state prediction task
+       - `script/run_ss8.sh` - Secondary structure 8-state prediction task
+       - `script/run_contact.sh` - Contact prediction task
+       - `script/run_remote_homology.sh` - Remote homology detection task
+       - `script/run_fluorescence.sh` - Fluorescence prediction task
+       - `script/run_stability.sh` - Stability prediction task
+    
+    These entrypoints are documented in the README.md and are the official interface for using the OntoProtein system. The entrypoints.txt file has been successfully created.
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

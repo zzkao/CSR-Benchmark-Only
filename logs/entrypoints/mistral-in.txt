@@ -1,0 +1,2 @@
+    src/mistral_inference/main.py
+    deploy/entrypoint.sh

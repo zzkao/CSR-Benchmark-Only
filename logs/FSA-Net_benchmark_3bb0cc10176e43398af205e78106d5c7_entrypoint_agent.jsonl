@@ -1,0 +1,502 @@
+2025-08-31T08:20:27.451136Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.c" -o -name "*.cpp" -o -name "*.sh" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "docker-compose.yml" -o -name "package.json" -o -name "setup.py" -o -name "pyproject.toml" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "CMakeLists.txt" | head -50
+  description:
+    I'll analyze the GitHub repository to identify all proper entrypoints. Let me start by exploring the repository structure and contents.
+Output:
+  ./data/TYY_create_db_biwi.py
+  ./data/TYY_create_db_biwi_70_30.py
+  ./data/type1/run_created_db_type1.sh
+  ./data/type1/TYY_create_db_type1.py
+  ./lib/loupe_keras.py
+  ./lib/capsulelayers.py
+  ./lib/old_version/FSANET_model.py
+  ./lib/utils.py
+  ./lib/SpatialPyramidPooling.py
+  ./lib/layers.py
+  ./lib/SSRNET_model.py
+  ./lib/FSANET_model.py
+  ./lib/__init__.py
+  ./training_and_testing/FSANET_train.py
+  ./training_and_testing/run_fsanet_train.sh
+  ./training_and_testing/FSANET_test.py
+  ./training_and_testing/TYY_generators.py
+  ./training_and_testing/FSANET_mix_test.py
+  ./training_and_testing/keras_to_tf.py
+  ./training_and_testing/TYY_callbacks.py
+  ./training_and_testing/run_fsanet_test.sh
+  ./training_and_testing/FSANET_fine_train.py
+  ./pre-trained/BIWI_models/plot.py
+  ./pre-trained/BIWI_models/run_plot.sh
+  ./demo/demo_FSANET.py
+  ./demo/run_demo_FSANET_mtcnn.sh
+  ./demo/run_demo_FSANET.sh
+  ./demo/demo_FSANET_mtcnn.py
+  ./demo/demo_FSANET_ssd.py
+  ./demo/run_demo_FSANET_ssd.sh
+------------------------------------------------------------
+2025-08-31T08:20:27.451209Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+  total 21792
+  drwxr-xr-x 8 benchmarkuser 1001    4096 Aug 31 08:19 .
+  drwxr-xr-x 1 root          root    4096 Aug 31 08:19 ..
+  drwxr-xr-x 8 benchmarkuser 1001    4096 Aug 31 08:19 .git
+  -rw-r--r-- 1 benchmarkuser 1001      87 Aug 31 08:19 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 3065438 Aug 31 08:19 0191.pdf
+  -rw-r--r-- 1 benchmarkuser 1001  799497 Aug 31 08:19 Compare_AFLW2000_gt_Hopenet_FSA.gif
+  -rw-r--r-- 1 benchmarkuser 1001  121957 Aug 31 08:19 FSANET_table1.png
+  -rw-r--r-- 1 benchmarkuser 1001  120806 Aug 31 08:19 FSANET_table2.png
+  -rw-r--r-- 1 benchmarkuser 1001  123281 Aug 31 08:19 FSANET_table3.png
+  -rw-r--r-- 1 benchmarkuser 1001 9571295 Aug 31 08:19 FSA_SSD_demo.gif
+  -rw-r--r-- 1 benchmarkuser 1001   11357 Aug 31 08:19 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001    9388 Aug 31 08:19 README.md
+  -rw-r--r-- 1 benchmarkuser 1001 1176358 Aug 31 08:19 comparison.png
+  drwxr-xr-x 3 benchmarkuser 1001    4096 Aug 31 08:19 data
+  drwxr-xr-x 4 benchmarkuser 1001    4096 Aug 31 08:19 demo
+  -rw-r--r-- 1 benchmarkuser 1001  424782 Aug 31 08:19 heatmap_demo.png
+  drwxr-xr-x 3 benchmarkuser 1001    4096 Aug 31 08:19 lib
+  drwxr-xr-x 5 benchmarkuser 1001    4096 Aug 31 08:19 pre-trained
+  -rw-r--r-- 1 benchmarkuser 1001     695 Aug 31 08:19 requirements.txt
+  -rw-r--r-- 1 benchmarkuser 1001  416045 Aug 31 08:19 time_demo.png
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:19 training_and_testing
+  -rw-r--r-- 1 benchmarkuser 1001 3254539 Aug 31 08:19 webcam_demo.gif
+  -rw-r--r-- 1 benchmarkuser 1001 3152934 Aug 31 08:19 webcam_demo_cvlab_citi.gif
+------------------------------------------------------------
+2025-08-31T08:20:27.451242Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze this GitHub repository to identify all proper entrypoints. Let me start by examining the repository structure and key files to understand the project's intended interface.
+Output:
+  # FSA-Net
+  **[CVPR19] FSA-Net: Learning Fine-Grained Structure Aggregation for Head Pose Estimation from a Single Image**
+  **Code Author: Tsun-Yi Yang**
+  **\[Updates\]**
+   - `2019/10/06`: Big thanks to [Kapil Sachdeva](https://github.com/ksachdeva) again!!! The keras Lambda layers are replaced, and converted [tf frozen models](https://github.com/shamangary/FSA-Net/tree/master/pre-trained/converted-models) are supported!
+   - `2019/09/27`: Refactoring the model code. Very beautiful and concise codes contributed by [Kapil Sachdeva](https://github.com/ksachdeva).
+   - `2019/08/30`: Demo update! Robust and fast SSD face detector added!
+  ### Comparison video
+  (Baseline **Hopenet:** https://github.com/natanielruiz/deep-head-pose)
+  <img src="https://github.com/shamangary/FSA-Net/blob/master/Compare_AFLW2000_gt_Hopenet_FSA.gif" height="320"/>
+  ### (New!!!) Fast and robust demo with SSD face detector (2019/08/30)
+  <img src="https://github.com/shamangary/FSA-Net/blob/master/FSA_SSD_demo.gif" height="300"/>
+  ### Webcam demo
+  | Signle person (LBP) | Multiple people (MTCNN)|
+  | --- | --- |
+  | Time sequence | Fine-grained structure|
+  | --- | --- |
+  ### Results
+  <img src="https://github.com/shamangary/FSA-Net/blob/master/FSANET_table1.png" height="220"/><img src="https://github.com/shamangary/FSA-Net/blob/master/FSANET_table2.png" height="220"/><img src="https://github.com/shamangary/FSA-Net/blob/master/FSANET_table3.png" height="220"/>
+  ## Paper
+  ### PDF
+  https://github.com/shamangary/FSA-Net/blob/master/0191.pdf
+  ### Paper authors
+  **[Tsun-Yi Yang](https://scholar.google.com/citations?user=WhISCE4AAAAJ&hl=en), [Yi-Ting Chen](https://sites.google.com/media.ee.ntu.edu.tw/yitingchen/), [Yen-Yu Lin](https://www.citi.sinica.edu.tw/pages/yylin/index_zh.html), and [Yung-Yu Chuang](https://www.csie.ntu.edu.tw/~cyy/)**
+  ## Abstract
+  This paper proposes a method for head pose estimation from a single image. Previous methods often predicts head poses through landmark or depth estimation and would require more computation than necessary. Our method is based on regression and feature aggregation. For having a compact model, we employ the soft stagewise regression scheme. Existing feature aggregation methods treat inputs as a bag of features and thus ignore their spatial relationship in a feature map. We propose to learn a fine-grained structure mapping for spatially grouping features before aggregation. The fine-grained structure provides part-based information and pooled values. By ultilizing learnable and non-learnable importance over the spatial location, different variant models as a complementary ensemble can be generated. Experiments show that out method outperforms the state-of-the-art methods including both the landmark-free ones and the ones based on landmark or depth estimation. Based on a single RGB frame as input, our method even outperforms methods utilizing multi-modality information (RGB-D, RGB-Time) on estimating the yaw angle. Furthermore, the memory overhead of the proposed model is 100× smaller than that of previous methods.
+  ## Platform
+  + Keras
+  + Tensorflow
+  + GTX-1080Ti
+  + Ubuntu
+  ```
+  python                    3.5.6                hc3d631a_0  
+  keras-applications        1.0.4                    py35_1    anaconda
+  keras-base                2.1.0                    py35_0    anaconda
+  keras-gpu                 2.1.0                         0    anaconda
+  keras-preprocessing       1.0.2                    py35_1    anaconda
+  tensorflow                1.10.0          mkl_py35heddcb22_0  
+  tensorflow-base           1.10.0          mkl_py35h3c3e929_0  
+  tensorflow-gpu            1.10.0               hf154084_0    anaconda
+  cudnn                     7.1.3                 cuda8.0_0  
+  cuda80                    1.0                           0    soumith
+  numpy                     1.15.2          py35_blas_openblashd3ea46f_0  [blas_openblas]  conda-forge
+  numpy-base                1.14.3           py35h2b20989_0  
+  ```
+  ## Dependencies
+  + A guide for most dependencies. (in Chinese)
+  http://shamangary.logdown.com/posts/3009851
+  + Anaconda
+  + OpenCV
+  + MTCNN
+  ```
+  pip3 install mtcnn
+  ```
+  + Capsule: https://github.com/XifengGuo/CapsNet-Keras
+  + Loupe_Keras: https://github.com/shamangary/LOUPE_Keras
+  ## Codes
+  There are three different section of this project. 
+  1. Data pre-processing
+  2. Training and testing
+  3. Demo
+  We will go through the details in the following sections.
+  This repository is for 300W-LP, AFLW2000, and BIWI datasets.
+  ### 1. Data pre-processing
+  #### [For lazy people just like me] 
+  If you don't want to re-download every dataset images and do the pre-processing again, or maybe you don't even care about the data structure in the folder. Just download the file **data.zip** from the following link, and replace the data folder.
+  [Google drive](https://drive.google.com/file/d/1j6GMx33DCcbUOS8J3NHZ-BMHgk7H-oC_/view?usp=sharing)
+  Now you can skip to the "Training and testing" stage.
+  #### [Details]
+  In the paper, we define **Protocol 1** and **Protocol 2**.
+  ```
+  # Protocol 1
+  Training: 300W-LP (A set of subsets: {AFW.npz, AFW_Flip.npz, HELEN.npz, HELEN_Flip.npz, IBUG.npz, IBUG_Flip.npz, LFPW.npz, LFPW_Flip.npz})
+  Testing: AFLW2000.npz or BIWI_noTrack.npz
+  # Protocol 2
+  ```
+  (Note that type1 (300W-LP, AFLW2000) datasets have the same image arrangement, and I categorize them as **type1**. It is not about Protocal 1 or 2.)
+  If you want to do the pre-processing from the beginning, you need to download the dataset first.
+  #### Download the datasets
+  + [300W-LP, AFLW2000](http://www.cbsr.ia.ac.cn/users/xiangyuzhu/projects/3DDFA/main.htm)
+  + [BIWI](https://data.vision.ee.ethz.ch/cvl/gfanelli/head_pose/head_forest.html)
+  Put 300W-LP and AFLW2000 folders under **data/type1/**, and put BIWI folder under **data/**
+  #### Run pre-processing
+  ```
+  # For 300W-LP and AFLW2000 datasets
+  cd data/type1
+  sh run_created_db_type1.sh
+  # For BIWI dataset
+  cd data
+  python TYY_create_db_biwi.py
+  python TYY_create_db_biwi_70_30.py
+  ```
+  ### 2. Training and testing
+  ```
+  # Training
+  sh run_fsanet_train.sh
+  # Testing
+  # Note that we calculate the MAE of yaw, pitch, roll independently, and average them into one single MAE for evaluation.
+  sh run_fsanet_test.sh
+  ```
+  Just remember to check which model type you want to use in the shell script and you are good to go.
+  ### 3. Demo
+  You need a **webcam** to correctly process the demo file.
+  Note the the center of the color axes is the detected face center.
+  Ideally, each frame should have new face detection results.
+  However, if the face detection fails, the previous detection results will be used to estimate poses.
+  LBP is fast enough for real-time face detection, while MTCNN is much more accurate but slow.
+  (2019/08/30 update!) SSD face detection is robust and fast! I borrow some face detector code from https://www.pyimagesearch.com
+  ```
+  # LBP face detector (fast but often miss detecting faces)
+  cd demo
+  sh run_demo_FSANET.sh
+  # MTCNN face detector (slow but accurate)
+  cd demo
+  sh run_demo_FSANET_mtcnn.sh
+  # SSD face detector (fast and accurate)
+  cd demo
+  sh run_demo_FSANET_ssd.sh
+  ```
+  ### 4. Conversion to tensorflow frozen graph
+  ```bash
+  cd training_and_testing
+  python keras_to_tf.py --trained-model-dir-path ../pre-trained/300W_LP_models/fsanet_var_capsule_3_16_2_21_5 --output-dir-path <your_output_dir>
+  ```
+  Above command will generate the tensorflow frozen graph in <your_output_dir>/converted-models/tf/fsanet_var_capsule_3_16_2_21_5.pb
+  ### Modules explanation:
+  1. ssr_G_model:
+  https://github.com/shamangary/FSA-Net/blob/master/lib/FSANET_model.py#L441
+  + Two-stream structure for extracting the features.
+  2. ssr_feat_S_model:
+  https://github.com/shamangary/FSA-Net/blob/master/lib/FSANET_model.py#L442
+  + Generating fine-grained structure mapping from different scoring functions.
+  + Apply the mapping on to the features and generate primary capsules.
+  4. ssr_aggregation_model:
+  https://github.com/shamangary/FSA-Net/blob/master/lib/FSANET_model.py#L443
+  + Feed the primary capsules into capsule layer and output the final aggregated capsule features. And divide them into 3 stages.
+  5. ssr_F_model:
+  https://github.com/shamangary/FSA-Net/blob/master/lib/FSANET_model.py#L444
+  + Taking the previous 3 stages features for Soft-Stagewise Regression (SSR) module. Each stage further splits into three parts: prediction, dynamic index shifting, and dynamic scaling. This part please check the '[IJCAI18] SSR-Net' for more detail explanation.
+  6. SSRLayer:
+  https://github.com/shamangary/FSA-Net/blob/master/lib/FSANET_model.py#L444
+  + Taking the prediction, dynamic index shifting, and dynamic scaling for the final regression output.
+  In this case, there are three outputs (yaw, pitch, roll).
+  ## 3rd party implementation
+  + https://github.com/aoru45/FSANet.Pytorch
+  + https://github.com/omasaht/headpose-fsanet-pytorch
+  Awesome VR flight simluation with FSANet ONNX format
+  + https://github.com/xuhao1/FOXTracker/
+------------------------------------------------------------
+2025-08-31T08:20:27.451408Z
+Action:
+  command:
+    find . -name "*.py" -path "*/demo/*" -o -name "*.py" -path "*/training_and_testing/*" -o -name "*.sh" | grep -v __pycache__ | sort
+  description:
+    I'll analyze the repository structure and identify all proper entrypoints. Let me examine the key configuration files and code structure.
+Output:
+  ./data/type1/run_created_db_type1.sh
+  ./demo/demo_FSANET.py
+  ./demo/demo_FSANET_mtcnn.py
+  ./demo/demo_FSANET_ssd.py
+  ./demo/run_demo_FSANET.sh
+  ./demo/run_demo_FSANET_mtcnn.sh
+  ./demo/run_demo_FSANET_ssd.sh
+  ./pre-trained/BIWI_models/run_plot.sh
+  ./training_and_testing/FSANET_fine_train.py
+  ./training_and_testing/FSANET_mix_test.py
+  ./training_and_testing/FSANET_test.py
+  ./training_and_testing/FSANET_train.py
+  ./training_and_testing/TYY_callbacks.py
+  ./training_and_testing/TYY_generators.py
+  ./training_and_testing/keras_to_tf.py
+  ./training_and_testing/run_fsanet_test.sh
+  ./training_and_testing/run_fsanet_train.sh
+------------------------------------------------------------
+2025-08-31T08:20:27.451427Z
+Action:
+  command:
+    cat requirements.txt
+  description:
+    I'll analyze this FSA-Net repository to identify all proper entrypoints based on the README documentation and code structure.
+Output:
+  absl-py==0.8.0
+  astor==0.8.0
+  certifi==2019.9.11
+  chardet==3.0.4
+  cycler==0.10.0
+  decorator==4.4.0
+  gast==0.3.2
+  google-pasta==0.1.7
+  graphviz==0.13
+  grpcio==1.23.0
+  h5py==2.10.0
+  idna==2.8
+  imageio==2.5.0
+  imageio-ffmpeg==0.3.0
+  joblib==0.13.2
+  Keras==2.2.4
+  Keras-Applications==1.0.8
+  Keras-Preprocessing==1.1.0
+  kiwisolver==1.1.0
+  Markdown==3.1.1
+  matplotlib==3.1.1
+  moviepy==1.0.0
+  mtcnn==0.0.9
+  numpy==1.17.2
+  opencv-python==4.1.1.26
+  pandas==0.25.1
+  Pillow>=7.1.0
+  proglog==0.1.9
+  protobuf==3.9.1
+  pydot==1.4.1
+  pyparsing==2.4.2
+  python-dateutil==2.8.0
+  pytz==2019.2
+  PyYAML==5.1.2
+  requests==2.22.0
+  scikit-learn==0.21.3
+  scipy==1.1.0
+  six==1.12.0
+  termcolor==1.1.0
+  tqdm==4.36.1
+  urllib3==1.25.5
+  Werkzeug==0.16.0
+  wrapt==1.11.2
+------------------------------------------------------------
+2025-08-31T08:20:27.451452Z
+Action:
+  command:
+    cat demo/run_demo_FSANET.sh
+  description:
+    I'll analyze this FSA-Net repository to identify all proper entrypoints based on the documentation and code structure.
+Output:
+  KERAS_BACKEND=tensorflow python3  demo_FSANET.py
+------------------------------------------------------------
+2025-08-31T08:20:27.451463Z
+Action:
+  command:
+    cat demo/run_demo_FSANET_mtcnn.sh
+  description:
+    Let me examine the entrypoint scripts and complete the analysis to identify all proper entrypoints.
+Output:
+  KERAS_BACKEND=tensorflow python3  demo_FSANET_mtcnn.py
+------------------------------------------------------------
+2025-08-31T08:20:27.451475Z
+Action:
+  command:
+    cat demo/run_demo_FSANET_ssd.sh
+  description:
+    I'll analyze the repository structure and identify all proper entrypoints based on the documentation and command history. Let me examine the remaining key files.
+Output:
+  KERAS_BACKEND=tensorflow python3  demo_FSANET_ssd.py
+------------------------------------------------------------
+2025-08-31T08:20:27.451488Z
+Action:
+  command:
+    cat training_and_testing/run_fsanet_train.sh
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the documentation and code structure.
+Output:
+  # Train on protocal 1
+  # SSRNET_MT
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 8 --nb_epochs 90 --model_type 0 --db_name '300W_LP'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 8 --nb_epochs 90 --model_type 1 --db_name '300W_LP'
+  # FSANET_Capsule
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 2 --db_name '300W_LP'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 3 --db_name '300W_LP'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 4 --db_name '300W_LP'
+  # FSANET_Netvlad
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 5 --db_name '300W_LP'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 6 --db_name '300W_LP'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 7 --db_name '300W_LP'
+  # FSANET_Metric
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 8 --db_name '300W_LP'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 9 --db_name '300W_LP'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 10 --db_name '300W_LP'
+  # ===============================================================================================================
+  # Train on protocal 2
+  # SSRNET_MT
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 0 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 1 --db_name 'BIWI'
+  # FSANET_Capsule
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 2 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 3 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 4 --db_name 'BIWI'
+  # FSANET_Netvlad
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 5 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 6 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 7 --db_name 'BIWI'
+  # FSANET_Metric
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 8 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 9 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_train.py --batch_size 16 --nb_epochs 90 --model_type 10 --db_name 'BIWI'
+  # ===============================================================================================================
+  # Fine-tuned on BIWI with synhead pre-trained model
+  KERAS_BACKEND=tensorflow python FSANET_fine_train.py --batch_size 8 --nb_epochs 90 --model_type 1 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_fine_train.py --batch_size 8 --nb_epochs 90 --model_type 2 --db_name 'BIWI'
+  KERAS_BACKEND=tensorflow python FSANET_fine_train.py --batch_size 8 --nb_epochs 90 --model_type 3 --db_name 'BIWI'
+------------------------------------------------------------
+2025-08-31T08:20:27.451529Z
+Action:
+  command:
+    cat training_and_testing/run_fsanet_test.sh
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the provided command history and repository structure.
+Output:
+  KERAS_BACKEND=tensorflow python FSANET_test.py --model_type 0
+  KERAS_BACKEND=tensorflow python FSANET_mix_test.py --model_type 0
+------------------------------------------------------------
+2025-08-31T08:20:27.451538Z
+Action:
+  command:
+    cat data/run_created_db_type1.sh
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  cat: data/run_created_db_type1.sh: No such file or directory
+------------------------------------------------------------
+2025-08-31T08:20:27.451547Z
+Action:
+  command:
+    cat data/type1/run_created_db_type1.sh
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the provided command history and repository structure.
+Output:
+  python TYY_create_db_type1.py --db './300W_LP/AFW' --output './AFW.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './300W_LP/AFW_Flip' --output './AFW_Flip.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './300W_LP/HELEN' --output './HELEN.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './300W_LP/HELEN_Flip' --output './HELEN_Flip.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './300W_LP/IBUG' --output './IBUG.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './300W_LP/IBUG_Flip' --output './IBUG_Flip.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './300W_LP/LFPW' --output './LFPW.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './300W_LP/LFPW_Flip' --output './LFPW_Flip.npz' --img_size 64 --ad 0.6
+  python TYY_create_db_type1.py --db './AFLW2000' --output './AFLW2000.npz' --img_size 64 --ad 0.6
+------------------------------------------------------------
+2025-08-31T08:20:27.451578Z
+Action:
+  command:
+    cat pre-trained/BIWI_models/run_plot.sh
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  # python plot.py --input ./ssrnet_sig_capsule_3_16_2_21_5/history_ssrnet_sig_capsule_3_16_2_21_5.h5
+  # python plot.py --input ./ssrnet_R_capsule_3_16_2_21_5/history_ssrnet_R_capsule_3_16_2_21_5.h5
+  python plot.py --input ./ssrnet_mt/history_ssrnet_mt.h5
+  # python plot.py --input ./ssrnet_R2_capsule_3_16_2_21_5/history_ssrnet_R2_capsule_3_16_2_21_5.h5
+------------------------------------------------------------
+2025-08-31T08:20:27.451591Z
+Action:
+  command:
+    head -20 demo/demo_FSANET.py
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the key files and documentation to understand the intended interfaces.
+Output:
+  # The demo credit belongs to Yi-Ting Chen
+  import os
+  import cv2
+  import sys
+  sys.path.append('..')
+  import numpy as np
+  from math import cos, sin
+  # from moviepy.editor import *
+  from lib.FSANET_model import *
+  # from moviepy.editor import *
+  from keras import backend as K
+  from keras.layers import Average
+  def draw_axis(img, yaw, pitch, roll, tdx=None, tdy=None, size = 80):
+      pitch = pitch * np.pi / 180
+      yaw = -(yaw * np.pi / 180)
+      roll = roll * np.pi / 180
+------------------------------------------------------------
+2025-08-31T08:20:27.451605Z
+Action:
+  command:
+    head -20 training_and_testing/FSANET_train.py
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  import os
+  import sys
+  sys.path.append('..')
+  import logging
+  import argparse
+  import pandas as pd
+  import numpy as np
+  from lib.FSANET_model import *
+  from lib.SSRNET_model import *
+  import TYY_callbacks
+  from TYY_generators import *
+  from keras.utils import np_utils
+  from keras.utils import plot_model
+  from keras.optimizers import SGD, Adam
+  from keras.preprocessing.image import ImageDataGenerator
+  from keras.callbacks import LearningRateScheduler, ModelCheckpoint
+------------------------------------------------------------
+2025-08-31T08:20:27.451618Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo/demo_FSANET.py
+    demo/demo_FSANET_mtcnn.py
+    demo/demo_FSANET_ssd.py
+    training_and_testing/FSANET_train.py
+    training_and_testing/FSANET_test.py
+    training_and_testing/FSANET_mix_test.py
+    training_and_testing/FSANET_fine_train.py
+    training_and_testing/keras_to_tf.py
+    data/TYY_create_db_biwi.py
+    data/TYY_create_db_biwi_70_30.py
+    data/type1/TYY_create_db_type1.py
+    pre-trained/BIWI_models/plot.py
+    EOF
+  description:
+    I'll analyze this FSA-Net repository to identify all proper entrypoints based on the README documentation and code structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:20:27.451635Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+  description:
+    I'll analyze the FSA-Net repository to identify all proper entrypoints based on the command history and repository structure provided.
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

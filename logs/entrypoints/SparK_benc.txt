@@ -1,0 +1,3 @@
+    pretrain/main.py
+    downstream_imagenet/main.py
+    downstream_d2/train_net.py

@@ -1,0 +1,7 @@
+    tools/train_net.py
+    tools/plain_train_net.py
+    tools/benchmark.py
+    tools/visualize_data.py
+    tools/visualize_json_results.py
+    tools/caffe2_converter.py
+    demo/demo.py

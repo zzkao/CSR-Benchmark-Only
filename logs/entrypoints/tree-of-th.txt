@@ -1,0 +1,9 @@
+    run.py
+    scripts/text/bfs.sh
+    scripts/text/standard_sampling.sh
+    scripts/text/cot_sampling.sh
+    scripts/game24/bfs.sh
+    scripts/game24/standard_sampling.sh
+    scripts/game24/cot_sampling.sh
+    scripts/crosswords/standard_sampling.sh
+    scripts/crosswords/cot_sampling.sh

@@ -1,5 +1,0 @@
-storm: 1, Cycles: 18
-3DDFA_V2: 1, Cycles: 42
-LeGO-LOAM: 0, Cycles: 15 **Manually Canceled: No sudo in docker might be the issue**
-LTSF-Linear: 1, Cycles: 18
-antialiased-cnns: 0, Cycles: 14 **Manually Canceled: Should work but example_usage.py is too slow**

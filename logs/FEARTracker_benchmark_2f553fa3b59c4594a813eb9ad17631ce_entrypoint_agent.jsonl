@@ -1,0 +1,499 @@
+2025-08-31T09:33:41.327824Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.scala" -o -name "*.kt" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "build.gradle" -o -name "pom.xml" -o -name "Makefile" -o -name "Dockerfile" -o -name "CMakeLists.txt" | head -50
+  description:
+    I'll analyze the repository to find all proper entrypoints. Let me start by exploring the file structure and examining key configuration files.
+Output:
+  ./demo_video.py
+  ./model_training/tracker/fear_tracker.py
+  ./model_training/tracker/base_tracker.py
+  ./model_training/tracker/__init__.py
+  ./model_training/model/fear_net.py
+  ./model_training/model/blocks.py
+  ./model_training/utils/torch.py
+  ./model_training/utils/utils.py
+  ./model_training/utils/constants.py
+  ./model_training/utils/hydra.py
+  ./model_training/utils/logger.py
+  ./model_training/utils/__init__.py
+  ./model_training/train/trainer.py
+  ./model_training/train/loss.py
+  ./model_training/train/base_lightning_model.py
+  ./model_training/train/fear_lightning_model.py
+  ./model_training/train/callbacks.py
+  ./model_training/train/__init__.py
+  ./model_training/dataset/aug.py
+  ./model_training/dataset/siam_dataset.py
+  ./model_training/dataset/track_sampling.py
+  ./model_training/dataset/utils.py
+  ./model_training/dataset/box_coder.py
+  ./model_training/dataset/tracking_dataset.py
+  ./model_training/dataset/__init__.py
+  ./model_training/metrics/tracking.py
+  ./model_training/metrics/dataset_aware_metric.py
+  ./model_training/metrics/__init__.py
+  ./model_training/constants.py
+  ./model_training/train.py
+  ./model_training/__init__.py
+  ./evaluate/macs_params.py
+  ./evaluate/coreml_utils.py
+  ./evaluate/coreml_convert.py
+  ./evaluate/__init__.py
+------------------------------------------------------------
+2025-08-31T09:33:41.327910Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll start by exploring the repository structure to identify proper entrypoints. Let me examine the files found and look for configuration files that might declare entrypoints.
+Output:
+  total 52
+  drwxr-xr-x 7 benchmarkuser 1001 4096 Aug 31 09:22 .
+  drwxr-xr-x 1 root          root 4096 Aug 31 09:22 ..
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 09:22 .git
+  -rw-r--r-- 1 benchmarkuser 1001 1816 Aug 31 09:22 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 1070 Aug 31 09:22 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001 5938 Aug 31 09:22 README.md
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 09:22 assets
+  -rw-r--r-- 1 benchmarkuser 1001 2339 Aug 31 09:22 demo_video.py
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 09:22 docs
+  drwxr-xr-x 5 benchmarkuser 1001 4096 Aug 31 09:22 evaluate
+  drwxr-xr-x 9 benchmarkuser 1001 4096 Aug 31 09:22 model_training
+  -rw-r--r-- 1 benchmarkuser 1001  622 Aug 31 09:22 requirements.txt
+------------------------------------------------------------
+2025-08-31T09:33:41.327936Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "CMakeLists.txt"
+  description:
+    I'll analyze the repository to find all proper entrypoints. Let me start by exploring the key files and configuration files.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:33:41.327951Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "CMakeLists.txt"
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the file structure and key configuration files.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:33:41.327962Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the key files and their contents to understand the intended entrypoints.
+Output:
+  <div align="center">
+  # FEAR: Fast, Efficient, Accurate and Robust Visual Tracker
+  [![Paper](https://img.shields.io/badge/arXiv-2112.07957-brightgreen)](https://arxiv.org/abs/2112.07957)
+  [![Conference](https://img.shields.io/badge/ECCV-2022-blue)](https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136820625.pdf)
+  </div>
+  ![FEAR architecture](./docs/architecture.png)
+  This is an official repository for the paper
+  ```
+  FEAR: Fast, Efficient, Accurate and Robust Visual Tracker
+  Vasyl Borsuk, Roman Vei, Orest Kupyn, Tetiana Martyniuk, Igor Krashenyi, Jiři Matas
+  ECCV 2022
+  ```
+  ## Environment setup
+  The training code is tested on Linux systems and mobile benchmarking on MacOS systems.
+  ```shell
+  conda create -n py37fear python=3.7
+  conda activate py37fear
+  pip install -r requirements.txt
+  ```
+  **N.B.** You might need to remove `xtcocotools` requirement when installing environment on MacOS system for model evaluation.
+  ## Demo inference with Python
+  The FEAR-XS model checkpoint is available in the `evaluate/checkpoints` folder. To run the inference code:
+  ```shell
+  PYTHONPATH=. python demo_video.py --initial_bbox=[163,53,45,174] \
+  --video_path=assets/test.mp4 \
+  --output_path=outputs/test.mp4
+  ```
+  **N.B.** This FEAR-XS model is releeased without the Dynamic Template Update.
+  ## FEAR Benchmark
+  We provide FEAR evaluation protocol implementation in `evaluate/MeasurePerformance` directory. 
+  You should do the following steps on MacOS device to evaluate model on iOS device:
+  1. Open `evaluate/MeasurePerformance` project in Xcode. 
+  You can do this by double-clicking on `evaluate/MeasurePerformance/MeasurePerformance.xcodeproj` file or by opening it from the Open option in Xcode. 
+  2. Connect iOS device to your computer and build the project into it. 
+  3. Select one of the benchmark options by tapping on the corresponding button on your mobile device:
+     - _Benchmark FPS_: launches simple model benchmark that warms up the model for 20 iterations and measures average FPS across 100 model calls. The result is displayed in Xcode console.
+     - _Benchmark Online_: launches FEAR online benchmark as described in the paper
+     - _Benchmark Offline_: launches FEAR offline benchmark
+  Do the following steps on MacOS device to convert model into CoreML:
+  1. To convert the model trained in PyTorch to CoreML with the following command from the project root directory.
+  This command will produce a file with the model in CoreML format (`Model.mlmodel`) and a model with FP16 weight quantization (`Model_quantized.mlmodel`).
+   ```shell
+   PYTHONPATH=. python evaluate/coreml_convert.py
+   ```
+  2. Move converted model into the iOS project with the following command `cp Model_quantized.mlmodel evaluate/MeasurePerformance/MeasurePerformance/models/Model_quantized.mlmodel`.
+  ### Count FLOPS and parameters
+  ```shell
+  PYTHONPATH=. python evaluate/macs_params.py
+  ```
+  ## Demo app for iOS
+  [Demo app screen recording](https://user-images.githubusercontent.com/24678253/179550055-689ee927-ff22-4c19-8087-539623cb1c2c.mp4)
+  1. Open `evaluate/FEARDemo` project in Xcode.
+  2. Connect iOS device to your computer and build the project. 
+  Make sure to enable developer mode on your iOS device and trust your current apple developer.
+  Also, you will need to select a development team under the signing & capabilities pane of the project editor (navigation described here [here](https://developer.apple.com/documentation/xcode/adding-capabilities-to-your-app))
+  **N.B.** The demo app does not contain bounding box smoothing postprocessing steps of the tracker so its output is slightly different from Python.
+  ## Training
+  ### Data preparation
+  There are two dataset configurations. 
+  Download all datasets from the configuration file you'll train with and put them into the directory specified in `visual_object_tracking_datasets` configuration field.
+  You can change the value of `visual_object_tracking_datasets` to your local dataset path.
+  There are two dataset configurations:
+  1. Quick train on GOT-10k dataset <br />
+     Config file: `model_training/config/dataset/got10k_train.yaml`
+  2. Full train on LaSOT, COCO2017, YouTube-BoundingBoxes, GOT-10k and ILSVRC <br />
+     Config file: `model_training/config/dataset/full_train.yaml`
+  You should create CSV annotation file for each of training datasets.
+  We don't provide CSV annotations as some datasets have license restrictions.
+  The annotation file for each dataset should have the following format:
+  - `sequence_id: str` - unique identifier of video file
+  - `track_id: str` - unique identifier of scene inside video file
+  - `frame_index: int` - index of frame inside video
+  - `img_path: str` - location of frame image relative to root folder with all datasets
+  - `bbox: Tuple[int, int, int, int]` - bounding box of object in a format `x, y, w, h`
+  - `frame_shape: Tuple[int, int]` - width and height of image
+  - `dataset: str` - label to identify dataset (example: `got10k`)
+  - `presence: int` - presence of the object (example, `0/1`)
+  - `near_corner: int` - is bounding box touches borders of the image (example, `0/1`)
+  ### Run training
+  Current training code supports model training without Dynamic Template Update module, it'll be added soon.
+  You can launch training with default configuration with the following command from the project root directory:
+  ```shell
+  PYTHONPATH=. python model_training/train.py backend=2gpu
+  # or the following for full train
+  PYTHONPATH=. python model_training/train.py dataset=full_train backend=2gpu
+  ```
+  ## Citation
+  If you use the FEAR Tracker benchmark, demo, models or code for your research projects, please cite the following paper:
+  ```
+  @inproceedings{borsuk2022fear,
+    title={FEAR: Fast, efficient, accurate and robust visual tracker},
+    author={Borsuk, Vasyl and Vei, Roman and Kupyn, Orest and Martyniuk, Tetiana and Krashenyi, Igor and Matas, Ji{\v{r}}i},
+    booktitle={European Conference on Computer Vision},
+    pages={644--663},
+    year={2022},
+    organization={Springer}
+  }
+  ```
+------------------------------------------------------------
+2025-08-31T09:33:41.328074Z
+Action:
+  command:
+    find . -name "*.py" | grep -E "(main|cli|demo|train|convert|macs_params)" | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining the file structure, configuration files, and documentation.
+Output:
+  ./demo_video.py
+  ./model_training/tracker/fear_tracker.py
+  ./model_training/tracker/base_tracker.py
+  ./model_training/tracker/__init__.py
+  ./model_training/model/fear_net.py
+  ./model_training/model/blocks.py
+  ./model_training/utils/torch.py
+  ./model_training/utils/utils.py
+  ./model_training/utils/constants.py
+  ./model_training/utils/hydra.py
+  ./model_training/utils/logger.py
+  ./model_training/utils/__init__.py
+  ./model_training/train/trainer.py
+  ./model_training/train/loss.py
+  ./model_training/train/base_lightning_model.py
+  ./model_training/train/fear_lightning_model.py
+  ./model_training/train/callbacks.py
+  ./model_training/train/__init__.py
+  ./model_training/dataset/aug.py
+  ./model_training/dataset/siam_dataset.py
+------------------------------------------------------------
+2025-08-31T09:33:41.328093Z
+Action:
+  command:
+    find . -name "*.py" | xargs grep -l "__main__\|argparse\|click" | head -10
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the file structure, README documentation, and command history.
+Output:
+  ./demo_video.py
+  ./model_training/train.py
+  ./evaluate/macs_params.py
+  ./evaluate/coreml_convert.py
+------------------------------------------------------------
+2025-08-31T09:33:41.328106Z
+Action:
+  command:
+    head -20 demo_video.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files mentioned in the README and command history.
+Output:
+  import os
+  import cv2
+  import imageio.v3 as iio
+  import numpy as np
+  from fire import Fire
+  from hydra.utils import instantiate
+  from typing import Optional, List
+  from model_training.tracker.fear_tracker import FEARTracker
+  from model_training.utils.torch import load_from_lighting
+  from model_training.utils.hydra import load_hydra_config_from_path
+      config = load_hydra_config_from_path(config_path=config_path, config_name=config_name)
+      model = instantiate(config["model"])
+      model = load_from_lighting(model, weights_path).cuda().eval()
+      tracker: FEARTracker = instantiate(config["tracker"], model=model)
+      return tracker
+------------------------------------------------------------
+2025-08-31T09:33:41.328186Z
+Action:
+  command:
+    head -20 model_training/train.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the file structure, README documentation, and command history.
+Output:
+  import warnings
+  from typing import Dict, Any
+  import hydra
+  from hydra.utils import instantiate
+  from omegaconf import DictConfig
+  from model_training.dataset import get_tracking_datasets
+  from model_training.train.fear_lightning_model import FEARLightningModel
+  from model_training.train.trainer import get_trainer
+  from model_training.utils import prepare_experiment, create_logger
+  logger = create_logger(__name__)
+  warnings.filterwarnings("ignore")
+      model = instantiate(config["model"])
+      train_dataset, val_dataset = get_tracking_datasets(config)
+      model = FEARLightningModel(model=model, config=config, train=train_dataset, val=val_dataset)
+------------------------------------------------------------
+2025-08-31T09:33:41.328203Z
+Action:
+  command:
+    head -30 evaluate/macs_params.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the provided command history and file structure. Let me examine the key files that were identified.
+Output:
+  import torch
+  from fire import Fire
+  from hydra.utils import instantiate
+  from thop import profile
+  from thop.utils import clever_format
+  from model_training.utils.hydra import load_yaml
+  class ProfileTrackingWrapper(torch.nn.Module):
+      def __init__(self, model):
+          super().__init__()
+          self.model = model
+      def forward(self, search, template):
+          pred = self.model.track(search, template)
+          return [pred["TARGET_REGRESSION_LABEL_KEY"], pred["TARGET_CLASSIFICATION_KEY"]]
+  def main(config_path: str = "model_training/config/model/fear.yaml"):
+      config = load_yaml(config_path)
+      model = instantiate(config)
+      model = ProfileTrackingWrapper(model)
+      search_inp = torch.rand(1, 3, 256, 256)
+      template_inp = torch.rand(1, 256, 8, 8)
+      macs, params = profile(model, inputs=(search_inp, template_inp), custom_ops=None, verbose=False)
+      macs, params = clever_format([macs, params], "%.3f")
+      print('overall macs is ', macs)
+      print('overall params is ', params)
+------------------------------------------------------------
+2025-08-31T09:33:41.328224Z
+Action:
+  command:
+    head -30 evaluate/coreml_convert.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the file structure, documentation, and command history. Let me examine the key files and their characteristics.
+Output:
+  from typing import Optional
+  import coremltools
+  import numpy as np
+  import torch
+  from fire import Fire
+  from hydra.utils import instantiate
+  from evaluate.coreml_utils import coreml4_convert
+  from model_training.utils.hydra import load_yaml
+  from model_training.utils.torch import load_from_lighting
+  FEAR_DESCRIPTION = dict(
+      model_name="Model",
+      inputs=[
+          dict(
+              name="image",
+              description="Search image",
+              type="image",
+              color_layout="RGB",
+              shape=[1, 3, 256, 256],
+          ),
+          dict(
+              name="template_features",
+              description="Template image features",
+              type="tensor",
+              dtype=np.float32,
+              shape=[1, 256, 8, 8],
+          ),
+      ],
+------------------------------------------------------------
+2025-08-31T09:33:41.328244Z
+Action:
+  command:
+    tail -20 demo_video.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and documentation.
+Output:
+  def main(
+      initial_bbox: List[int] = [163, 53, 45, 174],
+      video_path: str = "assets/test.mp4",
+      output_path: str = "outputs/test.mp4",
+      config_path: str = "model_training/config",
+      config_name: str = "fear_tracker",
+      weights_path: str = "evaluate/checkpoints/FEAR-XS-NoEmbs.ckpt",
+  ):
+      tracker = get_tracker(config_path=config_path, config_name=config_name, weights_path=weights_path)
+      video, metadata = iio.imread(video_path), iio.immeta(video_path, exclude_applied=False)
+      initial_bbox = np.array(initial_bbox)
+      tracked_bboxes = track(tracker, video, initial_bbox)
+      visualized_video = visualize(video, tracked_bboxes)
+      os.makedirs(os.path.dirname(output_path), exist_ok=True)
+      iio.imwrite(output_path, visualized_video, fps=metadata["fps"])
+  if __name__ == '__main__':
+      Fire(main)
+------------------------------------------------------------
+2025-08-31T09:33:41.328259Z
+Action:
+  command:
+    tail -20 model_training/train.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  warnings.filterwarnings("ignore")
+      model = instantiate(config["model"])
+      train_dataset, val_dataset = get_tracking_datasets(config)
+      model = FEARLightningModel(model=model, config=config, train=train_dataset, val=val_dataset)
+      trainer = get_trainer(config=config)
+      trainer.fit(model)
+  @hydra.main(config_name="fear_tracker", config_path="config")
+      config = prepare_experiment(hydra_config)
+      logger.info("Experiment dir %s" % config["experiment"]["folder"])
+      train(config)
+  if __name__ == "__main__":
+      run_experiment()
+------------------------------------------------------------
+2025-08-31T09:33:41.328273Z
+Action:
+  command:
+    tail -20 evaluate/macs_params.py
+  description:
+    Let me analyze the repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+      def forward(self, search, template):
+          pred = self.model.track(search, template)
+          return [pred["TARGET_REGRESSION_LABEL_KEY"], pred["TARGET_CLASSIFICATION_KEY"]]
+  def main(config_path: str = "model_training/config/model/fear.yaml"):
+      config = load_yaml(config_path)
+      model = instantiate(config)
+      model = ProfileTrackingWrapper(model)
+      search_inp = torch.rand(1, 3, 256, 256)
+      template_inp = torch.rand(1, 256, 8, 8)
+      macs, params = profile(model, inputs=(search_inp, template_inp), custom_ops=None, verbose=False)
+      macs, params = clever_format([macs, params], "%.3f")
+      print('overall macs is ', macs)
+      print('overall params is ', params)
+  if __name__ == '__main__':
+      Fire(main)
+------------------------------------------------------------
+2025-08-31T09:33:41.328287Z
+Action:
+  command:
+    tail -20 evaluate/coreml_convert.py
+Output:
+      def forward(self, search, template):
+          pred = self.model.track(search, template)
+          return [pred["TARGET_REGRESSION_LABEL_KEY"], pred["TARGET_CLASSIFICATION_KEY"]]
+  def main(
+      config_path: str = "model_training/config/model/fear.yaml",
+      weights_path: Optional[str] = "evaluate/checkpoints/FEAR-XS-NoEmbs.ckpt",
+  ):
+      config = load_yaml(config_path)
+      model = instantiate(config)
+      if weights_path is not None:
+          model = load_from_lighting(model, weights_path, map_location="cpu")
+      model = CoreMLTrackingWrapper(model)
+      model = model.eval()
+      coreml4_convert(model, FEAR_DESCRIPTION)
+  if __name__ == '__main__':
+      Fire(main)
+------------------------------------------------------------
+2025-08-31T09:33:41.328318Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo_video.py
+    model_training/train.py
+    evaluate/macs_params.py
+    evaluate/coreml_convert.py
+    EOF
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints for this FEAR visual tracker repository. Let me examine the files and create the entrypoints.txt file.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:33:41.328333Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo_video.py
+    model_training/train.py
+    evaluate/macs_params.py
+    evaluate/coreml_convert.py
+    EOF
+  description:
+    Based on the command history and repository analysis, I can see that the proper entrypoints have been identified. Let me create the entrypoints.txt file with the correct format and provide the completion signal.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:33:41.328346Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo_video.py
+    model_training/train.py
+    evaluate/macs_params.py
+    evaluate/coreml_convert.py
+    EOF
+  description:
+    Based on the command history and analysis of the repository, I can identify the proper entrypoints for this FEAR visual tracker repository. Let me create the entrypoints.txt file and provide the completion signal.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:33:41.328359Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo_video.py
+    model_training/train.py
+    evaluate/macs_params.py
+    evaluate/coreml_convert.py
+    EOF
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure provided.
+Output:
+
+------------------------------------------------------------
+2025-08-31T09:33:41.328371Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo_video.py
+    model_training/train.py
+    evaluate/macs_params.py
+    evaluate/coreml_convert.py
+    EOF
+  description:
+    Based on the command history analysis, I can identify the proper entrypoints for this FEAR visual tracker repository. Let me create the entrypoints.txt file with the identified entrypoints.
+Output:
+
+------------------------------------------------------------

@@ -1,0 +1,3 @@
+    ./example_chat_completion.py
+    ./example_text_completion.py
+    ./download.sh

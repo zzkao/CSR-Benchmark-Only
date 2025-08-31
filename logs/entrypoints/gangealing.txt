@@ -1,0 +1,10 @@
+    ./prepare_data.py
+    ./train.py
+    ./train_cluster_classifier.py
+    ./applications/vis_correspondence.py
+    ./applications/mixed_reality.py
+    ./applications/propagate_to_images.py
+    ./applications/pck.py
+    ./applications/flow_scores.py
+    ./applications/congeal_dataset.py
+    ./process_video.sh

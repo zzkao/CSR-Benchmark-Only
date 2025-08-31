@@ -1,0 +1,5 @@
+    bin/train_model.py
+    bin/train_cond_model.py
+    bin/guidance_experiment.py
+    bin/refinement_experiment.py
+    bin/tstr_experiment.py

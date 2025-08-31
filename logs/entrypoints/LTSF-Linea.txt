@@ -1,0 +1,6 @@
+    ./run_longExp.py
+    ./run_stat.py
+    ./weight_plot.py
+    ./Pyraformer/long_range_main.py
+    ./Pyraformer/single_step_main.py
+    ./FEDformer/run.py

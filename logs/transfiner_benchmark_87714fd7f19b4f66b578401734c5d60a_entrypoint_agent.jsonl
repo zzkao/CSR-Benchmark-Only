@@ -1,0 +1,836 @@
+2025-08-31T08:33:25.694928Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.java" -o -name "*.rs" -o -name "*.c" -o -name "*.cpp" -o -name "*.sh" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the file structure and contents.
+Output:
+  ./docs/conf.py
+  ./docs/Makefile
+  ./swint/config.py
+  ./swint/swin_transformer.py
+  ./swint/__init__.py
+  ./scripts/train_transfiner_3x_swinb.sh
+  ./scripts/test_3x_transfiner_50.sh
+  ./scripts/visual_swinb.sh
+  ./scripts/visual.sh
+  ./scripts/test_3x_transfiner_swinb.sh
+  ./scripts/test_1x_transfiner_50.sh
+  ./scripts/train_transfiner_3x_50.sh
+  ./scripts/test_3x_transfiner_50_deform.sh
+  ./scripts/test_3x_transfiner_101.sh
+  ./scripts/test_3x_transfiner_swint.sh
+  ./scripts/train_transfiner_1x_x101_lvis.sh
+  ./scripts/test_3x_transfiner_101_deform.sh
+  ./scripts/train_transfiner_1x_50.sh
+  ./scripts/train_transfiner_3x_101_deform.sh
+  ./scripts/train_transfiner_3x_50_deform.sh
+  ./scripts/train_transfiner_3x_101.sh
+  ./scripts/train_transfiner_3x_swint.sh
+  ./swinb/config.py
+  ./swinb/swin_transformer.py
+  ./swinb/__init__.py
+  ./setup.py
+  ./dev/run_inference_tests.sh
+  ./dev/parse_results.sh
+  ./dev/run_instant_tests.sh
+  ./dev/packaging/gen_wheel_index.sh
+  ./dev/packaging/gen_install_table.py
+  ./dev/packaging/build_wheel.sh
+  ./dev/packaging/build_all_wheels.sh
+  ./dev/linter.sh
+  ./tools/train_net_swinb.py
+  ./tools/visualize_data.py
+  ./tools/deploy/caffe2_mask_rcnn.cpp
+  ./tools/deploy/export_model.py
+  ./tools/deploy/torchscript_traced_mask_rcnn.cpp
+  ./tools/analyze_model.py
+  ./tools/train_net.py
+  ./tools/benchmark.py
+  ./tools/plain_train_net.py
+  ./tools/lightning_train_net.py
+  ./tools/convert-torchvision-to-d2.py
+  ./tools/visualize_json_results.py
+  ./tools/train_net_swint.py
+  ./tools/lazyconfig_train_net.py
+  ./tools/__init__.py
+  ./tests/modeling/test_mmdet.py
+------------------------------------------------------------
+2025-08-31T08:33:25.695017Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the file structure and key configuration files.
+Output:
+  total 108
+  drwxr-xr-x 19 benchmarkuser 1001  4096 Aug 31 08:31 .
+  drwxr-xr-x  1 root          root  4096 Aug 31 08:31 ..
+  drwxr-xr-x  8 benchmarkuser 1001  4096 Aug 31 08:31 .git
+  -rw-r--r--  1 benchmarkuser 1001 11357 Aug 31 08:31 LICENSE
+  -rw-r--r--  1 benchmarkuser 1001 10097 Aug 31 08:31 README.md
+  drwxr-xr-x  6 benchmarkuser 1001  4096 Aug 31 08:31 configs
+  drwxr-xr-x  3 benchmarkuser 1001  4096 Aug 31 08:31 demo
+  drwxr-xr-x 15 benchmarkuser 1001  4096 Aug 31 08:31 detectron2
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:31 detectron2.egg-info
+  drwxr-xr-x  3 benchmarkuser 1001  4096 Aug 31 08:31 dev
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:31 docker
+  drwxr-xr-x  6 benchmarkuser 1001  4096 Aug 31 08:31 docs
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:31 figures
+  drwxr-xr-x 10 benchmarkuser 1001  4096 Aug 31 08:31 projects
+  drwxr-xr-x  8 benchmarkuser 1001  4096 Aug 31 08:31 pytorch_toolbelt
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:31 scores
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:31 scripts
+  -rw-r--r--  1 benchmarkuser 1001  7805 Aug 31 08:31 setup.py
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:31 swinb
+  drwxr-xr-x  2 benchmarkuser 1001  4096 Aug 31 08:31 swint
+  drwxr-xr-x  7 benchmarkuser 1001  4096 Aug 31 08:31 tests
+  drwxr-xr-x  3 benchmarkuser 1001  4096 Aug 31 08:31 tools
+------------------------------------------------------------
+2025-08-31T08:33:25.695044Z
+Action:
+  command:
+    cat setup.py | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining configuration files and exploring the structure further.
+Output:
+  #!/usr/bin/env python
+  # Copyright (c) Facebook, Inc. and its affiliates.
+  import glob
+  import os
+  import shutil
+  from os import path
+  from setuptools import find_packages, setup
+  from typing import List
+  import torch
+  from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
+  torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
+  assert torch_ver >= [1, 7], "Requires PyTorch >= 1.7"
+  def get_version():
+      init_py_path = path.join(path.abspath(path.dirname(__file__)), "detectron2", "__init__.py")
+      init_py = open(init_py_path, "r").readlines()
+      version_line = [l.strip() for l in init_py if l.startswith("__version__")][0]
+      version = version_line.split("=")[-1].strip().strip("'\"")
+      # The following is used to build release packages.
+      # Users should never use it.
+      suffix = os.getenv("D2_VERSION_SUFFIX", "")
+      version = version + suffix
+      if os.getenv("BUILD_NIGHTLY", "0") == "1":
+          from datetime import datetime
+          date_str = datetime.today().strftime("%y%m%d")
+          version = version + ".dev" + date_str
+          new_init_py = [l for l in init_py if not l.startswith("__version__")]
+          new_init_py.append('__version__ = "{}"\n'.format(version))
+          with open(init_py_path, "w") as f:
+              f.write("".join(new_init_py))
+      return version
+  def get_extensions():
+      this_dir = path.dirname(path.abspath(__file__))
+      extensions_dir = path.join(this_dir, "detectron2", "layers", "csrc")
+      main_source = path.join(extensions_dir, "vision.cpp")
+      sources = glob.glob(path.join(extensions_dir, "**", "*.cpp"))
+      from torch.utils.cpp_extension import ROCM_HOME
+      is_rocm_pytorch = (
+          True if ((torch.version.hip is not None) and (ROCM_HOME is not None)) else False
+------------------------------------------------------------
+2025-08-31T08:33:25.695071Z
+Action:
+  command:
+    cat setup.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining the file structure, configuration files, and scripts.
+Output:
+  #!/usr/bin/env python
+  # Copyright (c) Facebook, Inc. and its affiliates.
+  import glob
+  import os
+  import shutil
+  from os import path
+  from setuptools import find_packages, setup
+  from typing import List
+  import torch
+  from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
+  torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
+  assert torch_ver >= [1, 7], "Requires PyTorch >= 1.7"
+  def get_version():
+      init_py_path = path.join(path.abspath(path.dirname(__file__)), "detectron2", "__init__.py")
+      init_py = open(init_py_path, "r").readlines()
+      version_line = [l.strip() for l in init_py if l.startswith("__version__")][0]
+      version = version_line.split("=")[-1].strip().strip("'\"")
+      # The following is used to build release packages.
+      # Users should never use it.
+      suffix = os.getenv("D2_VERSION_SUFFIX", "")
+      version = version + suffix
+      if os.getenv("BUILD_NIGHTLY", "0") == "1":
+          from datetime import datetime
+          date_str = datetime.today().strftime("%y%m%d")
+          version = version + ".dev" + date_str
+          new_init_py = [l for l in init_py if not l.startswith("__version__")]
+          new_init_py.append('__version__ = "{}"\n'.format(version))
+          with open(init_py_path, "w") as f:
+              f.write("".join(new_init_py))
+      return version
+  def get_extensions():
+      this_dir = path.dirname(path.abspath(__file__))
+      extensions_dir = path.join(this_dir, "detectron2", "layers", "csrc")
+      main_source = path.join(extensions_dir, "vision.cpp")
+      sources = glob.glob(path.join(extensions_dir, "**", "*.cpp"))
+      from torch.utils.cpp_extension import ROCM_HOME
+      is_rocm_pytorch = (
+          True if ((torch.version.hip is not None) and (ROCM_HOME is not None)) else False
+      )
+      if is_rocm_pytorch:
+          assert torch_ver >= [1, 8], "ROCM support requires PyTorch >= 1.8!"
+      # common code between cuda and rocm platforms, for hipify version [1,0,0] and later.
+      source_cuda = glob.glob(path.join(extensions_dir, "**", "*.cu")) + glob.glob(
+          path.join(extensions_dir, "*.cu")
+      )
+      sources = [main_source] + sources
+      extension = CppExtension
+      extra_compile_args = {"cxx": []}
+      define_macros = []
+      if (torch.cuda.is_available() and ((CUDA_HOME is not None) or is_rocm_pytorch)) or os.getenv(
+          "FORCE_CUDA", "0"
+      ) == "1":
+          extension = CUDAExtension
+          sources += source_cuda
+          if not is_rocm_pytorch:
+              define_macros += [("WITH_CUDA", None)]
+              extra_compile_args["nvcc"] = [
+                  "-O3",
+                  "-DCUDA_HAS_FP16=1",
+                  "-D__CUDA_NO_HALF_OPERATORS__",
+                  "-D__CUDA_NO_HALF_CONVERSIONS__",
+                  "-D__CUDA_NO_HALF2_OPERATORS__",
+              ]
+          else:
+              define_macros += [("WITH_HIP", None)]
+              extra_compile_args["nvcc"] = []
+          if torch_ver < [1, 7]:
+              # supported by https://github.com/pytorch/pytorch/pull/43931
+              CC = os.environ.get("CC", None)
+              if CC is not None:
+                  extra_compile_args["nvcc"].append("-ccbin={}".format(CC))
+      include_dirs = [extensions_dir]
+      ext_modules = [
+          extension(
+              "detectron2._C",
+              sources,
+              include_dirs=include_dirs,
+              define_macros=define_macros,
+              extra_compile_args=extra_compile_args,
+          )
+      ]
+      return ext_modules
+      """
+      Return a list of configs to include in package for model zoo. Copy over these configs inside
+      detectron2/model_zoo.
+      """
+      # Use absolute paths while symlinking.
+      source_configs_dir = path.join(path.dirname(path.realpath(__file__)), "configs")
+      destination = path.join(
+          path.dirname(path.realpath(__file__)), "detectron2", "model_zoo", "configs"
+      )
+      # Symlink the config directory inside package to have a cleaner pip install.
+      # Remove stale symlink/directory from a previous build.
+      if path.exists(source_configs_dir):
+          if path.islink(destination):
+              os.unlink(destination)
+          elif path.isdir(destination):
+              shutil.rmtree(destination)
+      if not path.exists(destination):
+          try:
+              os.symlink(source_configs_dir, destination)
+          except OSError:
+              # Fall back to copying if symlink fails: ex. on Windows.
+              shutil.copytree(source_configs_dir, destination)
+      config_paths = glob.glob("configs/**/*.yaml", recursive=True) + glob.glob(
+          "configs/**/*.py", recursive=True
+      )
+      return config_paths
+  # For projects that are relative small and provide features that are very close
+  # to detectron2's core functionalities, we install them under detectron2.projects
+  PROJECTS = {
+      "detectron2.projects.point_rend": "projects/PointRend/point_rend",
+      "detectron2.projects.deeplab": "projects/DeepLab/deeplab",
+      "detectron2.projects.panoptic_deeplab": "projects/Panoptic-DeepLab/panoptic_deeplab",
+  }
+  setup(
+      name="detectron2",
+      version=get_version(),
+      author="FAIR",
+      url="https://github.com/facebookresearch/detectron2",
+      description="Detectron2 is FAIR's next-generation research "
+      "platform for object detection and segmentation.",
+      packages=find_packages(exclude=("configs", "tests*")) + list(PROJECTS.keys()),
+      package_dir=PROJECTS,
+      package_data={"detectron2.model_zoo": get_model_zoo_configs()},
+      python_requires=">=3.6",
+      install_requires=[
+          # These dependencies are not pure-python.
+          # In general, avoid adding more dependencies like them because they are not
+          # guaranteed to be installable by `pip install` on all platforms.
+          # To tell if a package is pure-python, go to https://pypi.org/project/{name}/#files
+          "Pillow>=7.1",  # or use pillow-simd for better performance
+          "matplotlib",  # TODO move it to optional after we add opencv visualization
+          "pycocotools>=2.0.2",  # corresponds to https://github.com/ppwwyyxx/cocoapi
+          # Do not add opencv here. Just like pytorch, user should install
+          # opencv themselves, preferrably by OS's package manager, or by
+          # choosing the proper pypi package name at https://github.com/skvark/opencv-python
+          # The following are pure-python dependencies that should be easily installable
+          "termcolor>=1.1",
+          "yacs>=0.1.6",
+          "tabulate",
+          "cloudpickle",
+          "tqdm>4.29.0",
+          "tensorboard",
+          # Lock version of fvcore/iopath because they may have breaking changes
+          # NOTE: when updating fvcore/iopath version, make sure fvcore depends
+          # on compatible version of iopath.
+          "fvcore>=0.1.5,<0.1.6",  # required like this to make it pip installable
+          "iopath>=0.1.7,<0.1.10",
+          "future",  # used by caffe2
+          "pydot",  # used to save caffe2 SVGs
+          "dataclasses; python_version<'3.7'",
+          "omegaconf>=2.1",
+          "hydra-core>=1.1",
+          "black==21.4b2",
+          # If a new dependency is required at import time (in addition to runtime), it
+          # probably needs to exist in docs/requirements.txt, or as a mock in docs/conf.py
+      ],
+      extras_require={
+          # optional dependencies, required by some features
+          "all": [
+              "shapely",
+              "pygments>=2.2",
+              "psutil",
+              "panopticapi @ https://github.com/cocodataset/panopticapi/archive/master.zip",
+          ],
+          # dev dependencies. Install them by `pip install 'detectron2[dev]'`
+          "dev": [
+              "flake8==3.8.1",
+              "isort==4.3.21",
+              "flake8-bugbear",
+              "flake8-comprehensions",
+          ],
+      },
+      ext_modules=get_extensions(),
+      cmdclass={"build_ext": torch.utils.cpp_extension.BuildExtension},
+  )
+------------------------------------------------------------
+2025-08-31T08:33:25.695214Z
+Action:
+  command:
+    find . -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" | xargs cat 2>/dev/null || echo "No additional config files found"
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me continue examining the configuration files and key directories.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:33:25.695227Z
+Action:
+  command:
+    ls -la tools/
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me examine the key files and directories systematically.
+Output:
+  total 104
+  drwxr-xr-x  3 benchmarkuser 1001 4096 Aug 31 08:31 .
+  drwxr-xr-x 19 benchmarkuser 1001 4096 Aug 31 08:31 ..
+  -rw-r--r--  1 benchmarkuser 1001 1448 Aug 31 08:31 README.md
+  -rw-r--r--  1 benchmarkuser 1001    0 Aug 31 08:31 __init__.py
+  -rwxr-xr-x  1 benchmarkuser 1001 4088 Aug 31 08:31 analyze_model.py
+  -rwxr-xr-x  1 benchmarkuser 1001 6065 Aug 31 08:31 benchmark.py
+  -rwxr-xr-x  1 benchmarkuser 1001 1608 Aug 31 08:31 convert-torchvision-to-d2.py
+  drwxr-xr-x  2 benchmarkuser 1001 4096 Aug 31 08:31 deploy
+  -rwxr-xr-x  1 benchmarkuser 1001 4445 Aug 31 08:31 lazyconfig_train_net.py
+  -rw-r--r--  1 benchmarkuser 1001 8752 Aug 31 08:31 lightning_train_net.py
+  -rwxr-xr-x  1 benchmarkuser 1001 8198 Aug 31 08:31 plain_train_net.py
+  -rwxr-xr-x  1 benchmarkuser 1001 6115 Aug 31 08:31 train_net.py
+  -rwxr-xr-x  1 benchmarkuser 1001 8451 Aug 31 08:31 train_net_swinb.py
+  -rwxr-xr-x  1 benchmarkuser 1001 8451 Aug 31 08:31 train_net_swint.py
+  -rwxr-xr-x  1 benchmarkuser 1001 3565 Aug 31 08:31 visualize_data.py
+  -rwxr-xr-x  1 benchmarkuser 1001 3189 Aug 31 08:31 visualize_json_results.py
+------------------------------------------------------------
+2025-08-31T08:33:25.695244Z
+Action:
+  command:
+    ls -la demo/
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the key files and directories systematically.
+Output:
+  total 40
+  drwxr-xr-x  3 benchmarkuser 1001 4096 Aug 31 08:31 .
+  drwxr-xr-x 19 benchmarkuser 1001 4096 Aug 31 08:31 ..
+  -rw-r--r--  1 benchmarkuser 1001  146 Aug 31 08:31 README.md
+  -rwxr-xr-x  1 benchmarkuser 1001 7235 Aug 31 08:31 demo.py
+  -rwxr-xr-x  1 benchmarkuser 1001 7296 Aug 31 08:31 demo_swinb.py
+  -rw-r--r--  1 benchmarkuser 1001 7844 Aug 31 08:31 predictor.py
+  drwxr-xr-x  2 benchmarkuser 1001 4096 Aug 31 08:31 sample_imgs
+------------------------------------------------------------
+2025-08-31T08:33:25.695260Z
+Action:
+  command:
+    head -20 tools/train_net.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints by examining the file structure, configuration files, and scripts systematically.
+Output:
+  #!/usr/bin/env python
+  # Copyright (c) Facebook, Inc. and its affiliates.
+  """
+  A main training script.
+  This scripts reads a given config file and runs the training or evaluation.
+  It is an entry point that is made to train standard models in detectron2.
+  In order to let one script support training of many models,
+  this script contains logic that are specific to these built-in models and therefore
+  may not be suitable for your own project.
+  For example, your research project perhaps only needs a single "evaluator".
+  Therefore, we recommend you to use detectron2 as an library and take
+  this file as an example of how to use the library.
+  You may want to write your own script with your datasets and other customizations.
+  """
+  import logging
+  import os
+------------------------------------------------------------
+2025-08-31T08:33:25.695279Z
+Action:
+  command:
+    head -20 demo/demo.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints by examining the file structure, configuration files, and key scripts.
+Output:
+  # Copyright (c) Facebook, Inc. and its affiliates.
+  import argparse
+  import glob
+  import multiprocessing as mp
+  import numpy as np
+  import os
+  import tempfile
+  import time
+  import warnings
+  import cv2
+  import tqdm
+  from detectron2.config import get_cfg
+  from detectron2.data.detection_utils import read_image
+  from detectron2.utils.logger import setup_logger
+  from predictor import VisualizationDemo
+  # constants
+  WINDOW_NAME = "COCO detections"
+------------------------------------------------------------
+2025-08-31T08:33:25.695295Z
+Action:
+  command:
+    ls -la scripts/
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files and directories systematically.
+Output:
+  total 76
+  drwxr-xr-x  2 benchmarkuser 1001 4096 Aug 31 08:31 .
+  drwxr-xr-x 19 benchmarkuser 1001 4096 Aug 31 08:31 ..
+  -rw-r--r--  1 benchmarkuser 1001  426 Aug 31 08:31 test_1x_transfiner_50.sh
+  -rw-r--r--  1 benchmarkuser 1001  429 Aug 31 08:31 test_3x_transfiner_101.sh
+  -rw-r--r--  1 benchmarkuser 1001  443 Aug 31 08:31 test_3x_transfiner_101_deform.sh
+  -rw-r--r--  1 benchmarkuser 1001  427 Aug 31 08:31 test_3x_transfiner_50.sh
+  -rw-r--r--  1 benchmarkuser 1001  441 Aug 31 08:31 test_3x_transfiner_50_deform.sh
+  -rw-r--r--  1 benchmarkuser 1001  439 Aug 31 08:31 test_3x_transfiner_swinb.sh
+  -rw-r--r--  1 benchmarkuser 1001  438 Aug 31 08:31 test_3x_transfiner_swint.sh
+  -rw-r--r--  1 benchmarkuser 1001  351 Aug 31 08:31 train_transfiner_1x_50.sh
+  -rw-r--r--  1 benchmarkuser 1001  377 Aug 31 08:31 train_transfiner_1x_x101_lvis.sh
+  -rw-r--r--  1 benchmarkuser 1001  352 Aug 31 08:31 train_transfiner_3x_101.sh
+  -rw-r--r--  1 benchmarkuser 1001  358 Aug 31 08:31 train_transfiner_3x_101_deform.sh
+  -rw-r--r--  1 benchmarkuser 1001  351 Aug 31 08:31 train_transfiner_3x_50.sh
+  -rw-r--r--  1 benchmarkuser 1001  358 Aug 31 08:31 train_transfiner_3x_50_deform.sh
+  -rw-r--r--  1 benchmarkuser 1001  358 Aug 31 08:31 train_transfiner_3x_swinb.sh
+  -rw-r--r--  1 benchmarkuser 1001  358 Aug 31 08:31 train_transfiner_3x_swint.sh
+  -rw-r--r--  1 benchmarkuser 1001  331 Aug 31 08:31 visual.sh
+  -rw-r--r--  1 benchmarkuser 1001  340 Aug 31 08:31 visual_swinb.sh
+------------------------------------------------------------
+2025-08-31T08:33:25.695312Z
+Action:
+  command:
+    find . -name "Dockerfile" -o -name "Makefile" -o -name "makefile" | xargs cat 2>/dev/null
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the configuration files and key directories systematically.
+Output:
+  # Minimal makefile for Sphinx documentation
+  # Copyright (c) Facebook, Inc. and its affiliates.
+  # You can set these variables from the command line.
+  SPHINXOPTS    =
+  SPHINXBUILD   = sphinx-build
+  SOURCEDIR     = .
+  BUILDDIR      = _build
+  # Put it first so that "make" without argument is like "make help".
+  help:
+  	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+  .PHONY: help Makefile
+  # Catch-all target: route all unknown targets to Sphinx using the new
+  # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+  %: Makefile
+  	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+  FROM nvidia/cuda:11.1.1-cudnn8-devel
+  ENV DEBIAN_FRONTEND noninteractive
+  RUN apt-get update && apt-get install -y \
+  	python3-opencv ca-certificates python3-dev git wget sudo ninja-build
+  RUN ln -sv /usr/bin/python3 /usr/bin/python
+  # create a non-root user
+  ARG USER_ID=1000
+  RUN useradd -m --no-log-init --system  --uid ${USER_ID} appuser -g sudo
+  USER appuser
+  WORKDIR /home/appuser
+  ENV PATH="/home/appuser/.local/bin:${PATH}"
+  RUN wget https://bootstrap.pypa.io/get-pip.py && \
+  	python3 get-pip.py --user && \
+  	rm get-pip.py
+  # install dependencies
+  # See https://pytorch.org/ for other options if you use a different version of CUDA
+  RUN pip install --user tensorboard cmake   # cmake from apt-get is too old
+  RUN pip install --user torch==1.9 torchvision==0.10 -f https://download.pytorch.org/whl/cu111/torch_stable.html
+  RUN pip install --user 'git+https://github.com/facebookresearch/fvcore'
+  # install detectron2
+  RUN git clone https://github.com/facebookresearch/detectron2 detectron2_repo
+  # set FORCE_CUDA because during `docker build` cuda is not accessible
+  ENV FORCE_CUDA="1"
+  # This will by default build detectron2 for all common cuda architectures and take a lot more time,
+  # because inside `docker build`, there is no way to tell which architecture will be used.
+  ARG TORCH_CUDA_ARCH_LIST="Kepler;Kepler+Tesla;Maxwell;Maxwell+Tegra;Pascal;Volta;Turing"
+  ENV TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST}"
+  RUN pip install --user -e detectron2_repo
+  # Set a fixed model cache directory.
+  ENV FVCORE_CACHE="/tmp"
+  WORKDIR /home/appuser/detectron2_repo
+  # run detectron2 under user "appuser":
+  # wget http://images.cocodataset.org/val2017/000000439715.jpg -O input.jpg
+  # python3 demo/demo.py  \
+  	#--config-file configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \
+  	#--input input.jpg --output outputs/ \
+  	#--opts MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
+------------------------------------------------------------
+2025-08-31T08:33:25.695361Z
+Action:
+  command:
+    head -10 tools/README.md
+  description:
+    I'll analyze this repository systematically to identify all proper entrypoints. Let me examine the repository structure and key files to find the official entry points.
+Output:
+  This directory contains a few example scripts that demonstrate features of detectron2.
+  * `train_net.py`
+  An example training script that's made to train builtin models of detectron2.
+  For usage, see [GETTING_STARTED.md](../GETTING_STARTED.md).
+------------------------------------------------------------
+2025-08-31T08:33:25.695373Z
+Action:
+  command:
+    cat docker/Dockerfile
+Output:
+  FROM nvidia/cuda:11.1.1-cudnn8-devel
+  ENV DEBIAN_FRONTEND noninteractive
+  RUN apt-get update && apt-get install -y \
+  	python3-opencv ca-certificates python3-dev git wget sudo ninja-build
+  RUN ln -sv /usr/bin/python3 /usr/bin/python
+  # create a non-root user
+  ARG USER_ID=1000
+  RUN useradd -m --no-log-init --system  --uid ${USER_ID} appuser -g sudo
+  USER appuser
+  WORKDIR /home/appuser
+  ENV PATH="/home/appuser/.local/bin:${PATH}"
+  RUN wget https://bootstrap.pypa.io/get-pip.py && \
+  	python3 get-pip.py --user && \
+  	rm get-pip.py
+  # install dependencies
+  # See https://pytorch.org/ for other options if you use a different version of CUDA
+  RUN pip install --user tensorboard cmake   # cmake from apt-get is too old
+  RUN pip install --user torch==1.9 torchvision==0.10 -f https://download.pytorch.org/whl/cu111/torch_stable.html
+  RUN pip install --user 'git+https://github.com/facebookresearch/fvcore'
+  # install detectron2
+  RUN git clone https://github.com/facebookresearch/detectron2 detectron2_repo
+  # set FORCE_CUDA because during `docker build` cuda is not accessible
+  ENV FORCE_CUDA="1"
+  # This will by default build detectron2 for all common cuda architectures and take a lot more time,
+  # because inside `docker build`, there is no way to tell which architecture will be used.
+  ARG TORCH_CUDA_ARCH_LIST="Kepler;Kepler+Tesla;Maxwell;Maxwell+Tegra;Pascal;Volta;Turing"
+  ENV TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST}"
+  RUN pip install --user -e detectron2_repo
+  # Set a fixed model cache directory.
+  ENV FVCORE_CACHE="/tmp"
+  WORKDIR /home/appuser/detectron2_repo
+  # run detectron2 under user "appuser":
+  # wget http://images.cocodataset.org/val2017/000000439715.jpg -O input.jpg
+  # python3 demo/demo.py  \
+  	#--config-file configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \
+  	#--input input.jpg --output outputs/ \
+  	#--opts MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
+------------------------------------------------------------
+2025-08-31T08:33:25.695395Z
+Action:
+  command:
+    grep -r "if __name__ == .__main__." --include="*.py" . | head -10
+  description:
+    I'll analyze this repository systematically to identify all proper entrypoints. Let me examine the key files and directories based on the command history and repository structure.
+Output:
+  ./dev/packaging/gen_install_table.py:if __name__ == "__main__":
+  ./tools/train_net_swinb.py:if __name__ == "__main__":
+  ./tools/visualize_data.py:if __name__ == "__main__":
+  ./tools/deploy/export_model.py:if __name__ == "__main__":
+  ./tools/analyze_model.py:if __name__ == "__main__":
+  ./tools/train_net.py:if __name__ == "__main__":
+  ./tools/benchmark.py:if __name__ == "__main__":
+  ./tools/plain_train_net.py:if __name__ == "__main__":
+  ./tools/lightning_train_net.py:if __name__ == "__main__":
+  ./tools/convert-torchvision-to-d2.py:if __name__ == "__main__":
+------------------------------------------------------------
+2025-08-31T08:33:25.695411Z
+Action:
+  command:
+    grep -r "if __name__ == .__main__." --include="*.py" . | grep -E "(tools/|demo/)" | head -20
+  description:
+    I'll analyze this Detectron2 repository to identify all proper entrypoints. Based on the command history and file structure, let me examine the key directories and files systematically.
+Output:
+  ./tools/train_net_swinb.py:if __name__ == "__main__":
+  ./tools/visualize_data.py:if __name__ == "__main__":
+  ./tools/deploy/export_model.py:if __name__ == "__main__":
+  ./tools/analyze_model.py:if __name__ == "__main__":
+  ./tools/train_net.py:if __name__ == "__main__":
+  ./tools/benchmark.py:if __name__ == "__main__":
+  ./tools/plain_train_net.py:if __name__ == "__main__":
+  ./tools/lightning_train_net.py:if __name__ == "__main__":
+  ./tools/convert-torchvision-to-d2.py:if __name__ == "__main__":
+  ./tools/visualize_json_results.py:if __name__ == "__main__":
+  ./tools/train_net_swint.py:if __name__ == "__main__":
+  ./tools/lazyconfig_train_net.py:if __name__ == "__main__":
+  ./demo/demo.py:if __name__ == "__main__":
+  ./demo/demo_swinb.py:if __name__ == "__main__":
+  ./projects/PointRend/demo/demo.py:if __name__ == "__main__":
+  ./projects/PointSup/tools/prepare_coco_point_annotations_without_masks.py:if __name__ == "__main__":
+------------------------------------------------------------
+2025-08-31T08:33:25.695425Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    tools/train_net.py
+    tools/train_net_swinb.py
+    tools/train_net_swint.py
+    tools/plain_train_net.py
+    tools/lazyconfig_train_net.py
+    tools/lightning_train_net.py
+    tools/analyze_model.py
+    tools/benchmark.py
+    tools/visualize_data.py
+    tools/visualize_json_results.py
+    tools/convert-torchvision-to-d2.py
+    tools/deploy/export_model.py
+    demo/demo.py
+    demo/demo_swinb.py
+    EOF
+  description:
+    Based on my analysis of the repository structure, configuration files, and command history, I'll identify all proper entrypoints for this Detectron2-based computer vision project.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:33:25.695458Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  tools/train_net.py
+  tools/train_net_swinb.py
+  tools/train_net_swint.py
+  tools/plain_train_net.py
+  tools/lazyconfig_train_net.py
+  tools/lightning_train_net.py
+  tools/analyze_model.py
+  tools/benchmark.py
+  tools/visualize_data.py
+  tools/visualize_json_results.py
+  tools/convert-torchvision-to-d2.py
+  tools/deploy/export_model.py
+  demo/demo.py
+  demo/demo_swinb.py
+------------------------------------------------------------
+2025-08-31T08:33:25.695472Z
+Action:
+  command:
+    find . -name "*.py" -type f -executable | head -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the file structure and configuration files. Let me examine the key files and directories systematically.
+Output:
+  ./dev/packaging/gen_install_table.py
+  ./tools/train_net_swinb.py
+  ./tools/visualize_data.py
+  ./tools/deploy/export_model.py
+  ./tools/analyze_model.py
+  ./tools/train_net.py
+  ./tools/benchmark.py
+  ./tools/plain_train_net.py
+  ./tools/convert-torchvision-to-d2.py
+  ./tools/visualize_json_results.py
+  ./tools/train_net_swint.py
+  ./tools/lazyconfig_train_net.py
+  ./demo/demo.py
+  ./demo/demo_swinb.py
+  ./projects/Rethinking-BatchNorm/retinanet-eval-domain-specific.py
+  ./projects/TensorMask/train_net.py
+  ./projects/TensorMask/tests/test_swap_align2nat.py
+  ./projects/PointRend/train_net.py
+  ./projects/PointRend/demo/demo.py
+  ./projects/PointSup/train_net.py
+------------------------------------------------------------
+2025-08-31T08:33:25.695486Z
+Action:
+  command:
+    find projects/ -name "train_net.py" -type f
+  description:
+    Looking at the repository structure and command history, I can identify the proper entrypoints for this Detectron2-based computer vision project. Let me analyze the key files and create the entrypoints list.
+Output:
+  projects/TensorMask/train_net.py
+  projects/PointRend/train_net.py
+  projects/PointSup/train_net.py
+  projects/DensePose/train_net.py
+  projects/Panoptic-DeepLab/train_net.py
+  projects/TridentNet/train_net.py
+  projects/DeepLab/train_net.py
+------------------------------------------------------------
+2025-08-31T08:33:25.695498Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    tools/train_net.py
+    tools/train_net_swinb.py
+    tools/train_net_swint.py
+    tools/plain_train_net.py
+    tools/lazyconfig_train_net.py
+    tools/lightning_train_net.py
+    tools/analyze_model.py
+    tools/benchmark.py
+    tools/visualize_data.py
+    tools/visualize_json_results.py
+    tools/convert-torchvision-to-d2.py
+    tools/deploy/export_model.py
+    demo/demo.py
+    demo/demo_swinb.py
+    projects/TensorMask/train_net.py
+    projects/PointRend/train_net.py
+    projects/PointRend/demo/demo.py
+    projects/PointSup/train_net.py
+    projects/DensePose/train_net.py
+    projects/Panoptic-DeepLab/train_net.py
+    projects/TridentNet/train_net.py
+    projects/DeepLab/train_net.py
+    EOF
+  description:
+    I'll analyze this Detectron2 repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:33:25.695519Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    tools/train_net.py
+    tools/train_net_swinb.py
+    tools/train_net_swint.py
+    tools/plain_train_net.py
+    tools/lazyconfig_train_net.py
+    tools/lightning_train_net.py
+    tools/analyze_model.py
+    tools/benchmark.py
+    tools/visualize_data.py
+    tools/visualize_json_results.py
+    tools/convert-torchvision-to-d2.py
+    tools/deploy/export_model.py
+    demo/demo.py
+    demo/demo_swinb.py
+    projects/TensorMask/train_net.py
+    projects/PointRend/train_net.py
+    projects/PointRend/demo/demo.py
+    projects/PointSup/train_net.py
+    projects/DensePose/train_net.py
+    projects/Panoptic-DeepLab/train_net.py
+    projects/TridentNet/train_net.py
+    projects/DeepLab/train_net.py
+    EOF
+  description:
+    I'll analyze this Detectron2 repository to identify all proper entrypoints. Based on the command history, I can see the repository structure and key files have already been examined. Let me finalize the analysis and create the entrypoints.txt file.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:33:25.695539Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history analysis, I can identify the proper entrypoints for this Detectron2-based computer vision repository. Let me verify the entrypoints file and complete the task.
+Output:
+  tools/train_net.py
+  tools/train_net_swinb.py
+  tools/train_net_swint.py
+  tools/plain_train_net.py
+  tools/lazyconfig_train_net.py
+  tools/lightning_train_net.py
+  tools/analyze_model.py
+  tools/benchmark.py
+  tools/visualize_data.py
+  tools/visualize_json_results.py
+  tools/convert-torchvision-to-d2.py
+  tools/deploy/export_model.py
+  demo/demo.py
+  demo/demo_swinb.py
+  projects/TensorMask/train_net.py
+  projects/PointRend/train_net.py
+  projects/PointRend/demo/demo.py
+  projects/PointSup/train_net.py
+  projects/DensePose/train_net.py
+  projects/Panoptic-DeepLab/train_net.py
+  projects/TridentNet/train_net.py
+  projects/DeepLab/train_net.py
+------------------------------------------------------------
+2025-08-31T08:33:25.695552Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Looking at the command history, I can see a comprehensive analysis has already been performed on this Detectron2 repository. The proper entrypoints have been identified based on:
+    
+    1. The `setup.py` file (which doesn't define console scripts but shows it's a Python package)
+    2. The `tools/` directory containing main training and utility scripts
+    3. The `demo/` directory containing demonstration scripts
+    4. The `projects/` directory containing specialized project entrypoints
+    5. The Dockerfile showing example usage
+    
+    Let me verify the current entrypoints.txt file and ensure it's complete:
+Output:
+  tools/train_net.py
+  tools/train_net_swinb.py
+  tools/train_net_swint.py
+  tools/plain_train_net.py
+  tools/lazyconfig_train_net.py
+  tools/lightning_train_net.py
+  tools/analyze_model.py
+  tools/benchmark.py
+  tools/visualize_data.py
+  tools/visualize_json_results.py
+  tools/convert-torchvision-to-d2.py
+  tools/deploy/export_model.py
+  demo/demo.py
+  demo/demo_swinb.py
+  projects/TensorMask/train_net.py
+  projects/PointRend/train_net.py
+  projects/PointRend/demo/demo.py
+  projects/PointSup/train_net.py
+  projects/DensePose/train_net.py
+  projects/Panoptic-DeepLab/train_net.py
+  projects/TridentNet/train_net.py
+  projects/DeepLab/train_net.py
+------------------------------------------------------------
+2025-08-31T08:33:25.695572Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+  description:
+    Based on the command history analysis, I can see that a comprehensive analysis of this Detectron2 repository has already been performed. The proper entrypoints have been identified and the `entrypoints.txt` file has been created with all the appropriate entry points.
+    
+    Let me verify the file is correctly written and complete the task:
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

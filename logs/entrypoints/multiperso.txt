@@ -1,0 +1,9 @@
+    mmdetection/tools/demo.py
+    mmdetection/tools/train.py
+    mmdetection/tools/full_eval.py
+    mmdetection/compile.sh
+    misc/smplify-x/smplifyx/main.py
+    neural_renderer/setup.py
+    mmcv/setup.py
+    mmdetection/setup.py
+    sdf/setup.py

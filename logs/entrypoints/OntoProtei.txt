@@ -1,0 +1,11 @@
+    run_pretrain.py
+    run_downstream.py
+    gen_onto_protein_data.py
+    run_main.sh
+    script/run_pretrain.sh
+    script/run_ss3.sh
+    script/run_ss8.sh
+    script/run_contact.sh
+    script/run_remote_homology.sh
+    script/run_fluorescence.sh
+    script/run_stability.sh

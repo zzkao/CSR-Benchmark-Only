@@ -1,0 +1,6 @@
+    demo.py
+    train.py
+    test.py
+    preprocess/sample_points.py
+    setup.py
+    download_data.sh

@@ -1,0 +1,537 @@
+2025-08-31T10:15:31.000950Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.c" -o -name "*.cpp" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.gradle" -o -name "pom.xml" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the file structure and contents.
+Output:
+  ./mdlt/command_launchers.py
+  ./mdlt/hparams_registry.py
+  ./mdlt/models/wide_resnet.py
+  ./mdlt/models/__init__.py
+  ./mdlt/models/networks.py
+  ./mdlt/utils/misc.py
+  ./mdlt/utils/query.py
+  ./mdlt/utils/reporting.py
+  ./mdlt/learning/algorithms.py
+  ./mdlt/learning/model_selection.py
+  ./mdlt/scripts/collect_results.py
+  ./mdlt/scripts/download.py
+  ./mdlt/scripts/list_top_hparams.py
+  ./mdlt/scripts/__init__.py
+  ./mdlt/dataset/datasets.py
+  ./mdlt/dataset/fast_dataloader.py
+  ./mdlt/dataset/create_mdlt_datasets.py
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/train.py
+  ./mdlt/evaluate/eval_best_hparam.py
+  ./mdlt/evaluate/eval_checkpoint.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001063Z
+Action:
+  command:
+    find . -name "*.py" -o -name "*.json" -o -name "*.toml" -o -name "*.txt" -o -name "Makefile" -o -name "Dockerfile" | grep -E "(setup\.py|pyproject\.toml|package\.json|Makefile|Dockerfile|requirements\.txt|README)" | head -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the repository structure and key configuration files.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:15:31.001095Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Makefile" -o -name "Dockerfile" | head -10
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Based on the command history, I can see this is a Python project with various modules. Let me examine the key files to identify the proper entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:15:31.001119Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Makefile" -o -name "Dockerfile" -o -name "requirements.txt" -o -name "README*"
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history, I can see this is a Python project. Let me examine the repository structure and key files to identify the proper entrypoints.
+Output:
+  ./README.md
+------------------------------------------------------------
+2025-08-31T10:15:31.001144Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history, I can see this is a Python project. Let me examine the repository structure and key files to identify the proper entrypoints.
+Output:
+  total 36
+  drwxr-xr-x 4 benchmarkuser 1001 4096 Aug 31 10:14 .
+  drwxr-xr-x 1 root          root 4096 Aug 31 10:14 ..
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 10:14 .git
+  -rw-r--r-- 1 benchmarkuser 1001 1807 Aug 31 10:14 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 1067 Aug 31 10:14 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001 9124 Aug 31 10:14 README.md
+  drwxr-xr-x 9 benchmarkuser 1001 4096 Aug 31 10:14 mdlt
+------------------------------------------------------------
+2025-08-31T10:15:31.001174Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history, I can see this is a Python project with various modules. Let me examine the repository structure and key files to identify the proper entrypoints.
+Output:
+  # Multi-Domain Long-Tailed Recognition (MDLT)
+  This repository contains the implementation for paper: [On Multi-Domain Long-Tailed Recognition, Imbalanced Domain Generalization and Beyond](https://arxiv.org/abs/2203.09513) (ECCV 2022).
+  It is also a (living) PyTorch suite containing benchmark datasets and algorithms for Multi-Domain Long-Tailed Recognition (MDLT). Currently we support [8 MDLT datasets](./mdlt/dataset/datasets.py) (3 synthetic + 5 real), as well as [~20 algorithms](./mdlt/learning/algorithms.py) that span different learning strategies. Feel free to send us a PR to add your algorithm / dataset for MDLT!
+  ___
+  <div align="center">
+      <img src="mdlt/assets/teaser.gif" width="750"><br>
+  </div>
+  ## MDLT: From Single- to Multi-Domain Imbalanced Learning
+  Existing studies on data imbalance focus on __single-domain__ settings, i.e., samples are from the same data distribution. However, natural data can originate from __distinct domains__, where a minority class in one domain could have abundant instances from other domains. We systematically investigate __Multi-Domain Long-Tailed Recognition (MDLT)__, which learns from multi-domain imbalanced data, addresses _label imbalance_, _domain shift_, and _divergent label distributions across domains_, and generalizes to all domain-class pairs.
+  We develop the _domain-class transferability graph_, and show that such transferability governs the success of learning in MDLT. We then propose _BoDA_, a theoretically grounded learning strategy that tracks the upper bound of transferability statistics, and ensures balanced alignment and calibration across imbalanced domain-class distributions.
+  We curate MDLT benchmark datasets based on widely-used multi-domain datasets, and benchmark ~20 algorithms that span different learning strategies for MDLT.
+  ## Beyond MDLT: Domain Generalization under Data Imbalance
+  Further, as a byproduct, we demonstrate that _BoDA_ strengthens Domain Generalization (DG) algorithms, and consistently improves the results on DG benchmarks.
+  Note that all current standard DG benchmarks naturally exhibit heavy class imbalance within domains and label distributions shift across domains, confirming that data imbalance is an intrinsic problem in DG, but has yet been overlooked by past works.
+  The results shed light on how label imbalance can affect out-of-distribution generalization, and highlight the importance of integrating label imbalance into practical DG algorithm design.
+  ## Getting Started
+  ### Installation
+  #### Prerequisites
+  1. Download the original datasets, and place them in your `data_path`
+  ```bash
+  python -m mdlt.scripts.download --data_dir <data_path>
+  ```
+  2. Place the `.csv` files of train/val/test splits for each MDLT dataset (provided in `mdlt/dataset/split/`) in the corresponding dataset folder under your `data_path`
+  #### Dependencies
+  1. PyTorch (>=1.4, tested on 1.4 / 1.9)
+  2. pandas
+  3. TensorboardX
+  ### Code Overview
+  #### Main Files
+  - [`train.py`](./mdlt/train.py): main training script
+  - [`sweep.py`](./mdlt/sweep.py): launch a sweep with all selected algorithms (provided in `mdlt/learning/algorithms.py`) on all real MDLT datasets (VLCS-MLT, PACS-MLT, OfficeHome-MLT, TerraInc-MLT, DomainNet-MLT)
+  - [`sweep_synthetic.py`](./mdlt/sweep_synthetic.py): launch a sweep with all selected algorithms on the synthetic MDLT dataset (Digits-MLT)
+  - [`collect_results.py`](./mdlt/scripts/collect_results.py): collect sweep results to automatically generate result tables (as in the paper)
+  - [`eval_best_hparam.py`](./mdlt/evaluate/eval_best_hparam.py) & [`eval_checkpoint.py`](./mdlt/evaluate/eval_checkpoint.py): scripts for evaluating trained models
+  #### Main Arguments
+  - __train.py__:
+      - `--dataset`: name of chosen MDLT dataset
+      - `--algorithm`: choose algorithm used for running
+      - `--data_dir`: data path
+      - `--output_dir`: output path
+      - `--output_folder_name`: output folder name (under `output_dir`) for the current run
+      - `--hparams_seed`: seed for different hyper-parameters
+      - `--seed`: seed for different runs
+      - `--selected_envs`: train on selected envs (only used for Digits-MLT)
+      - `--imb_type` & `--imb_factor`: arguments for customized Digits-MLT label distributions
+      - `--stage1_folder` & `--stage1_algo`: arguments for two-stage algorithms
+  - __sweep.py__:
+      - `--best_hp` & `--n_trials`: after sweeping hparams, fix best hparam and run trials with different seeds
+  ### Usage
+  #### Train a single model
+  ```bash
+  ```
+  #### Train a model using 2-stage (second stage classifier learning)
+  ```bash
+  ```
+  Note that for $\text{BoDA}_{r,c}$ the command is the same as above, with changes only on `stage1_algo` & `stage1_folder`
+  #### Train a model on Digits-MLT, with imbalance type all `Forward-LT` and imbalance ratio `0.01`
+  ```bash
+         --imb_type eee \
+         --imb_factor 0.01 \
+         --selected_envs 1 2
+  ```
+  Note that for Digits-MLT, we additionally provide `MNIST` as another domain.
+  To maintain the same setting as in paper (2 domains), you only need to set `selected_envs` to be `1 2` as above
+  #### Launch a sweep with different hparams
+  ```bash
+  ```
+  #### Launch a sweep after fixing hparam with different seeds
+  ```bash
+  ```
+  #### Collect the results of your sweep
+  ```bash
+  python -m mdlt.scripts.collect_results --input_dir <...>
+  ```
+  ```bash
+  ```
+  #### Evaluate a trained checkpoint
+  ```bash
+  ```
+  ### Reproduced Benchmarks and Model Zoo
+  |   Model   | VLCS-MLT | PACS-MLT | OfficeHome-MLT | TerraInc-MLT | DomainNet-MLT |
+  | :-------: | :-----: | :-------: | :---------: | :------: | :------: |
+  |  BoDA (r) |  76.9 / [model](https://drive.google.com/file/d/1b8zYbR4j7zFAWJWWKLOdoldBofp-jvl7/view?usp=sharing) | 97.0 / [model](https://drive.google.com/file/d/1xayaXsssv1TtL6JhoEirJRtxNUuSE3GU/view?usp=sharing) | 81.5 / [model](https://drive.google.com/file/d/1br7DKxmp5Ohk77gIovdWJVgcgSNmfadP/view?usp=sharing) | 78.6 / [model](https://drive.google.com/file/d/1w0VDiFfHi0pWf6-pYAjxEGBItIzNI5MK/view?usp=sharing) | 60.1 / [model](https://drive.google.com/file/d/1LvQJyv33r-Lpk7gK3WHABIaoURhz-GdN/view?usp=sharing) |
+  | BoDA (r,c)|  77.3 / [model](https://drive.google.com/file/d/1YF44Db7F6zfZvS1cKA46V5CFA-KAfj1j/view?usp=sharing) | 97.2 / [model](https://drive.google.com/file/d/1WbTg7uhfgAyKP36Vxut8YhHjFf49fXF_/view?usp=sharing) | 82.3 / [model](https://drive.google.com/file/d/1P6jjl2gI5EGfauV5LiOpv4iMzK8kln4_/view?usp=sharing) | 82.3 / [model](https://drive.google.com/file/d/1Le1B9LIq9uxivEoVcmHXO07PVLIWSag8/view?usp=sharing) | 61.7 / [model](https://drive.google.com/file/d/1OVFRvuyhgoVeAOaptJAoEruKupCJNwq1/view?usp=sharing) |
+  ## Updates
+  - __[10/2022]__ Check out the [Oral talk video](https://youtu.be/oUky8S8d1_Y) (10 mins) for our ECCV paper.
+  - __[07/2022]__ We create a [Blog post](https://towardsdatascience.com/how-to-learn-imbalanced-data-arising-from-multiple-domains-7d0c0d6e3c17) for this work (version in Chinese is also [available here](https://zhuanlan.zhihu.com/p/539749541)). Check it out for more details!
+  - __[07/2022]__ Paper accepted to ECCV 2022. We have released the code and models.
+  - __[03/2022]__ [arXiv version](https://arxiv.org/abs/2203.09513) posted. The code is currently under cleaning. Please stay tuned for updates.
+  ## Acknowledgements
+  This code is partly based on the open-source implementations from [DomainBed](https://github.com/facebookresearch/DomainBed).
+  ## Citation
+  If you find this code or idea useful, please cite our work:
+  ```bib
+  @inproceedings{yang2022multi,
+    title={On Multi-Domain Long-Tailed Recognition, Imbalanced Domain Generalization and Beyond},
+    author={Yang, Yuzhe and Wang, Hao and Katabi, Dina},
+    booktitle={European Conference on Computer Vision (ECCV)},
+    year={2022}
+  }
+  ```
+  ## Contact
+  If you have any questions, feel free to contact us through email (yuzhe@mit.edu) or Github issues. Enjoy!
+------------------------------------------------------------
+2025-08-31T10:15:31.001347Z
+Action:
+  command:
+    find . -name "*.py" | grep -E "(main|cli|__main__|train|sweep)" | head -20
+  description:
+    Based on the command history, I can see this is a Python machine learning project focused on Multi-Domain Long-Tailed Recognition (MDLT). Let me analyze the repository to identify all proper entrypoints.
+Output:
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/train.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001368Z
+Action:
+  command:
+    ls -la mdlt/
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history and README, this is a Python project for Multi-Domain Long-Tailed Recognition (MDLT). Let me examine the key files and structure.
+Output:
+  total 92
+  drwxr-xr-x 9 benchmarkuser 1001  4096 Aug 31 10:14 .
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Aug 31 10:14 ..
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:14 assets
+  -rw-r--r-- 1 benchmarkuser 1001  1347 Aug 31 10:14 command_launchers.py
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 10:14 dataset
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:14 evaluate
+  -rw-r--r-- 1 benchmarkuser 1001  6904 Aug 31 10:14 hparams_registry.py
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:14 learning
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:14 models
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 10:14 scripts
+  -rw-r--r-- 1 benchmarkuser 1001 10758 Aug 31 10:14 sweep.py
+  -rw-r--r-- 1 benchmarkuser 1001  8526 Aug 31 10:14 sweep_synthetic.py
+  -rw-r--r-- 1 benchmarkuser 1001 16533 Aug 31 10:14 train.py
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:14 utils
+------------------------------------------------------------
+2025-08-31T10:15:31.001386Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "__init__.py" | head -10
+  description:
+    Based on the command history and repository analysis, I need to examine the key files to identify all proper entrypoints. Let me check for any Python package configuration and examine the main scripts.
+Output:
+  ./mdlt/models/__init__.py
+  ./mdlt/scripts/__init__.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001396Z
+Action:
+  command:
+    head -20 ./mdlt/train.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and files shown. Let me examine the key files and structure to determine the proper entrypoints.
+Output:
+  import argparse
+  import collections
+  import json
+  import os
+  import random
+  import sys
+  import time
+  import shutil
+  import numpy as np
+  import PIL
+  import torch
+  import torchvision
+  import torch.utils.data
+  from tensorboard_logger import Logger
+  from mdlt import hparams_registry
+  from mdlt.dataset import datasets
+  from mdlt.learning import algorithms
+  from mdlt.utils import misc
+  from mdlt.dataset.fast_dataloader import InfiniteDataLoader, FastDataLoader
+------------------------------------------------------------
+2025-08-31T10:15:31.001412Z
+Action:
+  command:
+    head -20 ./mdlt/sweep.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history, I can see this is a Python project for Multi-Domain Long-Tailed Recognition (MDLT). Let me examine the key files and structure to determine the proper entrypoints.
+Output:
+  import argparse
+  import copy
+  import os
+  import shutil
+  import numpy as np
+  import tqdm
+  import shlex
+  from mdlt import command_launchers
+  from mdlt.dataset import datasets
+  from mdlt.learning import algorithms, model_selection
+  from mdlt.utils import reporting
+  class Job:
+      NOT_LAUNCHED = 'Not launched'
+      INCOMPLETE = 'Incomplete'
+      DONE = 'Done'
+      def __init__(self, train_args):
+------------------------------------------------------------
+2025-08-31T10:15:31.001437Z
+Action:
+  command:
+    head -20 ./mdlt/sweep_synthetic.py
+  description:
+    Based on the command history and analysis of the repository, I can identify the proper entrypoints for this Multi-Domain Long-Tailed Recognition (MDLT) project. Let me examine the key files and create the entrypoints file.
+Output:
+  import argparse
+  import copy
+  import os
+  import shutil
+  import numpy as np
+  import shlex
+  import tqdm
+  from mdlt import command_launchers
+  from mdlt.dataset import datasets
+  from mdlt.learning import algorithms
+  from mdlt.utils import misc
+  from mdlt.sweep import ask_for_confirmation
+  # For each sweep on imbalanced datasets, double check (modify) this function for customized need
+  def all_imb_combinations(n, candidates=('b', 'i', 'e')):
+      """Generate all possible imb_type given imbalanced config"""
+      if n == 1:
+          return [i for i in candidates]
+------------------------------------------------------------
+2025-08-31T10:15:31.001452Z
+Action:
+  command:
+    ls mdlt/scripts/
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  __init__.py  collect_results.py  download.py  list_top_hparams.py  misc
+------------------------------------------------------------
+2025-08-31T10:15:31.001461Z
+Action:
+  command:
+    head -20 ./mdlt/scripts/collect_results.py
+Output:
+  import argparse
+  import json
+  import os
+  import random
+  import sys
+  import numpy as np
+  from mdlt.dataset import datasets
+  from mdlt.learning import algorithms, model_selection
+  from mdlt.utils import misc, reporting
+  from mdlt.utils.query import Q
+  def format_mean(data, latex):
+      """Given a list of datapoints, return a string describing their mean and standard error"""
+      if len(data) == 0:
+          return None, None, "X"
+      mean = 100 * np.mean(list(data))
+      err = 100 * np.std(list(data) / np.sqrt(len(data)))
+      if latex:
+------------------------------------------------------------
+2025-08-31T10:15:31.001473Z
+Action:
+  command:
+    head -20 ./mdlt/scripts/download.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure I can see.
+Output:
+  import argparse
+  import tarfile
+  import shutil
+  import gdown
+  import json
+  import os
+  from torchvision.datasets import MNIST
+  from zipfile import ZipFile
+  def stage_path(data_dir, name):
+      full_path = os.path.join(data_dir, name)
+      if not os.path.exists(full_path):
+          os.makedirs(full_path)
+      return full_path
+  def download_and_extract(url, dst, remove=True):
+------------------------------------------------------------
+2025-08-31T10:15:31.001486Z
+Action:
+  command:
+    ls mdlt/evaluate/
+  description:
+    Based on the command history and repository structure, I'll analyze this Multi-Domain Long-Tailed Recognition (MDLT) project to identify all proper entrypoints.
+Output:
+  eval_best_hparam.py  eval_checkpoint.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001494Z
+Action:
+  command:
+    head -20 ./mdlt/evaluate/eval_best_hparam.py
+  description:
+    Based on the command history and my analysis of the repository structure, I need to identify all proper entrypoints for this Multi-Domain Long-Tailed Recognition (MDLT) project. Let me examine the key files and create the entrypoints list.
+Output:
+  import argparse
+  import collections
+  import os
+  from os.path import join
+  import numpy as np
+  import torch.utils.data
+  from mdlt.dataset import datasets
+  from mdlt.learning import algorithms
+  from mdlt.utils import misc
+  from mdlt.dataset.fast_dataloader import FastDataLoader
+  from mdlt.learning import model_selection
+  from mdlt.utils import reporting
+  def load_records():
+      records = reporting.load_records(join(args.output_dir, args.folder_name))
+      if 'Imbalance' in args.dataset:
+          records = reporting.get_imbalanced_grouped_records(records)
+          records = records.filter(
+------------------------------------------------------------
+2025-08-31T10:15:31.001508Z
+Action:
+  command:
+    head -20 ./mdlt/evaluate/eval_checkpoint.py
+  description:
+    I'll analyze the repository structure and command history to identify all proper entrypoints for this Multi-Domain Long-Tailed Recognition (MDLT) project.
+Output:
+  import argparse
+  import collections
+  import os
+  import numpy as np
+  import torch.utils.data
+  from mdlt.dataset import datasets
+  from mdlt.hparams_registry import default_hparams
+  from mdlt.learning import algorithms
+  from mdlt.utils import misc
+  from mdlt.dataset.fast_dataloader import FastDataLoader
+  def validate(algorithm, dataset):
+      algorithm.eval()
+      test_splits = []
+      for env in dataset:
+          test_splits.append((env, None))
+      eval_loaders = [FastDataLoader(
+------------------------------------------------------------
+2025-08-31T10:15:31.001542Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "if __name__ == ['\"]__main__['\"]" {} \;
+  description:
+    Based on the command history and repository analysis, I can see this is a Multi-Domain Long-Tailed Recognition (MDLT) Python project. Let me identify all the proper entrypoints by examining the structure and files.
+Output:
+  ./mdlt/scripts/collect_results.py
+  ./mdlt/scripts/download.py
+  ./mdlt/scripts/list_top_hparams.py
+  ./mdlt/dataset/create_mdlt_datasets.py
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/train.py
+  ./mdlt/evaluate/eval_best_hparam.py
+  ./mdlt/evaluate/eval_checkpoint.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001554Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./mdlt/train.py
+    ./mdlt/sweep.py
+    ./mdlt/sweep_synthetic.py
+    ./mdlt/scripts/collect_results.py
+    ./mdlt/scripts/download.py
+    ./mdlt/scripts/list_top_hparams.py
+    ./mdlt/evaluate/eval_best_hparam.py
+    ./mdlt/evaluate/eval_checkpoint.py
+    ./mdlt/dataset/create_mdlt_datasets.py
+    EOF
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints for this Multi-Domain Long-Tailed Recognition (MDLT) Python project. Let me examine the files and create the entrypoints list.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:15:31.001569Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  ./mdlt/train.py
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/scripts/collect_results.py
+  ./mdlt/scripts/download.py
+  ./mdlt/scripts/list_top_hparams.py
+  ./mdlt/evaluate/eval_best_hparam.py
+  ./mdlt/evaluate/eval_checkpoint.py
+  ./mdlt/dataset/create_mdlt_datasets.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001582Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see this is a Multi-Domain Long-Tailed Recognition (MDLT) Python project. From the command history, I can see that proper entrypoints have already been identified and saved to `entrypoints.txt`. Let me verify the current state and ensure the file is correct.
+Output:
+  ./mdlt/train.py
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/scripts/collect_results.py
+  ./mdlt/scripts/download.py
+  ./mdlt/scripts/list_top_hparams.py
+  ./mdlt/evaluate/eval_best_hparam.py
+  ./mdlt/evaluate/eval_checkpoint.py
+  ./mdlt/dataset/create_mdlt_datasets.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001594Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see that the entrypoints have already been identified and saved to `entrypoints.txt`. Let me verify the file exists and contains the proper entrypoints:
+Output:
+  ./mdlt/train.py
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/scripts/collect_results.py
+  ./mdlt/scripts/download.py
+  ./mdlt/scripts/list_top_hparams.py
+  ./mdlt/evaluate/eval_best_hparam.py
+  ./mdlt/evaluate/eval_checkpoint.py
+  ./mdlt/dataset/create_mdlt_datasets.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001604Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see that this is a Multi-Domain Long-Tailed Recognition (MDLT) Python project. The entrypoints have already been identified and saved to `entrypoints.txt`. Let me verify the file and complete the task.
+Output:
+  ./mdlt/train.py
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/scripts/collect_results.py
+  ./mdlt/scripts/download.py
+  ./mdlt/scripts/list_top_hparams.py
+  ./mdlt/evaluate/eval_best_hparam.py
+  ./mdlt/evaluate/eval_checkpoint.py
+  ./mdlt/dataset/create_mdlt_datasets.py
+------------------------------------------------------------
+2025-08-31T10:15:31.001614Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see that the entrypoints for this Multi-Domain Long-Tailed Recognition (MDLT) Python project have already been identified and saved to `entrypoints.txt`. Let me verify the file exists and complete the task.
+Output:
+  ./mdlt/train.py
+  ./mdlt/sweep.py
+  ./mdlt/sweep_synthetic.py
+  ./mdlt/scripts/collect_results.py
+  ./mdlt/scripts/download.py
+  ./mdlt/scripts/list_top_hparams.py
+  ./mdlt/evaluate/eval_best_hparam.py
+  ./mdlt/evaluate/eval_checkpoint.py
+  ./mdlt/dataset/create_mdlt_datasets.py
+------------------------------------------------------------

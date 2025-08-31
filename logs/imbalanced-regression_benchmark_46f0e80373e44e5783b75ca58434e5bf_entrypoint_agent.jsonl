@@ -1,0 +1,749 @@
+2025-08-31T08:15:08.953321Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.json" -o -name "*.toml" -o -name "*.yml" -o -name "*.yaml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.go" -o -name "*.rs" -o -name "Cargo.toml" -o -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure to understand what we're working with.
+Output:
+  ./agedb-dir/loss.py
+  ./agedb-dir/datasets.py
+  ./agedb-dir/data/create_agedb.py
+  ./agedb-dir/data/preprocess_agedb.py
+  ./agedb-dir/utils.py
+  ./agedb-dir/resnet.py
+  ./agedb-dir/train.py
+  ./agedb-dir/fds.py
+  ./nyud2-dir/preprocess_nyud2.py
+  ./nyud2-dir/models/net.py
+  ./nyud2-dir/models/resnet.py
+  ./nyud2-dir/models/modules.py
+  ./nyud2-dir/models/fds.py
+  ./nyud2-dir/models/__init__.py
+  ./nyud2-dir/test.py
+  ./nyud2-dir/nyu_transform.py
+  ./nyud2-dir/util.py
+  ./nyud2-dir/loaddata.py
+  ./nyud2-dir/download_nyud2.py
+  ./nyud2-dir/train.py
+------------------------------------------------------------
+2025-08-31T08:15:08.953402Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.json" -o -name "*.toml" -o -name "*.yml" -o -name "*.yaml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.go" -o -name "*.rs" -o -name "Cargo.toml" -o -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" | wc -l
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure to understand what we're working with.
+Output:
+  41
+------------------------------------------------------------
+2025-08-31T08:15:08.953417Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository structure to identify all proper entrypoints. Let me start by exploring the full file structure and examining key configuration files.
+Output:
+  total 56
+  drwxr-xr-x 9 benchmarkuser 1001 4096 Aug 31 08:13 .
+  drwxr-xr-x 1 root          root 4096 Aug 31 08:13 ..
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 08:13 .git
+  -rw-r--r-- 1 benchmarkuser 1001 1807 Aug 31 08:13 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 1067 Aug 31 08:13 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001 8562 Aug 31 08:13 README.md
+  drwxr-xr-x 3 benchmarkuser 1001 4096 Aug 31 08:13 agedb-dir
+  drwxr-xr-x 3 benchmarkuser 1001 4096 Aug 31 08:13 imdb-wiki-dir
+  drwxr-xr-x 4 benchmarkuser 1001 4096 Aug 31 08:13 nyud2-dir
+  drwxr-xr-x 5 benchmarkuser 1001 4096 Aug 31 08:13 sts-b-dir
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:13 teaser
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:13 tutorial
+------------------------------------------------------------
+2025-08-31T08:15:08.953438Z
+Action:
+  command:
+    find . -type f \( -name "*.py" -o -name "*.js" -o -name "*.json" -o -name "*.toml" -o -name "*.yml" -o -name "*.yaml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.go" -o -name "*.rs" -o -name "Cargo.toml" -o -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" \)
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the structure and key files.
+Output:
+  ./agedb-dir/loss.py
+  ./agedb-dir/datasets.py
+  ./agedb-dir/data/create_agedb.py
+  ./agedb-dir/data/preprocess_agedb.py
+  ./agedb-dir/utils.py
+  ./agedb-dir/resnet.py
+  ./agedb-dir/train.py
+  ./agedb-dir/fds.py
+  ./nyud2-dir/preprocess_nyud2.py
+  ./nyud2-dir/models/net.py
+  ./nyud2-dir/models/resnet.py
+  ./nyud2-dir/models/modules.py
+  ./nyud2-dir/models/fds.py
+  ./nyud2-dir/models/__init__.py
+  ./nyud2-dir/test.py
+  ./nyud2-dir/nyu_transform.py
+  ./nyud2-dir/util.py
+  ./nyud2-dir/loaddata.py
+  ./nyud2-dir/download_nyud2.py
+  ./nyud2-dir/train.py
+  ./sts-b-dir/trainer.py
+  ./sts-b-dir/loss.py
+  ./sts-b-dir/tasks.py
+  ./sts-b-dir/evaluate.py
+  ./sts-b-dir/util.py
+  ./sts-b-dir/preprocess.py
+  ./sts-b-dir/glue_data/create_sts.py
+  ./sts-b-dir/models.py
+  ./sts-b-dir/train.py
+  ./sts-b-dir/allennlp_mods/numeric_field.py
+  ./sts-b-dir/glove/download_glove.py
+  ./sts-b-dir/fds.py
+  ./imdb-wiki-dir/loss.py
+  ./imdb-wiki-dir/datasets.py
+  ./imdb-wiki-dir/data/preprocess_imdb_wiki.py
+  ./imdb-wiki-dir/data/create_imdb_wiki.py
+  ./imdb-wiki-dir/utils.py
+  ./imdb-wiki-dir/download_imdb_wiki.py
+  ./imdb-wiki-dir/resnet.py
+  ./imdb-wiki-dir/train.py
+  ./imdb-wiki-dir/fds.py
+------------------------------------------------------------
+2025-08-31T08:15:08.953473Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the repository structure and key files to understand the intended execution paths.
+Output:
+  # Delving into Deep Imbalanced Regression
+  This repository contains the implementation code for paper: <br>
+  __Delving into Deep Imbalanced Regression__ <br>
+  [Yuzhe Yang](http://www.mit.edu/~yuzhe/), [Kaiwen Zha](https://kaiwenzha.github.io/), [Ying-Cong Chen](https://yingcong.github.io/), [Hao Wang](http://www.wanghao.in/), [Dina Katabi](https://people.csail.mit.edu/dina/) <br>
+  _38th International Conference on Machine Learning (ICML 2021), **Long Oral**_ <br>
+  [[Project Page](http://dir.csail.mit.edu/)] [[Paper](https://arxiv.org/abs/2102.09554)] [[Video](https://youtu.be/grJGixofQRU)] [[Blog Post](https://towardsdatascience.com/strategies-and-tactics-for-regression-on-imbalanced-data-61eeb0921fca)] [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YyzHarry/imbalanced-regression/blob/master/tutorial/tutorial.ipynb)
+  ___
+  <p align="center">
+  </p>
+  ## Beyond Imbalanced Classification: Brief Introduction for DIR
+  Existing techniques for learning from imbalanced data focus on targets with __categorical__ indices, i.e., the targets are different classes. However, many real-world tasks involve __continuous__ and even infinite target values. We systematically investigate _Deep Imbalanced Regression (DIR)_, which aims to learn continuous targets from natural imbalanced data, deal with potential missing data for certain target values, and generalize to the entire target range.
+  We curate and benchmark large-scale DIR datasets for common real-world tasks in _computer vision_, _natural language processing_, and _healthcare_ domains, ranging from single-value prediction such as age, text similarity score, health condition score, to dense-value prediction such as depth.
+  ## Usage
+  We separate the codebase for different datasets into different subfolders. Please go into the subfolders for more information (e.g., installation, dataset preparation, training, evaluation & models).
+  #### __[IMDB-WIKI-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/imdb-wiki-dir)__ &nbsp;|&nbsp; __[AgeDB-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/agedb-dir)__ &nbsp;|&nbsp; __[NYUD2-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/nyud2-dir)__ &nbsp;|&nbsp; __[STS-B-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/sts-b-dir)__
+  ## Highlights
+  __(1) :heavy_check_mark: New Task:__ Deep Imbalanced Regression (DIR)
+  __(2) :heavy_check_mark: New Techniques:__
+  | ![image](teaser/lds.gif) | ![image](teaser/fds.gif) |
+  | :-: | :-: |
+  | Label distribution smoothing (LDS) | Feature distribution smoothing (FDS) |
+  __(3) :heavy_check_mark: New Benchmarks:__ <br>
+  - _Computer Vision:_ :bulb: IMDB-WIKI-DIR (age) / AgeDB-DIR (age) / NYUD2-DIR (depth)
+  - _Natural Language Processing:_ :clipboard: STS-B-DIR (text similarity score)
+  - _Healthcare:_ :hospital: SHHS-DIR (health condition score)
+  | [IMDB-WIKI-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/imdb-wiki-dir) | [AgeDB-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/agedb-dir) | [NYUD2-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/nyud2-dir) | [STS-B-DIR](https://github.com/YyzHarry/imbalanced-regression/tree/main/sts-b-dir) | SHHS-DIR |
+  | :-: | :-: | :-: | :-: | :-: |
+  | ![image](teaser/imdb_wiki_dir.png) | ![image](teaser/agedb_dir.png) | ![image](teaser/nyud2_dir.png) | ![image](teaser/stsb_dir.png) | ![image](teaser/shhs_dir.png) |
+  ## Apply LDS and FDS on Other Datasets / Models
+  We provide examples of how to apply LDS and FDS on other customized datasets and/or models.
+  ### LDS
+  To apply LDS on your customized dataset, you will first need to estimate the effective label distribution: 
+  ```python
+  from collections import Counter
+  from scipy.ndimage import convolve1d
+  from utils import get_lds_kernel_window
+  # preds, labels: [Ns,], "Ns" is the number of total samples
+  preds, labels = ..., ...
+  # assign each label to its corresponding bin (start from 0)
+  # with your defined get_bin_idx(), return bin_index_per_label: [Ns,] 
+  bin_index_per_label = [get_bin_idx(label) for label in labels]
+  # calculate empirical (original) label distribution: [Nb,]
+  # "Nb" is the number of bins
+  Nb = max(bin_index_per_label) + 1
+  num_samples_of_bins = dict(Counter(bin_index_per_label))
+  emp_label_dist = [num_samples_of_bins.get(i, 0) for i in range(Nb)]
+  # lds_kernel_window: [ks,], here for example, we use gaussian, ks=5, sigma=2
+  lds_kernel_window = get_lds_kernel_window(kernel='gaussian', ks=5, sigma=2)
+  # calculate effective label distribution: [Nb,]
+  eff_label_dist = convolve1d(np.array(emp_label_dist), weights=lds_kernel_window, mode='constant')
+  ```
+  With the estimated effective label distribution, one straightforward option is to use the loss re-weighting scheme:
+  ```python
+  from loss import weighted_mse_loss
+  # Use re-weighting based on effective label distribution, sample-wise weights: [Ns,]
+  eff_num_per_label = [eff_label_dist[bin_idx] for bin_idx in bin_index_per_label]
+  weights = [np.float32(1 / x) for x in eff_num_per_label]
+  # calculate loss
+  loss = weighted_mse_loss(preds, labels, weights=weights)
+  ```
+  ### FDS
+  To apply FDS on your customized data/model, you will first need to define the FDS module in your network:
+  ```python
+  from fds import FDS
+  config = dict(feature_dim=..., start_update=0, start_smooth=1, kernel='gaussian', ks=5, sigma=2)
+  def Network(nn.Module):
+      def __init__(self, **config):
+          super().__init__()
+          self.feature_extractor = ...
+          self.regressor = nn.Linear(config['feature_dim'], 1)  # FDS operates before the final regressor
+          self.FDS = FDS(**config)
+      def forward(self, inputs, labels, epoch):
+          features = self.feature_extractor(inputs)  # features: [batch_size, feature_dim]
+          # smooth the feature distributions over the target space
+          smoothed_features = features    
+          if self.training and epoch >= config['start_smooth']:
+              smoothed_features = self.FDS.smooth(smoothed_features, labels, epoch)
+          preds = self.regressor(smoothed_features)
+          return {'preds': preds, 'features': features}
+  ```
+  During training, you will need to update the FDS statistics after each training epoch:
+  ```python
+  model = Network(**config)
+  for epoch in range(num_epochs):
+      for (inputs, labels) in train_loader:
+          # standard training pipeline
+          ...
+      # update FDS statistics after each training epoch
+      if epoch >= config['start_update']:
+          # collect features and labels for all training samples
+          ...
+          # training_features: [num_samples, feature_dim], training_labels: [num_samples,]
+          training_features, training_labels = ..., ...
+          model.FDS.update_last_epoch_stats(epoch)
+          model.FDS.update_running_stats(training_features, training_labels, epoch)
+  ```
+  ## Updates
+  - [06/2021] We provide a [hands-on tutorial](https://github.com/YyzHarry/imbalanced-regression/tree/main/tutorial) of DIR. Check it out! [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YyzHarry/imbalanced-regression/blob/master/tutorial/tutorial.ipynb)
+  - [05/2021] We create a [Blog post](https://towardsdatascience.com/strategies-and-tactics-for-regression-on-imbalanced-data-61eeb0921fca) for this work (version in Chinese is also available [here](https://zhuanlan.zhihu.com/p/369627086)). Check it out for more details!
+  - [05/2021] Paper accepted to ICML 2021 as a __Long Talk__. We have released the code and models. You can find all reproduced checkpoints via [this link](https://drive.google.com/drive/folders/1UfFJNIG-LPOMecwi1tfYzEViBiAYhNU0?usp=sharing), or go into each subfolder for models for each dataset.
+  - [02/2021] [arXiv version](https://arxiv.org/abs/2102.09554) posted. Please stay tuned for updates.
+  ## Citation
+  If you find this code or idea useful, please cite our work:
+  ```bib
+  @inproceedings{yang2021delving,
+    title={Delving into Deep Imbalanced Regression},
+    author={Yang, Yuzhe and Zha, Kaiwen and Chen, Ying-Cong and Wang, Hao and Katabi, Dina},
+    booktitle={International Conference on Machine Learning (ICML)},
+    year={2021}
+  }
+  ```
+  ## Contact
+  If you have any questions, feel free to contact us through email (yuzhe@mit.edu & kzha@mit.edu) or Github issues. Enjoy!
+------------------------------------------------------------
+2025-08-31T08:15:08.953602Z
+Action:
+  command:
+    ls -la *-dir/
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and examine the structure more thoroughly. Let me look at the key files that appear to be main entry points.
+Output:
+  agedb-dir/:
+  total 68
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 08:13 .
+  drwxr-xr-x 9 benchmarkuser 1001  4096 Aug 31 08:13 ..
+  -rw-r--r-- 1 benchmarkuser 1001  3876 Aug 31 08:13 README.md
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 08:13 data
+  -rw-r--r-- 1 benchmarkuser 1001  3488 Aug 31 08:13 datasets.py
+  -rw-r--r-- 1 benchmarkuser 1001  7219 Aug 31 08:13 fds.py
+  -rw-r--r-- 1 benchmarkuser 1001  1662 Aug 31 08:13 loss.py
+  -rw-r--r-- 1 benchmarkuser 1001  5390 Aug 31 08:13 resnet.py
+  -rw-r--r-- 1 benchmarkuser 1001 19274 Aug 31 08:13 train.py
+  -rw-r--r-- 1 benchmarkuser 1001  4127 Aug 31 08:13 utils.py
+  imdb-wiki-dir/:
+  total 72
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 08:13 .
+  drwxr-xr-x 9 benchmarkuser 1001  4096 Aug 31 08:13 ..
+  -rw-r--r-- 1 benchmarkuser 1001  3794 Aug 31 08:13 README.md
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 08:13 data
+  -rw-r--r-- 1 benchmarkuser 1001  3491 Aug 31 08:13 datasets.py
+  -rw-r--r-- 1 benchmarkuser 1001   594 Aug 31 08:13 download_imdb_wiki.py
+  -rw-r--r-- 1 benchmarkuser 1001  7219 Aug 31 08:13 fds.py
+  -rw-r--r-- 1 benchmarkuser 1001  1662 Aug 31 08:13 loss.py
+  -rw-r--r-- 1 benchmarkuser 1001  5390 Aug 31 08:13 resnet.py
+  -rw-r--r-- 1 benchmarkuser 1001 19293 Aug 31 08:13 train.py
+  -rw-r--r-- 1 benchmarkuser 1001  4127 Aug 31 08:13 utils.py
+  nyud2-dir/:
+  total 76
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Aug 31 08:13 .
+  drwxr-xr-x 9 benchmarkuser 1001  4096 Aug 31 08:13 ..
+  -rw-r--r-- 1 benchmarkuser 1001  3689 Aug 31 08:13 README.md
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 08:13 data
+  -rw-r--r-- 1 benchmarkuser 1001   355 Aug 31 08:13 download_nyud2.py
+  -rwxr-xr-x 1 benchmarkuser 1001  8653 Aug 31 08:13 loaddata.py
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 08:13 models
+  -rwxr-xr-x 1 benchmarkuser 1001 10666 Aug 31 08:13 nyu_transform.py
+  -rw-r--r-- 1 benchmarkuser 1001  3521 Aug 31 08:13 preprocess_nyud2.py
+  -rwxr-xr-x 1 benchmarkuser 1001  2191 Aug 31 08:13 test.py
+  -rwxr-xr-x 1 benchmarkuser 1001 11636 Aug 31 08:13 train.py
+  -rwxr-xr-x 1 benchmarkuser 1001  7040 Aug 31 08:13 util.py
+  sts-b-dir/:
+  total 116
+  drwxr-xr-x 5 benchmarkuser 1001  4096 Aug 31 08:13 .
+  drwxr-xr-x 9 benchmarkuser 1001  4096 Aug 31 08:13 ..
+  -rw-r--r-- 1 benchmarkuser 1001  4300 Aug 31 08:13 README.md
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 08:13 allennlp_mods
+  -rwxr-xr-x 1 benchmarkuser 1001  1978 Aug 31 08:13 evaluate.py
+  -rw-r--r-- 1 benchmarkuser 1001  7523 Aug 31 08:13 fds.py
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 08:13 glove
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 08:13 glue_data
+  -rw-r--r-- 1 benchmarkuser 1001  1693 Aug 31 08:13 loss.py
+  -rwxr-xr-x 1 benchmarkuser 1001  6384 Aug 31 08:13 models.py
+  -rwxr-xr-x 1 benchmarkuser 1001  5996 Aug 31 08:13 preprocess.py
+  -rw-r--r-- 1 benchmarkuser 1001    43 Aug 31 08:13 requirements.txt
+  -rwxr-xr-x 1 benchmarkuser 1001  4346 Aug 31 08:13 tasks.py
+  -rwxr-xr-x 1 benchmarkuser 1001 10914 Aug 31 08:13 train.py
+  -rwxr-xr-x 1 benchmarkuser 1001 21787 Aug 31 08:13 trainer.py
+  -rwxr-xr-x 1 benchmarkuser 1001  7606 Aug 31 08:13 util.py
+------------------------------------------------------------
+2025-08-31T08:15:08.953639Z
+Action:
+  command:
+    find . -name "main.py" -o -name "cli.py" -o -name "__main__.py" -o -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile"
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Based on the command history and repository structure, I need to examine key files and identify which are intended as main entry points.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:15:08.953657Z
+Action:
+  command:
+    head -20 agedb-dir/train.py
+  description:
+    Based on the command history and repository structure, I need to analyze this repository to identify all proper entrypoints. Let me examine the key files and identify the intended execution paths.
+Output:
+  import time
+  import argparse
+  import logging
+  from tqdm import tqdm
+  import pandas as pd
+  from collections import defaultdict
+  from scipy.stats import gmean
+  import torch.nn as nn
+  import torch.backends.cudnn as cudnn
+  from torch.utils.data import DataLoader
+  from tensorboard_logger import Logger
+  from resnet import resnet50
+  from loss import *
+  from datasets import AgeDB
+  from utils import *
+  import os
+  os.environ["KMP_WARNINGS"] = "FALSE"
+------------------------------------------------------------
+2025-08-31T08:15:08.953675Z
+Action:
+  command:
+    head -20 imdb-wiki-dir/train.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the structure and command history provided.
+Output:
+  import time
+  import argparse
+  import logging
+  from tqdm import tqdm
+  import pandas as pd
+  from collections import defaultdict
+  from scipy.stats import gmean
+  import torch.nn as nn
+  import torch.backends.cudnn as cudnn
+  from torch.utils.data import DataLoader
+  from tensorboard_logger import Logger
+  from resnet import resnet50
+  from loss import *
+  from datasets import IMDBWIKI
+  from utils import *
+  import os
+  os.environ["KMP_WARNINGS"] = "FALSE"
+------------------------------------------------------------
+2025-08-31T08:15:08.953690Z
+Action:
+  command:
+    head -20 nyud2-dir/train.py
+Output:
+  import argparse
+  import time
+  import os
+  import shutil
+  import logging
+  import torch
+  import torch.backends.cudnn as cudnn
+  import loaddata
+  from tqdm import tqdm
+  from models import modules, net, resnet
+  from util import query_yes_no
+  from test import test
+  from tensorboardX import SummaryWriter
+  parser = argparse.ArgumentParser(description='')
+  # training/optimization related
+  parser.add_argument('--epochs', default=10, type=int,
+                      help='number of total epochs to run')
+  parser.add_argument('--start_epoch', default=0, type=int,
+------------------------------------------------------------
+2025-08-31T08:15:08.953703Z
+Action:
+  command:
+    head -20 sts-b-dir/train.py
+  description:
+    Based on the command history and repository structure, I'll analyze this repository to identify all proper entrypoints. Let me examine the key files and identify which are intended as main entry points.
+Output:
+  import os
+  import sys
+  import time
+  import random
+  import argparse
+  import shutil
+  import logging
+  import torch
+  import numpy as np
+  from allennlp.data.iterators import BasicIterator
+  from preprocess import build_tasks
+  from models import build_model
+  from trainer import build_trainer
+  from evaluate import evaluate
+  from util import device_mapping, query_yes_no, resume_checkpoint
+  def main(arguments):
+      parser = argparse.ArgumentParser(description='')
+------------------------------------------------------------
+2025-08-31T08:15:08.953718Z
+Action:
+  command:
+    grep -l "if __name__ == '__main__':" $(find . -name "*.py")
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history and structure, let me examine key files to determine the intended execution paths.
+Output:
+  ./agedb-dir/data/create_agedb.py
+  ./agedb-dir/data/preprocess_agedb.py
+  ./agedb-dir/train.py
+  ./nyud2-dir/preprocess_nyud2.py
+  ./nyud2-dir/test.py
+  ./nyud2-dir/train.py
+  ./sts-b-dir/train.py
+  ./imdb-wiki-dir/data/preprocess_imdb_wiki.py
+  ./imdb-wiki-dir/data/create_imdb_wiki.py
+  ./imdb-wiki-dir/train.py
+------------------------------------------------------------
+2025-08-31T08:15:08.953750Z
+Action:
+  command:
+    grep -A 10 "if __name__ == '__main__':" ./agedb-dir/train.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  if __name__ == '__main__':
+      main()
+------------------------------------------------------------
+2025-08-31T08:15:08.953798Z
+Action:
+  command:
+    grep -A 3 "if __name__ == '__main__':" ./agedb-dir/train.py
+  description:
+    I'll analyze the repository based on the command history to identify all proper entrypoints. Let me examine the key files more thoroughly to determine the intended execution paths.
+Output:
+  if __name__ == '__main__':
+      main()
+------------------------------------------------------------
+2025-08-31T08:15:08.953821Z
+Action:
+  command:
+    grep -B 5 -A 5 "if __name__ == '__main__':" ./imdb-wiki-dir/train.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files more thoroughly to determine the intended execution paths.
+Output:
+      shot_dict['low']['gmean'] = gmean(np.hstack(low_shot_gmean), axis=None).astype(float)
+      return shot_dict
+  if __name__ == '__main__':
+      main()
+------------------------------------------------------------
+2025-08-31T08:15:08.953840Z
+Action:
+  command:
+    grep -B 5 -A 5 "if __name__ == '__main__':" ./nyud2-dir/train.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the structure and command history provided. Let me examine the key files and identify the intended execution paths.
+Output:
+          'epoch': epoch,
+          'error': error,
+          'metric': metric_dict
+      }, os.path.join(args.store_dir, filename))
+  if __name__ == '__main__':
+      main()
+------------------------------------------------------------
+2025-08-31T08:15:08.953853Z
+Action:
+  command:
+    grep -B 5 -A 5 "if __name__ == '__main__':" ./sts-b-dir/train.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the key files more thoroughly to determine the intended execution paths.
+Output:
+      if not len(args.eval_model):
+          np.savez_compressed(os.path.join(args.store_dir, f"{args.store_name}.npz"), preds=te_preds, labels=te_labels)
+      logging.info("Done testing.")
+  if __name__ == '__main__':
+      sys.exit(main(sys.argv[1:]))
+------------------------------------------------------------
+2025-08-31T08:15:08.953863Z
+Action:
+  command:
+    head -30 agedb-dir/train.py | grep -A 30 "def main"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files more thoroughly to identify the intended execution paths.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:15:08.953873Z
+Action:
+  command:
+    grep -n "def main" agedb-dir/train.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files more thoroughly to determine the intended execution paths.
+Output:
+  112:def main():
+------------------------------------------------------------
+2025-08-31T08:15:08.953881Z
+Action:
+  command:
+    grep -n "def main" */train.py
+Output:
+  agedb-dir/train.py:112:def main():
+  imdb-wiki-dir/train.py:112:def main():
+  nyud2-dir/train.py:66:def main():
+  sts-b-dir/train.py:18:def main(arguments):
+------------------------------------------------------------
+2025-08-31T08:15:08.953888Z
+Action:
+  command:
+    head -20 agedb-dir/data/create_agedb.py
+Output:
+  import os
+  import argparse
+  import pandas as pd
+  from tqdm import tqdm
+  def get_args():
+      parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+      parser.add_argument("--data_path", type=str, default="./data")
+      args = parser.parse_args()
+      return args
+  def main():
+      args = get_args()
+      ages, img_paths = [], []
+      for filename in tqdm(os.listdir(os.path.join(args.data_path, 'AgeDB'))):
+          _, _, age, gender = filename.split('.')[0].split('_')
+------------------------------------------------------------
+2025-08-31T08:15:08.953899Z
+Action:
+  command:
+    head -30 agedb-dir/data/preprocess_agedb.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  from os.path import join
+  import pandas as pd
+  import matplotlib.pyplot as plt
+  BASE_PATH = './data'
+  def visualize_dataset(db="agedb"):
+      file_path = join(BASE_PATH, "meta", "agedb.csv")
+      data = pd.read_csv(file_path)
+      _, ax = plt.subplots(figsize=(6, 3), sharex='all', sharey='all')
+      ax.hist(data['age'], range(max(data['age']) + 2))
+      # ax.set_xlim([0, 102])
+      plt.title(f"{db.upper()} (total: {data.shape[0]})")
+      plt.tight_layout()
+      plt.show()
+  def make_balanced_testset(db="agedb", max_size=30, seed=666, verbose=True, vis=True, save=False):
+      file_path = join(BASE_PATH, "meta", f"{db}.csv")
+      df = pd.read_csv(file_path)
+      df['age'] = df.age.astype(int)
+      val_set, test_set = [], []
+      import random
+      random.seed(seed)
+      for value in range(121):
+          curr_df = df[df['age'] == value]
+          curr_data = curr_df['path'].values
+          random.shuffle(curr_data)
+------------------------------------------------------------
+2025-08-31T08:15:08.953917Z
+Action:
+  command:
+    grep -l "argparse\|ArgumentParser" $(find . -name "*.py") | head -10
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and examine the files systematically.
+Output:
+  ./agedb-dir/data/create_agedb.py
+  ./agedb-dir/train.py
+  ./nyud2-dir/preprocess_nyud2.py
+  ./nyud2-dir/test.py
+  ./nyud2-dir/train.py
+  ./sts-b-dir/train.py
+  ./imdb-wiki-dir/data/create_imdb_wiki.py
+  ./imdb-wiki-dir/train.py
+------------------------------------------------------------
+2025-08-31T08:15:08.953928Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "if __name__ == '__main__':" {} \;
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints for this Deep Imbalanced Regression (DIR) repository. Let me examine the structure and identify all intended execution entry points.
+Output:
+  ./agedb-dir/data/create_agedb.py
+  ./agedb-dir/data/preprocess_agedb.py
+  ./agedb-dir/train.py
+  ./nyud2-dir/preprocess_nyud2.py
+  ./nyud2-dir/test.py
+  ./nyud2-dir/train.py
+  ./sts-b-dir/train.py
+  ./imdb-wiki-dir/data/preprocess_imdb_wiki.py
+  ./imdb-wiki-dir/data/create_imdb_wiki.py
+  ./imdb-wiki-dir/train.py
+------------------------------------------------------------
+2025-08-31T08:15:08.953939Z
+Action:
+  command:
+    head -20 imdb-wiki-dir/download_imdb_wiki.py
+  description:
+    Based on the command history and repository analysis, I'll examine the files to identify all proper entrypoints for this Deep Imbalanced Regression (DIR) repository.
+Output:
+  import os
+  import wget
+  print("Downloading IMDB faces...")
+  imdb_file = "./data/imdb_crop.tar"
+  wget.download("https://data.vision.ee.ethz.ch/cvl/rrothe/imdb-wiki/static/imdb_crop.tar", out=imdb_file)
+  print("Downloading WIKI faces...")
+  wiki_file = "./data/wiki_crop.tar"
+  wget.download("https://data.vision.ee.ethz.ch/cvl/rrothe/imdb-wiki/static/wiki_crop.tar", out=wiki_file)
+  print("Extracting IMDB faces...")
+  os.system(f"tar -xvf {imdb_file} -C ./data")
+  print("Extracting WIKI faces...")
+  os.system(f"tar -xvf {wiki_file} -C ./data")
+  os.remove(imdb_file)
+  os.remove(wiki_file)
+  print("\nCompleted!")
+------------------------------------------------------------
+2025-08-31T08:15:08.953955Z
+Action:
+  command:
+    head -20 nyud2-dir/download_nyud2.py
+  description:
+    Based on the command history and repository analysis, I'll identify all proper entrypoints for this Deep Imbalanced Regression (DIR) repository. Let me examine the structure and identify the intended execution paths.
+Output:
+  import os
+  import gdown
+  import zipfile
+  print("Downloading and extracting NYU v2 dataset to folder './data'...")
+  data_file = "./data.zip"
+  gdown.download("https://drive.google.com/uc?id=1WoOZOBpOWfmwe7bknWS5PMUCLBPFKTOw")
+  print('Extracting...')
+  with zipfile.ZipFile(data_file) as zip_ref:
+      zip_ref.extractall('.')
+  os.remove(data_file)
+  print("Completed!")
+------------------------------------------------------------
+2025-08-31T08:15:08.953991Z
+Action:
+  command:
+    head -20 sts-b-dir/glue_data/create_sts.py
+Output:
+  import os
+  import sys
+  import codecs
+  import numpy as np
+  import urllib
+  if sys.version_info >= (3, 0):
+      import urllib.request
+  import zipfile
+  URLLIB=urllib
+  if sys.version_info >= (3, 0):
+      URLLIB=urllib.request
+  ##### Downloading raw STS-B dataset
+  print("Downloading and extracting STS-B...")
+  data_file = "./glue_data/STS-B.zip"
+  URLLIB.urlretrieve("https://dl.fbaipublicfiles.com/glue/data/STS-B.zip", data_file)
+  with zipfile.ZipFile(data_file) as zip_ref:
+      zip_ref.extractall('./glue_data')
+  os.remove(data_file)
+------------------------------------------------------------
+2025-08-31T08:15:08.954004Z
+Action:
+  command:
+    head -20 sts-b-dir/glove/download_glove.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  import os
+  import wget
+  import zipfile
+  print("Downloading and extracting GloVe word embeddings...")
+  data_file = "./glove/glove.840B.300d.zip"
+  wget.download("http://nlp.stanford.edu/data/glove.840B.300d.zip", out=data_file)
+  with zipfile.ZipFile(data_file) as zip_ref:
+      zip_ref.extractall('./glove')
+  os.remove(data_file)
+  print("\nCompleted!")
+------------------------------------------------------------
+2025-08-31T08:15:08.954016Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "if __name__ == '__main__':" {} \;
+  description:
+    Based on the command history and repository analysis, I'll identify all proper entrypoints for this Deep Imbalanced Regression (DIR) repository. Let me examine the structure systematically to identify the intended execution paths.
+Output:
+  ./agedb-dir/data/create_agedb.py
+  ./agedb-dir/data/preprocess_agedb.py
+  ./agedb-dir/train.py
+  ./nyud2-dir/preprocess_nyud2.py
+  ./nyud2-dir/test.py
+  ./nyud2-dir/train.py
+  ./sts-b-dir/train.py
+  ./imdb-wiki-dir/data/preprocess_imdb_wiki.py
+  ./imdb-wiki-dir/data/create_imdb_wiki.py
+  ./imdb-wiki-dir/train.py
+------------------------------------------------------------
+2025-08-31T08:15:08.954028Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./agedb-dir/train.py
+    ./agedb-dir/data/create_agedb.py
+    ./agedb-dir/data/preprocess_agedb.py
+    ./imdb-wiki-dir/train.py
+    ./imdb-wiki-dir/download_imdb_wiki.py
+    ./imdb-wiki-dir/data/create_imdb_wiki.py
+    ./imdb-wiki-dir/data/preprocess_imdb_wiki.py
+    ./nyud2-dir/train.py
+    ./nyud2-dir/test.py
+    ./nyud2-dir/download_nyud2.py
+    ./nyud2-dir/preprocess_nyud2.py
+    ./sts-b-dir/train.py
+    ./sts-b-dir/glue_data/create_sts.py
+    ./sts-b-dir/glove/download_glove.py
+    EOF
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:15:08.954046Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./agedb-dir/train.py
+    ./agedb-dir/data/create_agedb.py
+    ./agedb-dir/data/preprocess_agedb.py
+    ./imdb-wiki-dir/train.py
+    ./imdb-wiki-dir/download_imdb_wiki.py
+    ./imdb-wiki-dir/data/create_imdb_wiki.py
+    ./imdb-wiki-dir/data/preprocess_imdb_wiki.py
+    ./nyud2-dir/train.py
+    ./nyud2-dir/test.py
+    ./nyud2-dir/download_nyud2.py
+    ./nyud2-dir/preprocess_nyud2.py
+    ./sts-b-dir/train.py
+    ./sts-b-dir/glue_data/create_sts.py
+    ./sts-b-dir/glove/download_glove.py
+    EOF
+  description:
+    Based on the command history and repository analysis, I'll identify all proper entrypoints for this Deep Imbalanced Regression (DIR) repository. Let me examine the structure and create the entrypoints list.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:15:08.954064Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

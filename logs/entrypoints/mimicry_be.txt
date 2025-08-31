@@ -1,0 +1,3 @@
+    ./examples/sngan_example.py
+    ./examples/eval_pretrained.py
+    ./examples/ssgan_tutorial.py

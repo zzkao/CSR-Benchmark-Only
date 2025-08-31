@@ -1,0 +1,4 @@
+    scripts/train.py
+    scripts/validate.py
+    scripts/train.sh
+    scripts/validate.sh

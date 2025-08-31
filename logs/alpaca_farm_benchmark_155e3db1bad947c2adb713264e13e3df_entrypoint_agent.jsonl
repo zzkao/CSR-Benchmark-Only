@@ -1,0 +1,664 @@
+2025-08-31T10:31:43.657145Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.go" -o -name "*.java" -o -name "*.rs" -o -name "*.sh" -o -name "Makefile" -o -name "Dockerfile" -o -name "package.json" -o -name "setup.py" -o -name "pyproject.toml" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" | head -20
+  description:
+    I'll analyze the GitHub repository to identify all proper entrypoints. Let me start by exploring the repository structure and contents.
+Output:
+  ./package.json
+  ./.github/workflows/set_version.py
+  ./src/alpaca_farm/data_postprocessor.py
+  ./src/alpaca_farm/types.py
+  ./src/alpaca_farm/torch_ops.py
+  ./src/alpaca_farm/common.py
+  ./src/alpaca_farm/models/reward_model.py
+  ./src/alpaca_farm/models/rl_models.py
+  ./src/alpaca_farm/models/__init__.py
+  ./src/alpaca_farm/utils.py
+  ./src/alpaca_farm/trainer_utils.py
+  ./src/alpaca_farm/rl/quark_trainer.py
+  ./src/alpaca_farm/rl/quark_utils.py
+  ./src/alpaca_farm/rl/dpo_trainer.py
+  ./src/alpaca_farm/rl/ppo_trainer.py
+  ./src/alpaca_farm/rl/rl_trainer.py
+  ./src/alpaca_farm/rl/ppo_utils.py
+  ./src/alpaca_farm/rl/kl_controller.py
+  ./src/alpaca_farm/rl/__init__.py
+  ./src/alpaca_farm/flash_models/flash_llama.py
+------------------------------------------------------------
+2025-08-31T10:31:43.657247Z
+Action:
+  command:
+    cat package.json
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the key configuration files and exploring the repository structure more thoroughly.
+Output:
+  {
+    "devDependencies": {
+      "@commitlint/cli": "^18.4.3",
+      "@commitlint/config-conventional": "^18.4.3",
+      "husky": "^8.0.3"
+    },
+    "scripts": {
+      "prepare": "husky install"
+    }
+  }
+------------------------------------------------------------
+2025-08-31T10:31:43.657266Z
+Action:
+  command:
+    find . -name "*.py" -path "*/bin/*" -o -name "main.py" -o -name "cli.py" -o -name "__main__.py" -o -name "setup.py" -o -name "pyproject.toml" | head -10
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+  ./setup.py
+------------------------------------------------------------
+2025-08-31T10:31:43.657281Z
+Action:
+  command:
+    cat setup.py
+  description:
+    I'll continue analyzing the repository to identify all proper entrypoints. Let me examine the key configuration files and explore the repository structure more thoroughly.
+Output:
+  # Copyright 2023 The Alpaca Team
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+  import logging
+  import os
+  import re
+  import setuptools
+  def parse_requirements(filename):
+      logging.warning(f"Reading requirements from {filename}")
+      with open(filename, "r") as file:
+          lines = [line.strip() for line in file]
+      return [line for line in lines if line and not line.startswith("#")]
+  here = os.path.realpath(os.path.dirname(__file__))
+  with open(os.path.join(here, "src", "alpaca_farm", "__init__.py")) as f:
+      meta_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", f.read(), re.M)
+      if meta_match:
+          version = meta_match.group(1)
+      else:
+          raise RuntimeError("Unable to find `__version__`.")
+  # Must use absolute path here to ensure `python3 -m build` runs when porting package to pypi.
+  install_requires = parse_requirements(os.path.join(os.path.dirname(__file__), "requirements.txt"))
+  setuptools.setup(
+      name="alpaca_farm",
+      version=version,
+      package_dir={"": "src"},
+      packages=setuptools.find_packages("src"),
+      include_package_data=True,
+      install_requires=install_requires,
+      extras_require={
+          "full": [
+              # Training efficiency.
+              "flash-attn",
+              "apex",
+              "deepspeed",
+              # Plotting and visualization.
+              "benepar",
+              "spacy",
+              "spacy_fastlang",
+              "plotly",
+              "mapply",
+          ],
+          "dev": {
+              "pre-commit>=3.2.0",
+              "black>=23.1.0",
+              "isort",
+          },
+      },
+      python_requires=">=3.10",
+      classifiers=[
+          "Intended Audience :: Developers",
+          "Intended Audience :: Education",
+          "Intended Audience :: Science/Research",
+          "License :: OSI Approved :: Apache Software License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Topic :: Scientific/Engineering :: Artificial Intelligence",
+      ],
+      long_description=open("README.md", "r", encoding="utf-8").read(),
+      long_description_content_type="text/markdown",
+  )
+------------------------------------------------------------
+2025-08-31T10:31:43.657333Z
+Action:
+  command:
+    find . -name "pyproject.toml" -o -name "Makefile" -o -name "Dockerfile" | head -10
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and explore additional configuration files and entry points.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657344Z
+Action:
+  command:
+    find . -name "pyproject.toml" -o -name "Makefile" -o -name "Dockerfile" | head -10
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and explore additional configuration files and entry points.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657353Z
+Action:
+  command:
+    find . -type f -name "*.py" | grep -E "(main|cli|run|app|start|__main__)" | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me first examine the repository structure more thoroughly and check for common entry points.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657364Z
+Action:
+  command:
+    find . -type f -name "*.py" | grep -E "(main|cli|run|app|start|__main__)" | head -20
+  description:
+    I'll analyze the GitHub repository to identify all proper entrypoints. Let me continue the exploration by examining the repository structure and looking for additional entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657376Z
+Action:
+  command:
+    find . -type d -name "scripts" -o -name "bin" -o -name "examples" | head -10
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the remaining files and scripts.
+Output:
+  ./examples
+  ./examples/scripts
+------------------------------------------------------------
+2025-08-31T10:31:43.657387Z
+Action:
+  command:
+    find ./examples -type f -name "*.py" | head -10
+  description:
+    I'll continue analyzing the repository to identify all proper entrypoints. Let me examine the examples/scripts directory and look for any executable files or scripts that are intended as entrypoints.
+Output:
+  ./examples/supervised.py
+  ./examples/reward_modeling.py
+  ./examples/rlhf_quark.py
+  ./examples/best_of_n.py
+  ./examples/oai_baselines.py
+  ./examples/dpo.py
+  ./examples/rlhf_ppo.py
+  ./examples/__init__.py
+------------------------------------------------------------
+2025-08-31T10:31:43.657400Z
+Action:
+  command:
+    find ./examples/scripts -type f -name "*.py" -o -name "*.sh" | head -20
+  description:
+    I'll continue analyzing the repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the examples/scripts directory and check for any additional configuration or executable files.
+Output:
+  ./examples/scripts/rlhf_ppo.sh
+  ./examples/scripts/rlhf_quark.sh
+  ./examples/scripts/dpo.sh
+  ./examples/scripts/sft.sh
+  ./examples/scripts/expiter.sh
+  ./examples/scripts/reward_modeling.sh
+------------------------------------------------------------
+2025-08-31T10:31:43.657447Z
+Action:
+  command:
+    grep -n "console_scripts\|entry_points\|scripts" setup.py
+  description:
+    I need to analyze this GitHub repository to identify all proper entrypoints. Based on the command history, I can see this is an `alpaca_farm` Python package. Let me examine the setup.py file more carefully and check for any console scripts or entry points.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657458Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and examine the repository structure systematically.
+Output:
+  total 196
+  drwxr-xr-x 9 benchmarkuser 1001  4096 Aug 31 10:29 .
+  drwxr-xr-x 1 root          root  4096 Aug 31 10:29 ..
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Aug 31 10:29 .git
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 10:29 .github
+  -rw-r--r-- 1 benchmarkuser 1001  3126 Aug 31 10:29 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001   433 Aug 31 10:29 .pre-commit-config.yaml
+  -rw-r--r-- 1 benchmarkuser 1001     0 Aug 31 10:29 CHANGELOG.md
+  -rw-r--r-- 1 benchmarkuser 1001 19346 Aug 31 10:29 DATA_LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001 11410 Aug 31 10:29 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001    89 Aug 31 10:29 MANIFEST.in
+  -rw-r--r-- 1 benchmarkuser 1001 17204 Aug 31 10:29 README.md
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:29 assets
+  -rw-r--r-- 1 benchmarkuser 1001    69 Aug 31 10:29 commitlint.config.js
+  drwxr-xr-x 6 benchmarkuser 1001  4096 Aug 31 10:29 examples
+  -rw-r--r-- 1 benchmarkuser 1001 78744 Aug 31 10:29 package-lock.json
+  -rw-r--r-- 1 benchmarkuser 1001   188 Aug 31 10:29 package.json
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:29 pretrained_models
+  -rw-r--r-- 1 benchmarkuser 1001   210 Aug 31 10:29 requirements.txt
+  -rw-r--r-- 1 benchmarkuser 1001  2702 Aug 31 10:29 setup.py
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 10:29 src
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 10:29 tests
+------------------------------------------------------------
+2025-08-31T10:31:43.657476Z
+Action:
+  command:
+    cat README.md | head -50
+  description:
+    I need to analyze this GitHub repository to identify all proper entrypoints. Based on the command history, I can see this is an `alpaca_farm` Python package. Let me systematically examine the repository structure and configuration files to identify all intended entrypoints.
+Output:
+  <p align="center" width="100%">
+  <img src="assets/AlpacaFarm_big.png" alt="AlpacaFarm" style="width: 50%; min-width: 300px; display: block; margin: auto;">
+  </p>
+  # AlpacaFarm: A Simulation Framework for Methods that <br/>Learn from Human Feedback
+  [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/alpaca_farm/blob/main/LICENSE)
+  [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/alpaca_farm/blob/main/DATA_LICENSE)
+  [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
+  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+  **Changing auto-annotators**: `text-davinci-003` is [now depreciated](https://platform.openai.com/docs/deprecations) by OpenAI, as a result, we can't use the original pool of annotators for automatically generating preferences (for fine-tuning or evaluation). We, therefore, switched to the GPT-4 annotator from [AlpacaEval 1](https://github.com/tatsu-lab/alpaca_eval). All results should thus be compared to models from AlpacaEval 1 rather than the original AlpacaFarm results. Note that over-optimization might not be seen in this new setting (see Figure 4 in the [paper](https://arxiv.org/abs/2305.14387)). We are sorry for the inconvenience caused.
+  ---
+  Research and development on learning from human feedback is difficult because methods
+  like [RLHF](https://arxiv.org/abs/2203.02155) are complex and costly to run.
+  AlpacaFarm is a simulator that enables research and development on learning from feedback at a fraction of the usual
+  cost, promoting accessible research on instruction following and alignment.
+  Please read our [paper](https://arxiv.org/abs/2305.14387)
+  and [blog post](https://crfm.stanford.edu/2023/05/22/alpaca-farm.html) for details on our research findings.
+  This repo contains code for
+  - [simulating preference feedback from language models such as GPT-4](#simulating-pairwise-preference)
+  - [automated evaluation for instruction-following models](#running-automatic-evaluation)
+  - [validated reference implementations of baseline methods such as PPO and best-of-n](#running-reference-methods)
+  The data needed to run our code is hosted on HuggingFace: <https://huggingface.co/datasets/tatsu-lab/alpaca_farm>.
+  **Usage and License Notices**: AlpacaFarm is intended and licensed for research use only.
+  The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used
+  outside of research purposes.
+  The weight diff is also CC BY NC 4.0 (allowing only non-commercial use).
+  ## The AlpacaFarm
+  <br>
+  <p style="text-align:center;">
+    <img style="max-width:70%; height:auto;" src="./assets/fig1.jpg" alt="Workflow">
+  </p>
+  Instruction-following models are typically developed in 3 steps
+  1. Supervised fine-tuning with demonstrations
+  2. Learning from human feedback; usually pairwise preferences
+  3. Human evaluation with interaction
+------------------------------------------------------------
+2025-08-31T10:31:43.657515Z
+Action:
+  command:
+    head -20 ./examples/supervised.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and examine the repository structure systematically. Let me check for any console scripts or entry points defined in the package metadata and look at the examples directory more carefully.
+Output:
+  # Copyright 2023 The Alpaca Team
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+  import contextlib
+  import os
+  import pathlib
+  from dataclasses import dataclass, field
+  from typing import List, Literal, Optional
+------------------------------------------------------------
+2025-08-31T10:31:43.657531Z
+Action:
+  command:
+    head -50 ./examples/supervised.py | grep -A 20 "def main\|if __name__"
+  description:
+    I need to analyze the repository structure and examine the entrypoints based on the command history. Let me continue the systematic analysis.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657540Z
+Action:
+  command:
+    grep -r "if __name__ == ['\"]__main__['\"]" . --include="*.py" | head -20
+  description:
+    I'll analyze this GitHub repository to identify all proper entrypoints. Based on the command history, I can see this is an `alpaca_farm` Python package. Let me systematically examine the repository structure and identify all intended entrypoints.
+Output:
+  ./.github/workflows/set_version.py:if __name__ == "__main__":
+  ./examples/supervised.py:if __name__ == "__main__":
+  ./examples/reward_modeling.py:if __name__ == "__main__":
+  ./examples/rlhf_quark.py:if __name__ == "__main__":
+  ./examples/best_of_n.py:if __name__ == "__main__":
+  ./examples/oai_baselines.py:if __name__ == "__main__":
+  ./examples/dpo.py:if __name__ == "__main__":
+  ./examples/rlhf_ppo.py:if __name__ == "__main__":
+  ./tests/test_flash_opt.py:if __name__ == "__main__":
+  ./tests/test_flash_llama.py:if __name__ == "__main__":
+  ./pretrained_models/recover_model_weights.py:if __name__ == "__main__":
+------------------------------------------------------------
+2025-08-31T10:31:43.657571Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "if __name__ == ['\"]__main__['\"]" {} \;
+  description:
+    I need to analyze this repository to identify all proper entrypoints. Based on the command history, I can see this is an `alpaca_farm` Python package. Let me examine the repository structure and identify all intended entrypoints systematically.
+Output:
+  ./.github/workflows/set_version.py
+  ./examples/supervised.py
+  ./examples/reward_modeling.py
+  ./examples/rlhf_quark.py
+  ./examples/best_of_n.py
+  ./examples/oai_baselines.py
+  ./examples/dpo.py
+  ./examples/rlhf_ppo.py
+  ./tests/test_flash_opt.py
+  ./tests/test_flash_llama.py
+  ./pretrained_models/recover_model_weights.py
+------------------------------------------------------------
+2025-08-31T10:31:43.657585Z
+Action:
+  command:
+    grep -n "console_scripts\|entry_points\|scripts\|\[project.scripts\]" setup.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657593Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "console_scripts\|entry_points" {} \;
+  description:
+    I'll analyze this GitHub repository to identify all proper entrypoints. Based on the command history, I can see this is an `alpaca_farm` Python package. Let me examine the repository structure systematically and check for any console scripts or entry points.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657601Z
+Action:
+  command:
+    find . -type f -name "*.py" -exec grep -l "def main" {} \; | head -10
+  description:
+    I'll analyze this GitHub repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the repository systematically.
+Output:
+  ./examples/supervised.py
+  ./examples/reward_modeling.py
+  ./examples/rlhf_quark.py
+  ./examples/best_of_n.py
+  ./examples/oai_baselines.py
+  ./examples/dpo.py
+  ./examples/rlhf_ppo.py
+  ./tests/test_flash_opt.py
+  ./tests/test_flash_llama.py
+------------------------------------------------------------
+2025-08-31T10:31:43.657611Z
+Action:
+  command:
+    head -20 ./examples/supervised.py
+  description:
+    I'll analyze this GitHub repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files systematically and create the entrypoints file.
+Output:
+  # Copyright 2023 The Alpaca Team
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+  import contextlib
+  import os
+  import pathlib
+  from dataclasses import dataclass, field
+  from typing import List, Literal, Optional
+------------------------------------------------------------
+2025-08-31T10:31:43.657625Z
+Action:
+  command:
+    cat README.md | grep -A 10 -B 5 "python -m\|python.*\.py\|Running\|Usage"
+  description:
+    Based on the command history and my analysis of the repository structure, I can see this is the `alpaca_farm` Python package that provides a simulation framework for methods that learn from human feedback. Let me identify all proper entrypoints by examining the repository structure systematically.
+Output:
+  # AlpacaFarm: A Simulation Framework for Methods that <br/>Learn from Human Feedback
+  [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/alpaca_farm/blob/main/LICENSE)
+  [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/alpaca_farm/blob/main/DATA_LICENSE)
+  [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
+  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+  **Changing auto-annotators**: `text-davinci-003` is [now depreciated](https://platform.openai.com/docs/deprecations) by OpenAI, as a result, we can't use the original pool of annotators for automatically generating preferences (for fine-tuning or evaluation). We, therefore, switched to the GPT-4 annotator from [AlpacaEval 1](https://github.com/tatsu-lab/alpaca_eval). All results should thus be compared to models from AlpacaEval 1 rather than the original AlpacaFarm results. Note that over-optimization might not be seen in this new setting (see Figure 4 in the [paper](https://arxiv.org/abs/2305.14387)). We are sorry for the inconvenience caused.
+  ---
+  Research and development on learning from human feedback is difficult because methods
+  like [RLHF](https://arxiv.org/abs/2203.02155) are complex and costly to run.
+  AlpacaFarm is a simulator that enables research and development on learning from feedback at a fraction of the usual
+  --
+  - [automated evaluation for instruction-following models](#running-automatic-evaluation)
+  - [validated reference implementations of baseline methods such as PPO and best-of-n](#running-reference-methods)
+  The data needed to run our code is hosted on HuggingFace: <https://huggingface.co/datasets/tatsu-lab/alpaca_farm>.
+  **Usage and License Notices**: AlpacaFarm is intended and licensed for research use only.
+  The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used
+  outside of research purposes.
+  The weight diff is also CC BY NC 4.0 (allowing only non-commercial use).
+  ## The AlpacaFarm
+  <br>
+  <p style="text-align:center;">
+    <img style="max-width:70%; height:auto;" src="./assets/fig1.jpg" alt="Workflow">
+  </p>
+  --
+  #   'output_2': 'maybe', 
+  #   'annotator': 'chatgpt_2', 
+  #   'preference': 1}]
+  ```
+  ## Running automatic evaluation
+  For all the evaluation we use [**AlpacaEval**](https://github.com/tatsu-lab/alpaca_eval/tree/main#making-a-new-evaluator) with our pool of automatic annotators. 
+  To get started, set the environment variable OPENAI_API_KEY to your OpenAI API key, and (optionally) OPENAI_ORG to the
+  organization ID. You can do this by running
+  ```bash
+  export OPENAI_API_KEY="sk..."
+  ```
+  --
+  # alpaca-farm-ppo-human            41.24            1.73      805         803
+  # alpaca-7b                        26.46            1.54      805         396
+  # text_davinci_001                 15.17            1.24      804         296
+  ```
+  ## Running reference methods
+  We provide reference implementations of several methods for learning from pairwise feedback.
+  Example code to run these methods can be found in the `examples/` directory.
+  This includes [supervised fine-tuning](examples/supervised.py), [reward modeding](examples/reward_modeling.py)
+  , [RLHF with PPO](examples/rlhf_ppo.py), [best-of-n decoding](examples/best_of_n.py) and more.
+  Below we give example commands for reproducing the model artifacts in our paper. Notes:
+  - All training code are tested with FlashAttention enabled on a machine with 8 80GB A100 GPUs.
+  - Best-of-n decoding was tested with a single 80GB GPU.
+  --
+  ### Best-of-n decoding
+  To replicate our best-of-n inference-time decoding results for the AlpacaFarm evaluation suite, run
+  ```bash
+  python examples/best_of_n.py \
+    --task "run_best_of_n" \
+    --num_return_sequences 16 \  # This is the n in best-of-n.
+    --per_device_batch_size 4 \  # Reduce this if you don't have enough memory.
+    --split "eval" \
+    --mixed_precision "bf16" \
+    --tf32 True \
+    --flash_attn True \
+    --output_path <your_output_path_to_store_samples>
+  --
+  ### Expert Iteration
+  To replicate our expert iteration results for the AlpacaFarm evaluation suite, first produce best-of-n samples. Run
+  ```bash
+  python examples/best_of_n.py \
+    --task "run_best_of_n" \
+    --num_return_sequences 16 \  # This is the n in best-of-n.
+    --per_device_batch_size 4 \  # Reduce this if you don't have enough memory.
+    --split "unlabeled" \
+    --mixed_precision "bf16" \
+    --tf32 True \
+    --flash_attn True \
+    --output_path '<your_output_dir_for_expiter_data>/best_of_n_samples.json'
+  --
+  ### OpenAI models
+  To run the OpenAI reference models with our prompts and decoding hyperparameters, run
+  ```bash
+  python examples/oai_baselines.py \
+  ```
+  You can then use the generated samples at `<save_path>` directly with our automated evaluation.
+  ## Downloading pre-tuned AlpacaFarm models
+  We provide model checkpoints for reward models and all our reference methods, listed in Table 2 of
+  our [paper](https://arxiv.org/abs/2305.14387). Concretely, we tune each reference method in AlpacaFarm simulation and on
+  --
+  checkpoint [converted into the Hugging Face format](https://huggingface.co/docs/transformers/main/model_doc/llama)
+  **with transformers>=4.29.2**.
+  Then, run the following to download all AlpacaFarm models:
+  ```
+  python -m pretrained_models.recover_model_weights \
+    --alpaca-farm-model-name all
+  ```
+  Or, specify a particular model name to download just that model:
+  ```
+  python -m pretrained_models.recover_model_weights \
+    --models-save-dir <dir_to_save_all_models>
+  ```
+  To download either of the reward models individually, you'll need to have `sft10k` downloaded first
+  to `<dir_to_save_all_models>`.
+  ## Citation
+------------------------------------------------------------
+2025-08-31T10:31:43.657693Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    examples/supervised.py
+    examples/reward_modeling.py
+    examples/rlhf_quark.py
+    examples/best_of_n.py
+    examples/oai_baselines.py
+    examples/dpo.py
+    examples/rlhf_ppo.py
+    pretrained_models/recover_model_weights.py
+    EOF
+  description:
+    Based on the command history and my analysis of the repository structure, I can identify all the proper entrypoints for this alpaca_farm repository. Let me create the entrypoints.txt file with all the identified proper entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657708Z
+Action:
+  command:
+    find . -name "*.sh" -type f | grep -E "examples/scripts" | head -10
+  description:
+    Based on my analysis of the repository structure and the command history, I can identify all the proper entrypoints for this alpaca_farm repository. Let me examine the repository more thoroughly to ensure I capture all intended entrypoints.
+Output:
+  ./examples/scripts/rlhf_ppo.sh
+  ./examples/scripts/rlhf_quark.sh
+  ./examples/scripts/dpo.sh
+  ./examples/scripts/sft.sh
+  ./examples/scripts/expiter.sh
+  ./examples/scripts/reward_modeling.sh
+------------------------------------------------------------
+2025-08-31T10:31:43.657720Z
+Action:
+  command:
+    head -10 ./examples/scripts/sft.sh
+  description:
+    Based on the command history and my analysis of the repository structure, I can identify all proper entrypoints for this alpaca_farm repository. Let me examine the shell scripts in the examples/scripts directory and finalize the entrypoints file.
+Output:
+  #!/bin/bash
+  output_dir=$1
+  run_name=$2
+  model_name_or_path=$3
+  torchrun --nproc_per_node=8 --master_port=1234 examples/supervised.py \
+    --model_name_or_path "${model_name_or_path}" \
+    --fp16 False \
+    --bf16 True \
+------------------------------------------------------------
+2025-08-31T10:31:43.657743Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    examples/supervised.py
+    examples/reward_modeling.py
+    examples/rlhf_quark.py
+    examples/best_of_n.py
+    examples/oai_baselines.py
+    examples/dpo.py
+    examples/rlhf_ppo.py
+    examples/scripts/rlhf_ppo.sh
+    examples/scripts/rlhf_quark.sh
+    examples/scripts/dpo.sh
+    examples/scripts/sft.sh
+    examples/scripts/expiter.sh
+    examples/scripts/reward_modeling.sh
+    pretrained_models/recover_model_weights.py
+    EOF
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657760Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on my analysis of the repository structure and the command history, I can see this is the `alpaca_farm` Python package - a simulation framework for methods that learn from human feedback. Let me examine the repository systematically to identify all proper entrypoints.
+Output:
+  examples/supervised.py
+  examples/reward_modeling.py
+  examples/rlhf_quark.py
+  examples/best_of_n.py
+  examples/oai_baselines.py
+  examples/dpo.py
+  examples/rlhf_ppo.py
+  examples/scripts/rlhf_ppo.sh
+  examples/scripts/rlhf_quark.sh
+  examples/scripts/dpo.sh
+  examples/scripts/sft.sh
+  examples/scripts/expiter.sh
+  examples/scripts/reward_modeling.sh
+  pretrained_models/recover_model_weights.py
+------------------------------------------------------------
+2025-08-31T10:31:43.657774Z
+Action:
+  command:
+    find . -name "pyproject.toml" -o -name "Makefile" -o -name "Dockerfile"
+  description:
+    I'll analyze this GitHub repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the key files and configurations to ensure I capture all intended entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:31:43.657782Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and my analysis of the repository structure, I need to examine the repository to identify all proper entrypoints for this alpaca_farm package. Let me check if there are any additional entrypoints I might have missed and verify the current entrypoints.txt file.
+Output:
+  examples/supervised.py
+  examples/reward_modeling.py
+  examples/rlhf_quark.py
+  examples/best_of_n.py
+  examples/oai_baselines.py
+  examples/dpo.py
+  examples/rlhf_ppo.py
+  examples/scripts/rlhf_ppo.sh
+  examples/scripts/rlhf_quark.sh
+  examples/scripts/dpo.sh
+  examples/scripts/sft.sh
+  examples/scripts/expiter.sh
+  examples/scripts/reward_modeling.sh
+  pretrained_models/recover_model_weights.py
+------------------------------------------------------------
+2025-08-31T10:31:43.657794Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

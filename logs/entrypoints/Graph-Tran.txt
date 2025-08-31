@@ -1,0 +1,7 @@
+    ./UGformerV1_PyTorch/train_UGformerV1_Sup.py
+    ./UGformerV1_PyTorch/train_UGformerV1_UnSup.py
+    ./UGformerV1_TF/train_UGformerV1_Sup.py
+    ./UGformerV1_TF/train_UGformerV1_UnSup.py
+    ./UGformerV2_PyTorch/train_UGformerV2.py
+    ./TextGNN/train_TextGNN.py
+    ./gcn_baseline/train_unsup_gcn.py

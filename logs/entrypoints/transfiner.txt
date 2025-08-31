@@ -1,0 +1,14 @@
+    tools/train_net.py
+    tools/train_net_swinb.py
+    tools/train_net_swint.py
+    tools/plain_train_net.py
+    tools/lazyconfig_train_net.py
+    tools/lightning_train_net.py
+    tools/analyze_model.py
+    tools/benchmark.py
+    tools/visualize_data.py
+    tools/visualize_json_results.py
+    tools/convert-torchvision-to-d2.py
+    tools/deploy/export_model.py
+    demo/demo.py
+    demo/demo_swinb.py

@@ -1,0 +1,304 @@
+2025-08-31T08:46:28.317816Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.c" -o -name "*.cpp" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "Makefile" -o -name "Dockerfile" | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the repository structure and contents.
+Output:
+  ./infer_pair.py
+  ./render_interpolate.py
+  ./test.py
+  ./lib/trainer.py
+  ./lib/loss.py
+  ./lib/util/motion.py
+  ./lib/util/global_norm.py
+  ./lib/util/visualization.py
+  ./lib/util/general.py
+  ./lib/util/__init__.py
+  ./lib/network.py
+  ./lib/data.py
+  ./lib/__init__.py
+  ./lib/operation.py
+  ./scripts/rotate_test_set.py
+  ./scripts/compute_mse.py
+  ./scripts/preprocess.py
+  ./scripts/preprocess_solo_dance.py
+  ./scripts/__init__.py
+  ./train.py
+------------------------------------------------------------
+2025-08-31T08:46:28.317882Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "if __name__ == ['\"]__main__['\"]" {} \;
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the repository structure and key configuration files.
+Output:
+  ./infer_pair.py
+  ./render_interpolate.py
+  ./test.py
+  ./scripts/rotate_test_set.py
+  ./scripts/compute_mse.py
+  ./scripts/preprocess.py
+  ./scripts/preprocess_solo_dance.py
+  ./train.py
+------------------------------------------------------------
+2025-08-31T08:46:28.317902Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and examine the repository structure more thoroughly.
+Output:
+  total 64
+  drwxr-xr-x 7 benchmarkuser 1001 4096 Aug 31 08:45 .
+  drwxr-xr-x 1 root          root 4096 Aug 31 08:45 ..
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 08:45 .git
+  -rw-r--r-- 1 benchmarkuser 1001   51 Aug 31 08:45 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 6076 Aug 31 08:45 README.md
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:45 configs
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:45 docs
+  -rw-r--r-- 1 benchmarkuser 1001 3174 Aug 31 08:45 infer_pair.py
+  drwxr-xr-x 3 benchmarkuser 1001 4096 Aug 31 08:45 lib
+  -rw-r--r-- 1 benchmarkuser 1001 4909 Aug 31 08:45 render_interpolate.py
+  -rw-r--r-- 1 benchmarkuser 1001  139 Aug 31 08:45 requirements.txt
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:45 scripts
+  -rw-r--r-- 1 benchmarkuser 1001 3812 Aug 31 08:45 test.py
+  -rw-r--r-- 1 benchmarkuser 1001 3748 Aug 31 08:45 train.py
+------------------------------------------------------------
+2025-08-31T08:46:28.317922Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile"
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and examine the files more thoroughly.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:46:28.317936Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and examine the files more thoroughly.
+Output:
+  # TransMoMo: Invariance-Driven Unsupervised Video Motion Retargeting
+  ![Python](https://img.shields.io/badge/Python->=3.6-Blue?logo=python)  ![Pytorch](https://img.shields.io/badge/PyTorch->=1.1.0-Orange?logo=pytorch)
+  ### [Project Page](https://yzhq97.github.io/transmomo/) | [YouTube](https://youtu.be/akbRtnRMkMk) | [Paper](https://arxiv.org/pdf/2003.14401.pdf)
+  This is the official PyTorch implementation of the CVPR 2020 paper "TransMoMo: Invariance-Driven Unsupervised Video Motion Retargeting".
+    <img src='https://yzhq97.github.io/assets/transmomo/dance.gif' width='480'/>
+  </p>
+  ## Environment
+  ```
+  conda install pytorch torchvision cudatoolkit=<your cuda version>
+  conda install pyyaml scikit-image scikit-learn opencv
+  pip install -r requirements.txt
+  ```
+  ## Data
+  ### Mixamo
+  [Mixamo](https://www.mixamo.com/) is a synthesized 3D character animation dataset.
+  1. Download mixamo data [here](https://drive.google.com/file/d/1lMa-4Bspn2_XV4wqo_s9Bfa35-19UAkB/view?usp=sharing).
+  2. Extract under `data/mixamo`
+  For directions for downloading 3D Mixamo data please refer to [this link](https://github.com/ChrisWu1997/2D-Motion-Retargeting/blob/master/dataset/Guide%20For%20Downloading%20Mixamo%20Data.md).
+  ### SoloDance
+  SoloDance is a collection of dancing videos on youtube. We use [DensePose](https://github.com/facebookresearch/DensePose) to extract skeleton sequences from these videos for training.
+  1. Download the extracted skeleton sequences [here](https://drive.google.com/file/d/1366FaH0W2VYVW26ZbQJUp1x5GgMyMXuo/view?usp=sharing).
+  2. Extract under `data/solo_dance`
+  The original videos can be downloaded [here](https://drive.google.com/drive/folders/1hBj2uVJGABZz2aiqVYJpJ4SqBhYT-kYz?usp=sharing).
+  ### Preprocessing
+  run `sh scripts/preprocess.sh` to preprocess the two datasets above.
+  ## Pretrained model
+  Download the pretrained models [here](https://drive.google.com/drive/folders/1xZ2Pw7ObrDUIH89ipH1diyFZJxeXNDd8?usp=sharing).
+  ## Inference
+  1. For *Skeleton Extraction*, please consider using a pose estimation library such as [Detectron2](https://github.com/facebookresearch/detectron2). We require the input skeleton sequences to be in the format of a numpy `.npy` file:
+     - The file should contain an array with shape `15 x 2 x length`.
+     - The first dimension (15) corresponds the 15 body joint defined [here](https://github.com/yzhq97/transmomo.pytorch/blob/master/docs/keypoint_format.md).
+     - The second dimension (2) corresponds to x and y coordinates.
+     - The third dimension (length) is the temporal dimension. 
+  2. For *Motion Retargeting Network*, we provide the sample command for inference:
+    ```shell script
+    python infer_pair.py 
+    --config configs/transmomo.yaml 
+    --checkpoint transmomo_mixamo_36_800_24/checkpoints/autoencoder_00200000.pt # replace with actual path
+    --source a.npy  # replace with actual path
+    --target b.npy  # replace with actual path
+    --source_width 1280 --source_height 720 
+    --target_height 1920 --target_width 1080
+    ```
+  3. For *Skeleton-to-Video Rendering*, please refer to [Everybody Dance Now](https://carolineec.github.io/everybody_dance_now/).
+  ## Training
+  To train the *Motion Retargeting Network*, run
+  ```shell script
+  python train.py --config configs/transmomo.yaml
+  ```
+  To train on the SoloDance dataest, run
+  ```shell script
+  python train.py --config configs/transmomo_solo_dance.yaml
+  ```
+  ## Testing
+  For testing motion retargeting MSE, first generate the motion-retargeted motions with
+  ```shell script
+  python test.py
+  --config configs/transmomo.yaml # replace with the actual config used for training
+  --checkpoint transmomo_mixamo_36_800_24/checkpoints/autoencoder_00200000.pt
+  --out_dir transmomo_mixamo_36_800_24_results # replace actual path to output directory
+  ```
+  And then compute MSE by
+  ```shell script
+  python scripts/compute_mse.py 
+  --in_dir transmomo_mixamo_36_800_24_results # replace with the previous output directory
+  ```
+  ## Project Structure
+  ```
+  transmomo.pytorch
+  ├── configs - configuration files
+  ├── data - place for storing data
+  ├── docs - documentations
+  ├── lib
+  │   ├── data.py - datasets and dataLoaders
+  │   ├── networks - encoders, decoders, discriminators, etc.
+  │   ├── trainer.py - training pipeline
+  │   ├── loss.py - loss functions
+  │   ├── operation.py - operations, e.g. rotation, projection, etc.
+  │   └── util - utility functions
+  ├── out - place for storing output
+  ├── infer_pair.py - perform motion retargeting
+  ├── render_interpolate.py - perform motion and body interpolation
+  ├── scripts - scripts for data processing and experiments
+  ├── test.py - test MSE
+  └── train.py - main entrance for training
+  ```
+  ## TODOs
+  - [x] Detailed documentation
+  - [ ] Add example files
+  - [x] Release in-the-wild dancing video dataset (unannotated)
+  - [ ] Tool for visualizing Mixamo test error
+  - [ ] Tool for converting keypoint formats
+  ## Citation
+  Z. Yang*, W. Zhu*, W. Wu*, C. Qian, Q. Zhou, B. Zhou, C. C. Loy. "TransMoMo: Invariance-Driven Unsupervised Video Motion Retargeting." IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2020. (* indicates equal contribution.)
+  BibTeX:
+  ```bibtex
+  @inproceedings{transmomo2020,
+    title={TransMoMo: Invariance-Driven Unsupervised Video Motion Retargeting},
+    author={Yang, Zhuoqian and Zhu, Wentao and Wu, Wayne and Qian, Chen and Zhou, Qiang and Zhou, Bolei and Loy, Chen Change},
+    booktitle={The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+    year={2020}
+  }
+  ```
+  ## Acknowledgement
+  This repository is partly based on Rundi Wu's [Learning Character-Agnostic Motion for Motion Retargeting in 2D](https://motionretargeting2d.github.io/) and Xun Huang's [MUNIT: Multimodal UNsupervised Image-to-image Translation](https://github.com/NVlabs/MUNIT). The skeleton-to-rendering part is based on [Everybody Dance Now](https://carolineec.github.io/everybody_dance_now/). We sincerely thank them for their inspiration and contribution to the community.
+------------------------------------------------------------
+2025-08-31T08:46:28.318038Z
+Action:
+  command:
+    cat infer_pair.py | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  import os
+  import argparse
+  import imageio
+  import numpy as np
+  import torch
+  import torch.backends.cudnn as cudnn
+  from tqdm import tqdm
+  from scipy.ndimage import gaussian_filter1d
+  from lib.data import get_dataloader, get_meanpose
+  from lib.util.general import get_config
+  from lib.network import get_autoencoder
+  from lib.operation import change_of_basis
+  from lib.util.motion import preprocess_test, postprocess
+  from lib.util.general import pad_to_height, ensure_dir
+  from lib.util.visualization import motion2video, motion2video_np, hex2rgb
+  try:
+      from itertools import izip as zip
+  except ImportError: # will be 3.x series
+      pass
+------------------------------------------------------------
+2025-08-31T08:46:28.318057Z
+Action:
+  command:
+    cat train.py | head -10
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints for this TransMoMo (video motion retargeting) repository. Let me examine the key files to confirm their status as entrypoints.
+Output:
+  from lib.data import get_dataloader
+  from lib.util.general import write_loss, get_config, to_gpu
+  import lib.trainer
+  import os
+  import time
+  import argparse
+  from tqdm import tqdm
+  import torch
+  import torch.backends.cudnn as cudnn
+  import tensorboardX
+------------------------------------------------------------
+2025-08-31T08:46:28.318074Z
+Action:
+  command:
+    cat test.py | head -10
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints for this TransMoMo (video motion retargeting) repository. Let me examine the key files to confirm their status as entrypoints and create the entrypoints.txt file.
+Output:
+  import os
+  import json
+  import torch
+  import argparse
+  import numpy as np
+  from lib.data import get_meanpose
+  from lib.network import get_autoencoder
+  from lib.util.motion import preprocess_mixamo, preprocess_test, postprocess
+  from lib.util.general import get_config
+  from lib.operation import rotate_and_maybe_project_world
+------------------------------------------------------------
+2025-08-31T08:46:28.318134Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    train.py
+    test.py
+    infer_pair.py
+    render_interpolate.py
+    scripts/preprocess.py
+    scripts/preprocess_solo_dance.py
+    scripts/rotate_test_set.py
+    scripts/compute_mse.py
+    EOF
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints for this TransMoMo (video motion retargeting) repository. Let me create the entrypoints.txt file with all the identified proper entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:46:28.318153Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history analysis, I can see that the repository structure and entrypoints have already been identified. Let me verify the entrypoints.txt file was created correctly and output the completion signal.
+Output:
+  train.py
+  test.py
+  infer_pair.py
+  render_interpolate.py
+  scripts/preprocess.py
+  scripts/preprocess_solo_dance.py
+  scripts/rotate_test_set.py
+  scripts/compute_mse.py
+------------------------------------------------------------
+2025-08-31T08:46:28.318165Z
+Action:
+  command:
+    ls -la entrypoints.txt
+  description:
+    Based on the command history analysis, I can see that all the proper entrypoints for this TransMoMo repository have been identified and the `entrypoints.txt` file has already been created successfully. Let me verify the file exists and then provide the completion signal.
+Output:
+  -rw-r--r-- 1 benchmarkuser benchmarkuser 158 Aug 31 08:46 entrypoints.txt
+------------------------------------------------------------
+2025-08-31T08:46:28.318175Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+  description:
+    Based on the command history, I can see that all the proper entrypoints for this TransMoMo repository have been identified and the `entrypoints.txt` file has already been created successfully. Let me verify the completion and provide the final signal.
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

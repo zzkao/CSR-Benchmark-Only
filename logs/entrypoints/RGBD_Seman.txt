@@ -1,0 +1,7 @@
+    ./model/malleable2_5d.nyu.res101/train.py
+    ./model/malleable2_5d.nyu.res101/eval.py
+    ./model/SA-Gate.nyu/train.py
+    ./model/SA-Gate.nyu/eval.py
+    ./model/SA-Gate.nyu.432/train.py
+    ./model/SA-Gate.nyu.432/eval.py
+    ./furnace/apex/setup.py

@@ -1,0 +1,9 @@
+    tools/train_net.py
+    tools/plain_train_net.py
+    tools/benchmark.py
+    tools/analyze_model.py
+    tools/visualize_data.py
+    tools/visualize_json_results.py
+    tools/convert-torchvision-to-d2.py
+    demo/demo.py
+    visualise_detections.py

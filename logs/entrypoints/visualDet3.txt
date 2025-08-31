@@ -1,0 +1,8 @@
+    scripts/train.py
+    scripts/eval.py
+    scripts/disparity_compute.py
+    scripts/imdb_precompute_3d.py
+    scripts/depth_precompute.py
+    scripts/imdb_precompute_test.py
+    visualDet3D/evaluator/__main__.py
+    visualDet3D/evaluator/kitti_depth_prediction/evaluate_depth.py

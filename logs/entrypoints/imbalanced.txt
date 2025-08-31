@@ -1,0 +1,6 @@
+    ./pretrain_moco.py
+    ./pretrain_rot.py
+    ./train.py
+    ./train_semi.py
+    ./gen_pseudolabels.py
+    ./imagenet_inat/main.py

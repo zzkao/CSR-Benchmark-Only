@@ -10,4 +10,4 @@ while IFS= read -r line; do
         echo "❌ Failed on repo: $line" >> error.txt
         echo "----------------------------------------" >> error.txt
     fi
-done < myfile.txt
+done < $(pwd)/data/meta/CSRBench100.txt

@@ -1,0 +1,415 @@
+2025-08-31T10:37:08.203256Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.cpp" -o -name "*.c" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "docker-compose.yml" -o -name "package.json" -o -name "setup.py" -o -name "pyproject.toml" -o -name "Cargo.toml" -o -name "build.gradle" -o -name "pom.xml" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and contents.
+Output:
+  ./large_models/trainer.py
+  ./large_models/run.py
+  ./large_models/tasks.py
+  ./large_models/utils.py
+  ./large_models/prefix.py
+  ./large_models/lora.py
+  ./large_models/metrics.py
+  ./large_models/templates.py
+  ./large_models/ht_opt.py
+  ./medium_models/run.py
+  ./medium_models/src/trainer.py
+  ./medium_models/src/kernel_trainer.py
+  ./medium_models/src/prefix.py
+  ./medium_models/src/kernel_solvers.py
+  ./medium_models/src/modeling_opt.py
+  ./medium_models/src/modeling_roberta.py
+  ./medium_models/src/linearhead_trainer.py
+  ./medium_models/src/models.py
+  ./medium_models/src/dataset.py
+  ./medium_models/src/processors.py
+  ./medium_models/tools/gather_result.py
+  ./medium_models/tools/generate_k_shot_data.py
+------------------------------------------------------------
+2025-08-31T10:37:08.203321Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+  total 36
+  drwxr-xr-x 6 benchmarkuser 1001 4096 Aug 31 10:36 .
+  drwxr-xr-x 1 root          root 4096 Aug 31 10:36 ..
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 10:36 .git
+  -rw-r--r-- 1 benchmarkuser 1001 2231 Aug 31 10:36 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 1094 Aug 31 10:36 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001 3471 Aug 31 10:36 README.md
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 10:36 assets
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 10:36 large_models
+  drwxr-xr-x 5 benchmarkuser 1001 4096 Aug 31 10:36 medium_models
+------------------------------------------------------------
+2025-08-31T10:37:08.203341Z
+Action:
+  command:
+    find . -type f -name "setup.py" -o -name "pyproject.toml" -o -name "package.json" -o -name "Cargo.toml" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "requirements.txt"
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:37:08.203353Z
+Action:
+  command:
+    find . -name "*.py" | grep -E "(main|run|cli|__main__|setup)" | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the structure and key files to understand the intended execution points.
+Output:
+  ./large_models/run.py
+  ./medium_models/run.py
+------------------------------------------------------------
+2025-08-31T10:37:08.203365Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the structure and files shown in the command history. Let me examine the key files to understand their purpose and identify the intended entrypoints.
+Output:
+  # MeZO: Fine-Tuning Language Models with Just Forward Passes
+  This is the implementation for the paper [Fine-Tuning Language Models with Just Forward Passes](https://arxiv.org/pdf/2305.17333.pdf). 
+  In this paper we propose a memory-efficient zeroth-order optimizer (**MeZO**),
+  adapting the classical zeroth-order SGD method to operate in-place, thereby fine-tuning language models (LMs) with the same memory footprint as inference.
+  With a single A100 80GB GPU, MeZO can train a 30-billion parameter OPT model, whereas fine-tuning with Adam can train only a 2.7B LM.
+  MeZO demonstrates comparable performance to fine-tuning with backpropagation across multiple tasks, with up to 12× memory reduction. MeZO is also compatible with both full-parameter and parameter-efficient tuning techniques such as LoRA and prefix tuning. We also show that MeZO can effectively optimize non-differentiable objectives (e.g., maximizing accuracy or F1).
+  <p>
+    <img src="https://github.com/princeton-nlp/MeZO/blob/main/assets/fig2.png?raw=true" alt="Fig" width="100%"/>
+    <em>
+    GPU memory usage comparison between zero-shot, in-context learning (ICL), Adam fine-tuning (FT), and our proposed MeZO.
+    </em>
+  </p>
+  <p>
+    <img src="https://github.com/princeton-nlp/MeZO/blob/main/assets/fig1.png?raw=true" alt="Fig" width="100%"/>
+    <em>
+    OPT-13B results with zero-shot, in-context learning (ICL), MeZO (we report the best among MeZO/MeZO (LoRA)/MeZO (prefix)), and fine-tuning with Adam (FT). MeZO demonstrates superior results over zero-shot and ICL and performs on par with FT (within 1%) on 7 out of 11 tasks, despite using only 1/12 memory.
+    </em>
+  </p>
+  ## Reproduce our paper results
+  For reproducing RoBERTa-large experiments, please refer to the [medium_models](https://github.com/princeton-nlp/MeZO/tree/main/medium_models) folder. For autoregressive LM (OPT) experiments, please refer to the [large_models](https://github.com/princeton-nlp/MeZO/tree/main/large_models) folder. If you want to learn more about how MeZO works and how we implement it, we recommend you to read the [large_models](https://github.com/princeton-nlp/MeZO/tree/main/large_models) folder as the implementation is clearer and more extensible. If you want to explore more variants of MeZO, we recommend trying out [medium_models](https://github.com/princeton-nlp/MeZO/tree/main/medium_models) as it's faster and has more variants implemented.
+  ## How to add MeZO to my own code?
+  Our implementation of MeZO is based on [HuggingFace's Trainer](https://github.com/huggingface/transformers/blob/main/src/transformers/trainer.py). We add MeZO to the official implementation of trainer with minimum editing. Please refer to "How to add MeZO to my own code?" section in [large_models](https://github.com/princeton-nlp/MeZO/tree/main/large_models) README for more details.
+  ## Bugs or questions?
+  If you have any questions related to the code or the paper, feel free to email Sadhika (`smalladi@princeton.edu`) or Tianyu (`tianyug@princeton.edu`). If you encounter any problems when using the code, or want to report a bug, you can open an issue. Please try to specify the problem with details so we can help you better and quicker!
+  ## Citation
+  ```bibtex
+  @article{malladi2023mezo,
+     title={Fine-Tuning Large Language Models with Just Forward Passes},
+     author={Malladi, Sadhika and Gao, Tianyu and Nichani, Eshaan and Damian, Alex and Lee, Jason D and Chen, Danqi and Arora, Sanjeev},
+     year={2023}
+  }
+  ```
+------------------------------------------------------------
+2025-08-31T10:37:08.203408Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "if __name__ == ['\"]__main__['\"]" {} \;
+  description:
+    I'll analyze the repository structure and examine key files to identify all proper entrypoints. Based on the command history, I can see this is a MeZO (Memory-efficient Zeroth-order optimizer) repository with two main directories: `large_models` and `medium_models`.
+Output:
+  ./large_models/run.py
+  ./medium_models/run.py
+  ./medium_models/src/prefix.py
+  ./medium_models/tools/gather_result.py
+  ./medium_models/tools/generate_k_shot_data.py
+------------------------------------------------------------
+2025-08-31T10:37:08.203423Z
+Action:
+  command:
+    cat ./large_models/run.py | head -20
+  description:
+    I need to analyze the repository structure and examine the key files to identify all proper entrypoints. Based on the command history, I can see this is a MeZO repository with two main directories containing Python files. Let me examine the specific entrypoint files more closely.
+Output:
+  import logging
+  logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+  logger = logging.getLogger(__name__)
+  logger.setLevel(logging.INFO)
+  import argparse
+  import time
+  import tasks
+  from transformers import AutoConfig, AutoTokenizer, AutoModelForCausalLM, Trainer, HfArgumentParser, Trainer, TrainingArguments, DataCollatorWithPadding, DataCollatorForTokenClassification
+  from typing import Union, Optional
+  import torch
+  from torch.nn.parameter import Parameter
+  import numpy as np
+  from dataclasses import dataclass, is_dataclass, asdict
+  from tqdm import tqdm
+  from tasks import get_task
+  import json
+  import torch.nn.functional as F
+  from torch.utils.data import Dataset
+------------------------------------------------------------
+2025-08-31T10:37:08.203490Z
+Action:
+  command:
+    cat ./medium_models/run.py | head -20
+  description:
+    I'll analyze the repository structure and examine key files to identify all proper entrypoints. Based on the command history, I can see this is a MeZO repository with two main directories containing Python files. Let me examine the specific entrypoint files more closely.
+Output:
+  """Finetuning the library models for sequence classification on GLUE."""
+  import dataclasses
+  import logging
+  import os
+  import sys
+  from dataclasses import dataclass, field
+  from typing import Callable, Dict, Optional, Union, List
+  import torch
+  import torch.nn.functional as F
+  import numpy as np
+  from transformers import AutoConfig, AutoModelForSequenceClassification, AutoTokenizer, EvalPrediction, PreTrainedTokenizerBase
+  from src.modeling_roberta import RobertaConfig
+  from src.modeling_opt import OPTConfig
+  from transformers import GlueDataTrainingArguments as DataTrainingArguments
+  from transformers import HfArgumentParser, TrainingArguments, set_seed
+  from src.linearhead_trainer import LinearHeadTrainer
+------------------------------------------------------------
+2025-08-31T10:37:08.203524Z
+Action:
+  command:
+    cat ./large_models/run.py | tail -10
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and structure. Let me examine the key files and their contents to understand the intended execution points.
+Output:
+          else:
+              eval_samples = task.valid_samples
+          metrics = framework.evaluate(train_sets, eval_samples, one_train_set_per_eval_sample=True)
+          logger.info(metrics)
+          if args.local_rank <= 0:
+              write_metrics_to_file(metrics, "result/" + result_file_tag(args) + "-onetrainpereval.json" if args.result_file is None else args.result_file)
+  if __name__ == "__main__": 
+      main()
+------------------------------------------------------------
+2025-08-31T10:37:08.203544Z
+Action:
+  command:
+    cat ./medium_models/run.py | tail -10
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history, I can see this is a MeZO (Memory-efficient Zeroth-order optimizer) repository with Python files in two main directories: `large_models` and `medium_models`.
+Output:
+                      final_result.pop('evaluation_strategy')
+                  f.write(str(final_result) + '\n')
+      logger.info('****** Output Dir *******')
+      logger.info(training_args.output_dir)
+      return eval_results
+  if __name__ == "__main__":
+      main()
+------------------------------------------------------------
+2025-08-31T10:37:08.203557Z
+Action:
+  command:
+    cat ./medium_models/src/prefix.py | head -20 | tail -10
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the remaining files to ensure I identify all entrypoints.
+Output:
+      """From OpenDelta"""
+      sub_keys = key.split(".")
+      parent_module = root_module
+      for sub_key in sub_keys[:-1]:
+          parent_module = getattr(parent_module, sub_key)
+      module = getattr(parent_module, sub_keys[-1])
+      return parent_module, sub_keys[-1], module
+  def attn_forward_hook(self, *args, **kwargs):
+------------------------------------------------------------
+2025-08-31T10:37:08.203569Z
+Action:
+  command:
+    cat ./medium_models/src/prefix.py | grep -A 5 -B 5 "if __name__"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the structure and files shown in the command history.
+Output:
+      inputs = tokenizer("Hello, my dog is", return_tensors="pt").to(model.device)
+      o = model(**inputs)
+      # print(o)
+  if __name__ == "__main__":
+      test()
+------------------------------------------------------------
+2025-08-31T10:37:08.203579Z
+Action:
+  command:
+    cat ./medium_models/tools/gather_result.py | grep -A 5 -B 5 "if __name__"
+  description:
+    I'll analyze the repository structure and examine the files to identify all proper entrypoints based on the command history and repository contents.
+Output:
+                      s += " | second metric: %.1f (%.1f) (median %.1f)" % (final_result_test2.mean() * 100, final_result_test2.std() * 100, np.median(final_result_test2) * 100)
+                  s += " | loss: %.4f (%.4f)" % (final_result_loss.mean(), final_result_loss.std())
+              print(s)
+              print("")
+  if __name__ == '__main__':
+      main()
+------------------------------------------------------------
+2025-08-31T10:37:08.203591Z
+Action:
+  command:
+    cat ./medium_models/tools/generate_k_shot_data.py | grep -A 5 -B 5 "if __name__"
+Output:
+                          new_dev.append(line)
+                  new_dev = DataFrame(new_dev)
+                  new_dev.to_csv(os.path.join(setting_dir, 'dev.csv'), header=False, index=False)
+  if __name__ == "__main__":
+      main()
+------------------------------------------------------------
+2025-08-31T10:37:08.203600Z
+Action:
+  command:
+    cat ./large_models/README.md
+Output:
+  # MeZO on Large Autoregressive Language Models
+  This part of the code is for MeZO experiments on large autoregressive language models. It includes training autoregressive LMs with linear probing, head tuning, full fine-tuning, parameter-efficient fine-tuning (PEFT), and MeZO. It also covers zero-shot and in-context learning (ICL) evaluation. It is tested on OPT-13B, 30B, and 66B but should be able to extend to other sizes and other autoregressive LMs.
+  ## Installation
+  Please install the latest versions of PyTorch (`pytorch` following [https://pytorch.org](https://pytorch.org)), Transformers (`transformers`), and Accelerate (`accelerate`). This code is tested on `torch==2.1.0.dev20230514+cu118`, `transformers==4.28.1`, and `accelerate==0.17.1` with Python 3.9.7, but should work with older/later versions of these packages too.
+  ## Usage
+  Use `run.py` for all functions (zero-shot/ICL/fine-tuning/MeZO):
+  ```bash
+  python run.py {ARGUMENTS}
+  ```
+  Please read `run.py` for a complete list of arguments. We introduce some of the most important ones below. 
+  * `--num_train`: Number of training examples. For ICL, this is the number of demonstrations.
+  * `--num_dev`: Number of validation examples.
+  * `--num_test`: Number of testing examples.
+  * `--model_name`: HuggingFace model name or path.
+  * `--task_name`: Task name.
+  * `--trainer`: can be `none` (zero-shot/ICL), `regular` (fine-tuning), or `zo` (MeZO).
+  * `--train_as_classification`: turn this on for classification tasks (Cross Entropy over likelihood of each class' label words). Otherwise it is LM-style teacher forcing.
+  * `--zo_eps`: MeZO hyperparameter epsilon.
+  * `--prefix_tuning`: use prefix-tuning. 
+  * `--lora`: use LoRA.
+  We also support all [HuggingFace trainer arguments](https://github.com/huggingface/transformers/blob/main/src/transformers/training_args.py) for easily setting fine-tuning hyperparameters.
+  We provide example scripts below for reproducing our experiments. All our examples sample 1,000 training examples, 500 validation examples, and 1,000 testing examples. For ICL, we use 32 demonstrations. For detailed hyperparameters and grid search configs, please refer to Appendix D of [our paper](https://arxiv.org/pdf/2305.17333.pdf).
+  ```bash
+  # Zero-shot
+  MODEL=facebook/opt-13b TASK=SST2 bash icl.sh --num_train 0
+  # In-context learning
+  MODEL=facebook/opt-13b TASK=SST2 bash icl.sh 
+  # Full-parameter fine-tuning, prefix-tuning, and LoRA
+  MODEL=facebook/opt-1.3b TASK=SST2 MODE=ft LR=1e-5 bash finetune.sh
+  MODEL=facebook/opt-1.3b TASK=SST2 MODE=prefix LR=1e-2 bash finetune.sh
+  MODEL=facebook/opt-1.3b TASK=SST2 MODE=lora LR=1e-4 bash finetune.sh
+  # Full-parameter fine-tuning using fully-sharded data parallel or FSDP (multi-GPU)
+  MODEL=facebook/opt-13b TASK=SST2 MODE=ft LR=1e-5 NUM_GPU=4 bash finetune_fsdp.sh
+  # MeZO (full-parameter, prefix-tuning, and LoRA)
+  MODEL=facebook/opt-13b TASK=SST2 MODE=ft LR=1e-7 EPS=1e-3 bash mezo.sh
+  MODEL=facebook/opt-13b TASK=SST2 MODE=prefix LR=1e-3 EPS=1e-1 bash mezo.sh
+  MODEL=facebook/opt-13b TASK=SST2 MODE=lora LR=5e-5 EPS=1e-2 bash mezo.sh
+  # MeZO with non-differentiable objective (SQuAD (F1) + MeZO prefix as an example)
+  MODEL=facebook/opt-13b TASK=SQuAD MODE=prefix LR=1e-2 EPS=1e-1 bash mezo.sh --non_diff --evaluation_strategy no --save_strategy no --save_model
+  ```
+  Note that `icl.sh` and `mezo.sh` automatically support multi-GPU usage. For fine-tuning, use `finetune_fsdp.sh` for multi-GPU training and specific `NUM_GPU`. Evaluation results (json format) and checkpoints (HuggingFace format) will be saved in `result` folder.
+  Our recommended hyperparameter search range for OPT-13b (should also work for other sizes/models) are as follows,
+  | MeZO methods  | LR           | EPS |
+  | ------------- | ------------ | --- |
+  | Full parameter  | 1e-6/1e-7 | 1e-3 |
+  | Prefix-tuning  | 1e-2/1e-3 | 1e-1 |
+  | LoRA  | 1e-4/5e-5  | 1e-2 |
+  ## How to add MeZO to my own code?
+  Our implementation of MeZO is based on [HuggingFace Trainer](https://github.com/huggingface/transformers/blob/main/src/transformers/trainer.py). We try to add MeZO to the official implementation of trainer with minimum editing. Please refer to `trainer.py` for details. We edit the `_inner_training_loop` function (to see where we edited, search `MeZO added`; ignore the linear probing part) to replace the original optimizer with MeZO, which contains the following operations: 
+  * `zo_perturb_parameters`: our in-place parameter perturbation function.
+  * `zo_forward` and `zo_forward_nondiff`: get loss value (differentiable/non-differentiable).
+  * `zo_step`: estimate the gradient by MeZO
+  * `zo_update`: update parameters by the estimated gradient.
+  To incorporate MeZO in your own HuggingFace code, simply overload HuggingFace's `Trainer` class and edit `_inner_training_loop` as we did in `trainer.py`, and add the above MeZO functions from `trainer.py` in your trainer. For a more intuitive explanation of the MeZO algorithm, please refer to Algorithm 1 in [our paper](https://arxiv.org/pdf/2305.17333.pdf). 
+------------------------------------------------------------
+2025-08-31T10:37:08.203659Z
+Action:
+  command:
+    find . -name "*.sh" -type f
+  description:
+    I'll analyze the repository structure and examine the key files to identify all proper entrypoints based on the command history and file contents.
+Output:
+  ./large_models/icl.sh
+  ./large_models/mezo.sh
+  ./large_models/finetune.sh
+  ./large_models/finetune_fsdp.sh
+  ./medium_models/data/download_dataset.sh
+  ./medium_models/run_fewshot.sh
+  ./medium_models/mezo.sh
+  ./medium_models/finetune.sh
+------------------------------------------------------------
+2025-08-31T10:37:08.203671Z
+Action:
+  command:
+    cat ./medium_models/README.md
+Output:
+  # MeZO on Medium-sized Masked Language Models
+  This part of the code is for MeZO experiments on RoBERTa-large. It is based on [LM-Kernel-FT](https://github.com/princeton-nlp/LM-Kernel-FT) and [LM-BFF](https://github.com/princeton-nlp/LM-BFF).
+  ## Installation
+  Please install the latest versions of PyTorch (`pytorch` following [https://pytorch.org](https://pytorch.org)) and Transformers (`transformers`). This code is tested on `torch==2.1.0.dev20230514+cu118` and `transformers==4.28.1` with Python 3.9.7, but should work with older/later versions of these packages too.
+  ## Prepare the data
+  We pack the datasets [here](https://nlp.cs.princeton.edu/projects/lm-bff/datasets.tar). Please download it and extract the files to `./data/original`, or run the following commands:
+  ```bash
+  cd data
+  bash download_dataset.sh
+  ```
+  Then use the following command (in the `medium_models` folder) to generate the data we need:
+  ```bash
+  for K in 16 512; do
+      # Generate k-shot splits for seeds 13,21,42,87,100 with a maximum of 1k test examples in data/k-shot-1k-test,
+      # where k is the number of training/validation examples per label
+      python tools/generate_k_shot_data.py --mode k-shot-1k-test --k $K
+  done
+  ```
+  See `tools/generate_k_shot_data.py` for more options. For results in the paper, we use the default options: we take `K=16` and `K=512` and take 5 different seeds of 13, 21, 42, 87, 100. The few-shot data will be generated to `data/k-shot-1k-test`. In the directory of each dataset, there will be folders named as `$K-$SEED` indicating different dataset samples.
+  ## Usage
+  Use `run.py` for all functions and refer to `run.py` for the usage of all arguments.
+  ```bash
+  python run.py {ARGUMENTS}
+  ```
+  To reproduce our results in the paper, we also provide two example files `finetune.sh` (for all fine-tuning experiments) and `mezo.sh` (for all MeZO experiments). You can run them directly with the following commands (we use the following six datasets in our experiments -- `SST-2`, `sst-5`, `SNLI`, `MNLI`, `RTE`, and `trec`):
+  ```bash
+  # Adam fine-tuning
+  TASK=SST-2 K=16 SEED=42 BS=8 LR=1e-5 MODEL=roberta-large bash finetune.sh
+  # Adam fine-tuning + prefix-tuning
+  TASK=SST-2 K=16 SEED=42 BS=8 LR=1e-2 MODEL=roberta-large EXTRA_TAG=prefix bash finetune.sh --prefix_tuning --num_prefix 5 --no_reparam --prefix_init_by_real_act
+  # Adam fine-tuning + LoRA
+  TASK=SST-2 K=16 SEED=42 BS=8 LR=1e-4 MODEL=roberta-large EXTRA_TAG=lora bash finetune.sh --apply_lora --lora_r 8 --lora_alpha 16
+  # MeZO
+  TASK=SST-2 K=16 SEED=42 BS=64 LR=1e-6 EPS=1e-3 MODEL=roberta-large bash mezo.sh
+  # MeZO + prefix-tuning
+  TASK=SST-2 K=16 SEED=42 BS=64 LR=1e-2 EPS=1e-1 MODEL=roberta-large EXTRA_TAG=prefix bash mezo.sh --prefix_tuning --num_prefix 5 --no_reparam --prefix_init_by_real_act
+  # MeZO + LoRA
+  TASK=SST-2 K=16 SEED=42 BS=64 LR=1e-4 EPS=1e-3 MODEL=roberta-large EXTRA_TAG=lora bash mezo.sh --apply_lora --lora_r 8 --lora_alpha 16
+  ```
+  You can designate different hyperparameters by passing different environment variables as shown above. You can also directly add arguments at the end of the command to override the default ones. For all the hyperparameters you can control via environment variables, please refer to `finetune.sh` and `mezo.sh`. For the hyperparameters we used in our experiments, please refer to Appendix D of our paper.
+  ## Gather results
+  All the results will be stored in `./log`. To analyze the results (for example, examine the grid search), use the following command
+  ```bash
+  python tools/gather_result.py --condition "{'tag': 'k16-roberta-large-ft', 'task_name': 'sst-2'}"
+  ```
+  Then the program will find all the trials that satisfy the condition in `./log`, and print the mean/std of the final results. Note that the task names are all lower-cased here.
+  ## Ablations
+  RoBERTa-large models can be fine-tuned on most single GPUs, so we did not yet implement all of the memory-efficient ZO variants discussed in Appendix B. For now, if you want to run ablations other ZO ablations, you can add the flag `--zero_order_use_trainer_optim`, which will store the ZO gradients in the `param.grad` buffer and then use a PyTorch optimizer as usual. This causes the total memory consumption for ZO to be twice that of inference, which is still substantially less than that of backpropagation. The ablations can then be run with the additional following flags: 
+  - ZO-Adam: `--optimizer "adam"`
+  - ZO-Momentum: `--momentum <beta>`
+  - $n$-SPSA with $n>1$: `--zero_order_sample <n>` and you can add a linear or constant scheduler on it with `--zero_order_sample_scheduler {"linear", "constant"}`
+  - No prompt: `--few_shot_type finetune`
+  Appendix B discusses variants of ZO that modify the expectation and the variance. To run those one can use the following flags.
+  - Modify variance: `--zo_variant {"grad_norm", "param_norm"}`
+  - Recompute the control variate at the start of each epoch: `--recmopute_norms`
+  - Modify expectation: `--change_grad_estimate`
+------------------------------------------------------------
+2025-08-31T10:37:08.203720Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./large_models/run.py
+    ./medium_models/run.py
+    ./medium_models/src/prefix.py
+    ./medium_models/tools/gather_result.py
+    ./medium_models/tools/generate_k_shot_data.py
+    EOF
+  description:
+    I'll analyze the repository structure and examine all the identified files to determine the proper entrypoints based on the command history and file contents.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:37:08.203734Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

@@ -1,0 +1,516 @@
+2025-08-31T08:37:02.794127Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.go" -o -name "*.java" -o -name "*.rs" -o -name "*.c" -o -name "*.cpp" -o -name "*.sh" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "docker-compose.yml" -o -name "package.json" -o -name "setup.py" -o -name "pyproject.toml" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "main.*" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the file structure and contents.
+Output:
+  ./engine.py
+  ./util/plot_utils.py
+  ./util/misc.py
+  ./util/box_ops.py
+  ./util/__init__.py
+  ./models/segmentation.py
+  ./models/updetr.py
+  ./models/transformer.py
+  ./models/position_encoding.py
+  ./models/matcher.py
+  ./models/detr.py
+  ./models/backbone.py
+  ./models/__init__.py
+  ./datasets/coco.py
+  ./datasets/coco_panoptic.py
+  ./datasets/panoptic_eval.py
+  ./datasets/transforms.py
+  ./datasets/selfdet.py
+  ./datasets/coco_eval.py
+  ./datasets/__init__.py
+  ./detr_main.py
+  ./main.py
+------------------------------------------------------------
+2025-08-31T08:37:02.794195Z
+Action:
+  command:
+    pwd && ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+  /workspace
+  total 1856
+  drwxr-xr-x 7 benchmarkuser 1001    4096 Aug 31 08:35 .
+  drwxr-xr-x 1 root          root    4096 Aug 31 08:35 ..
+  drwxr-xr-x 8 benchmarkuser 1001    4096 Aug 31 08:35 .git
+  -rw-r--r-- 1 benchmarkuser 1001      33 Aug 31 08:35 .gitattributes
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 .github
+  -rw-r--r-- 1 benchmarkuser 1001     194 Aug 31 08:35 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001   11418 Aug 31 08:35 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001    7811 Aug 31 08:35 README.md
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 datasets
+  -rw-r--r-- 1 benchmarkuser 1001   12434 Aug 31 08:35 detr_main.py
+  -rw-r--r-- 1 benchmarkuser 1001    7139 Aug 31 08:35 engine.py
+  -rw-r--r-- 1 benchmarkuser 1001    9833 Aug 31 08:35 main.py
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 models
+  -rw-r--r-- 1 benchmarkuser 1001     215 Aug 31 08:35 requirements.txt
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 util
+  -rw-r--r-- 1 benchmarkuser 1001 1801715 Aug 31 08:35 visualization.ipynb
+------------------------------------------------------------
+2025-08-31T08:37:02.794220Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze this repository to identify all proper entrypoints by examining the files and their configurations. Let me start by exploring the key files.
+Output:
+  **UP-DETR**: Unsupervised Pre-training for Object Detection with Transformers
+  ========
+  This is the official PyTorch implementation and models for [UP-DETR paper](https://arxiv.org/abs/2011.09094) and the [extended version](https://ieeexplore.ieee.org/document/9926201):
+  ```
+  @ARTICLE{9926201,
+    author={Dai, Zhigang and Cai, Bolun and Lin, Yugeng and Chen, Junying},
+    journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+    title={Unsupervised Pre-Training for Detection Transformers}, 
+    year={2022},
+    volume={},
+    number={},
+    pages={1-11},
+    doi={10.1109/TPAMI.2022.3216514}}
+  @InProceedings{Dai_2021_CVPR,
+      author    = {Dai, Zhigang and Cai, Bolun and Lin, Yugeng and Chen, Junying},
+      title     = {UP-DETR: Unsupervised Pre-Training for Object Detection With Transformers},
+      booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+      month     = {June},
+      year      = {2021},
+      pages     = {1601-1610}
+  }
+  ```
+  In UP-DETR, we introduce a novel pretext named **random query patch detection** to pre-train transformers for object detection.
+  UP-DETR inherits from DETR with the same ResNet-50 backbone, same Transformer encoder, decoder and same codebase.
+  With unsupervised pre-training CNN, the whole UP-DETR pre-training doesn't require any human annotations.
+  UP-DETR achieves **43.1 AP**([even higher](https://github.com/dddzg/up-detr/issues/8)) on COCO with 300 epochs fine-tuning. The AP of open-source version is a little higher than paper report.
+  ![UP-DETR](.github/UP-DETR.png)
+  # Model Zoo
+  We provide pre-training UP-DETR and fine-tuning UP-DETR models on COCO, and plan to include more in future.
+  The evaluation metric is same to [DETR](https://github.com/facebookresearch/detr).
+  Here is the UP-DETR model pre-trained on **ImageNet** without labels. 
+  The CNN weight is initialized from [SwAV](https://github.com/facebookresearch/swav), which is fixed during the transformer **pre-training**:
+  <table>
+    <thead>
+      <tr style="text-align: right;">
+        <th>name</th>
+        <th>backbone</th>
+        <th>epochs</th>
+        <th>url</th>
+        <th>size</th>
+        <th>md5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="center">UP-DETR</td>
+        <td align="center">R50 (SwAV)</td>
+        <td align="center">60</td>
+        <td align="center"><a href="https://drive.google.com/file/d/1JhL1uwNJCaxMrIUx7UzQ3CMCHqmZpCnn/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="https://drive.google.com/file/d/19BfOQzZmyOOrkdWPfpFd4HIEKaM8s5d6/view?usp=sharing">logs</a></td>
+        <td align="center">164Mb</td>
+        <td align="center"><tt>49f01f8b</tt></td>
+      </tr>
+    </tbody>
+  </table>
+  The result of UP-DETR **fine-tuned** on **COCO**:
+  <table>
+    <thead>
+      <tr style="text-align: right;">
+        <th align="center">name</th>
+        <th align="center">backbone (pre-train)</th>
+        <th align="center">epochs</th>
+        <th align="center">box AP</th>
+        <th align="center">AP<sub>S</sub></th>
+        <th align="center">AP<sub>M</sub></th>
+        <th align="center">AP<sub>L</sub></th>
+        <th align="center">url</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="center">DETR</td>
+        <td align="center">R50 (Supervised)</td>
+        <td align="center">500</td>
+        <td align="center">42.0</td>
+        <td align="center">20.5</td>
+        <td align="center">45.8</td>
+        <td align="center">61.1</td>
+      </tr>
+      <tr>
+        <td align="center">DETR</td>
+        <td align="center">R50 (SwAV)</td>
+        <td align="center">300</td>
+        <td align="center">42.1</td>
+        <td align="center">19.7</td>
+        <td align="center">46.3</td>
+        <td align="center">60.9</td>
+      </tr>
+      <tr>
+        <td align="center">UP-DETR</td>
+        <td align="center">R50 (SwAV)</td>
+        <td align="center">300</td>
+        <td align="center"><b>43.1</b></td>
+        <td align="center"><b>21.6</b></td>
+        <td align="center"><b>46.8</b></td>
+        <td align="center"><b>62.4</b></td>
+      </tr>
+    </tbody>
+  </table>
+  COCO val5k evaluation results of UP-DETR can be found in this [gist](https://gist.github.com/dddzg/cd0957c5643f5656f6cdc979da4d6db1).
+  # Usage - Object Detection
+  There are no extra compiled components in UP-DETR and package dependencies are same to DETR. 
+  We provide instructions how to install dependencies via conda:
+  ```
+  git clone tbd
+  conda install -c pytorch pytorch torchvision
+  conda install cython scipy
+  pip install -U 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
+  ```
+  UP-DETR follows two steps: **pre-training** and **fine-tuning**.
+  We present the model pre-trained on ImageNet and then fine-tuned on COCO.
+  ## Unsupervised Pre-training
+  ### Data Preparation
+  Download and extract ILSVRC2012 train dataset.
+  We expect the directory structure to be the following:
+  ```
+  path/to/imagenet/
+    n06785654/  # caterogey directory
+      n06785654_16140.JPEG # images
+    n04584207/  # caterogey directory
+      n04584207_14322.JPEG # images
+  ```
+  Images can be organized disorderly because our pre-training is unsupervised.  
+  ### Pre-training
+  To pr-train UP-DETR on a single node with 8 gpus for 60 epochs, run:
+  ```
+  python -m torch.distributed.launch --nproc_per_node=8 --use_env main.py \
+      --lr_drop 40 \
+      --epochs 60 \
+      --pre_norm \
+      --num_patches 10 \
+      --batch_size 32 \
+      --feature_recon \
+      --fre_cnn \
+      --imagenet_path path/to/imagenet \
+      --output_dir path/to/save_model
+  ```
+  As the size of pre-training images is relative small, so we can set a large batch size.
+  It takes about 2 hours for a epoch, so 60 epochs pre-training takes about 5 days with 8 V100 gpus.
+  In our further ablation experiment, we found that object query shuffle is not helpful. So, we remove it in the open-source version. 
+  ## Fine-tuning
+  ### Data Preparation
+  Download and extract [COCO 2017 dataset](https://cocodataset.org/#download) train and val dataset.
+  The directory structure is expected as follows:
+  ```
+  path/to/coco/
+    annotations/  # annotation json files
+    train2017/    # train images
+    val2017/      # val images
+  ```
+  ### Fine-tuning
+  To fine-tune UP-DETR with 8 gpus for 300 epochs, run:
+  ```
+  python -m torch.distributed.launch --nproc_per_node=8 --use_env detr_main.py \
+      --lr_drop 200 \
+      --epochs 300 \
+      --lr_backbone 5e-5 \
+      --pre_norm \
+      --coco_path path/to/coco \
+      --pretrain path/to/save_model/checkpoint.pth
+  ```
+  The fine-tuning cost is exactly same to DETR, which takes 28 minutes with 8 V100 gpus. So, 300 epochs training takes about 6 days.
+  The model can also extended to panoptic segmentation, checking more details on [DETR](https://github.com/facebookresearch/detr/blob/master/README.md#usage---segmentation).
+  ### Evaluation
+  ```
+  python detr_main.py \
+      --batch_size 2 \
+      --eval \
+      --no_aux_loss \
+      --pre_norm \
+      --coco_path path/to/coco \
+      --resume path/to/save_model/checkpoint.pth
+  ```
+  COCO val5k evaluation results of UP-DETR can be found in this [gist](https://gist.github.com/dddzg/cd0957c5643f5656f6cdc979da4d6db1).
+  # Notebook
+  We provide a notebook in colab to get the visualization result in the paper:
+  * [Visualization Notebook](https://colab.research.google.com/github/dddzg/up-detr/blob/master/visualization.ipynb): This notebook shows how to perform query patch detection with the pre-training model (without any annotations fine-tuning).
+  ![vis](.github/vis.png)
+  # License
+  UP-DETR is released under the Apache 2.0 license. Please see the [LICENSE](LICENSE) file for more information.
+------------------------------------------------------------
+2025-08-31T08:37:02.794329Z
+Action:
+  command:
+    cat setup.py 2>/dev/null || echo "No setup.py found"
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining the file structure, configuration files, and command examples from the README.
+Output:
+  No setup.py found
+------------------------------------------------------------
+2025-08-31T08:37:02.794378Z
+Action:
+  command:
+    cat pyproject.toml 2>/dev/null || echo "No pyproject.toml found"
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the key files and configuration files systematically.
+Output:
+  No pyproject.toml found
+------------------------------------------------------------
+2025-08-31T08:37:02.794391Z
+Action:
+  command:
+    head -20 main.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me examine the main executable files and their contents.
+Output:
+  # ------------------------------------------------------------------------
+  # UP-DETR
+  # Copyright (c) Tencent, Inc. and its affiliates. All Rights Reserved.
+  # ------------------------------------------------------------------------
+  # Modified from DETR (https://github.com/facebookresearch/detr)
+  # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+  # ------------------------------------------------------------------------
+  import argparse
+  import datetime
+  import json
+  import random
+  import time
+  from pathlib import Path
+  import numpy as np
+  import torch
+  from torch.utils.data import DataLoader, DistributedSampler
+  import util.misc as utils
+  from datasets import build_dataset
+------------------------------------------------------------
+2025-08-31T08:37:02.794407Z
+Action:
+  command:
+    head -20 detr_main.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining the files, configurations, and the command history. Let me systematically check all relevant files.
+Output:
+  # ------------------------------------------------------------------------
+  # UP-DETR
+  # Copyright (c) Tencent, Inc. and its affiliates. All Rights Reserved.
+  # ------------------------------------------------------------------------
+  # Modified from DETR (https://github.com/facebookresearch/detr)
+  # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+  # ------------------------------------------------------------------------
+  import argparse
+  import datetime
+  import json
+  import random
+  import time
+  from pathlib import Path
+  import numpy as np
+  import torch
+  from torch.utils.data import DataLoader, DistributedSampler
+  import datasets
+  import util.misc as utils
+------------------------------------------------------------
+2025-08-31T08:37:02.794425Z
+Action:
+  command:
+    grep -n "if __name__ == .__main__.:" main.py detr_main.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files to understand the official entry points.
+Output:
+  main.py:207:if __name__ == '__main__':
+  detr_main.py:262:if __name__ == '__main__':
+------------------------------------------------------------
+2025-08-31T08:37:02.794437Z
+Action:
+  command:
+    cat requirements.txt
+  description:
+    I'll analyze the repository structure and examine the key files to identify all proper entrypoints based on the repository documentation and file contents.
+Output:
+  cython
+  git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI&egg=pycocotools
+  torch>=1.5.0
+  torchvision>=0.6.0
+  git+https://github.com/cocodataset/panopticapi.git#egg=panopticapi
+  scipy
+  onnx
+  onnxruntime
+------------------------------------------------------------
+2025-08-31T08:37:02.794448Z
+Action:
+  command:
+    find . -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "package.json" -o -name "build.gradle" -o -name "pom.xml" -o -name "Cargo.toml"
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the configuration files and main scripts systematically.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:37:02.794458Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the configuration files and main scripts systematically.
+Output:
+  total 1856
+  drwxr-xr-x 7 benchmarkuser 1001    4096 Aug 31 08:35 .
+  drwxr-xr-x 1 root          root    4096 Aug 31 08:35 ..
+  drwxr-xr-x 8 benchmarkuser 1001    4096 Aug 31 08:35 .git
+  -rw-r--r-- 1 benchmarkuser 1001      33 Aug 31 08:35 .gitattributes
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 .github
+  -rw-r--r-- 1 benchmarkuser 1001     194 Aug 31 08:35 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001   11418 Aug 31 08:35 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001    7811 Aug 31 08:35 README.md
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 datasets
+  -rw-r--r-- 1 benchmarkuser 1001   12434 Aug 31 08:35 detr_main.py
+  -rw-r--r-- 1 benchmarkuser 1001    7139 Aug 31 08:35 engine.py
+  -rw-r--r-- 1 benchmarkuser 1001    9833 Aug 31 08:35 main.py
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 models
+  -rw-r--r-- 1 benchmarkuser 1001     215 Aug 31 08:35 requirements.txt
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:35 util
+  -rw-r--r-- 1 benchmarkuser 1001 1801715 Aug 31 08:35 visualization.ipynb
+------------------------------------------------------------
+2025-08-31T08:37:02.794473Z
+Action:
+  command:
+    grep -A 10 -B 5 "if __name__ == '__main__':" main.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the files systematically.
+Output:
+      total_time = time.time() - start_time
+      total_time_str = str(datetime.timedelta(seconds=int(total_time)))
+      print('Training time {}'.format(total_time_str))
+  if __name__ == '__main__':
+      parser = argparse.ArgumentParser('UP-DETR ptr-training script', parents=[get_args_parser()])
+      args = parser.parse_args()
+      if args.output_dir:
+          Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+      main(args)
+------------------------------------------------------------
+2025-08-31T08:37:02.794489Z
+Action:
+  command:
+    grep -A 10 -B 5 "if __name__ == '__main__':" detr_main.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+      total_time = time.time() - start_time
+      total_time_str = str(datetime.timedelta(seconds=int(total_time)))
+      print('Training time {}'.format(total_time_str))
+  if __name__ == '__main__':
+      parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
+      args = parser.parse_args()
+      if args.output_dir:
+          Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+      main(args)
+------------------------------------------------------------
+2025-08-31T08:37:02.794501Z
+Action:
+  command:
+    echo "Analyzing UP-DETR repository for proper entrypoints..."
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the file structure, contents, and documentation.
+Output:
+  Analyzing UP-DETR repository for proper entrypoints...
+------------------------------------------------------------
+2025-08-31T08:37:02.794510Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    main.py
+    detr_main.py
+    EOF
+  description:
+    I'll analyze this UP-DETR repository to identify all proper entrypoints based on the file structure, configuration files, and documentation.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:37:02.794520Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    main.py
+    detr_main.py
+    EOF
+  description:
+    I'll analyze the UP-DETR repository to identify all proper entrypoints based on the file structure, configuration files, and documentation from the command history.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:37:02.794547Z
+Action:
+  command:
+    ls -la
+  description:
+    Based on the command history, I can see that the UP-DETR repository has been analyzed. Let me examine the repository structure and identify all proper entrypoints.
+Output:
+  total 1860
+  drwxr-xr-x 7 benchmarkuser          1001    4096 Aug 31 08:36 .
+  drwxr-xr-x 1 root          root             4096 Aug 31 08:35 ..
+  drwxr-xr-x 8 benchmarkuser          1001    4096 Aug 31 08:35 .git
+  -rw-r--r-- 1 benchmarkuser          1001      33 Aug 31 08:35 .gitattributes
+  drwxr-xr-x 2 benchmarkuser          1001    4096 Aug 31 08:35 .github
+  -rw-r--r-- 1 benchmarkuser          1001     194 Aug 31 08:35 .gitignore
+  -rw-r--r-- 1 benchmarkuser          1001   11418 Aug 31 08:35 LICENSE
+  -rw-r--r-- 1 benchmarkuser          1001    7811 Aug 31 08:35 README.md
+  drwxr-xr-x 2 benchmarkuser          1001    4096 Aug 31 08:35 datasets
+  -rw-r--r-- 1 benchmarkuser          1001   12434 Aug 31 08:35 detr_main.py
+  -rw-r--r-- 1 benchmarkuser          1001    7139 Aug 31 08:35 engine.py
+  -rw-r--r-- 1 benchmarkuser benchmarkuser      21 Aug 31 08:36 entrypoints.txt
+  -rw-r--r-- 1 benchmarkuser          1001    9833 Aug 31 08:35 main.py
+  drwxr-xr-x 2 benchmarkuser          1001    4096 Aug 31 08:35 models
+  -rw-r--r-- 1 benchmarkuser          1001     215 Aug 31 08:35 requirements.txt
+  drwxr-xr-x 2 benchmarkuser          1001    4096 Aug 31 08:35 util
+  -rw-r--r-- 1 benchmarkuser          1001 1801715 Aug 31 08:35 visualization.ipynb
+------------------------------------------------------------
+2025-08-31T08:37:02.794562Z
+Action:
+  command:
+    cat entrypoints.txt
+Output:
+  main.py
+  detr_main.py
+------------------------------------------------------------
+2025-08-31T08:37:02.794569Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see that the UP-DETR repository has been thoroughly analyzed. Let me verify the identified entrypoints and ensure completeness.
+Output:
+  main.py
+  detr_main.py
+------------------------------------------------------------
+2025-08-31T08:37:02.794578Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see the UP-DETR repository has been thoroughly analyzed. Let me verify the identified entrypoints are correct and complete.
+Output:
+  main.py
+  detr_main.py
+------------------------------------------------------------
+2025-08-31T08:37:02.794586Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see that the UP-DETR repository has been thoroughly analyzed. Let me verify the identified entrypoints and ensure they are complete and correct.
+Output:
+  main.py
+  detr_main.py
+------------------------------------------------------------
+2025-08-31T08:37:02.794594Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history, I can see that the UP-DETR repository has been thoroughly analyzed. The repository contains two main Python scripts that serve as proper entrypoints, as documented in the README and confirmed by the presence of `if __name__ == '__main__':` blocks in both files.
+    
+    Let me verify the entrypoints file and complete the analysis:
+Output:
+  main.py
+  detr_main.py
+------------------------------------------------------------

@@ -1,0 +1,8 @@
+    train.py
+    test.py
+    infer_pair.py
+    render_interpolate.py
+    scripts/preprocess.py
+    scripts/preprocess_solo_dance.py
+    scripts/rotate_test_set.py
+    scripts/compute_mse.py

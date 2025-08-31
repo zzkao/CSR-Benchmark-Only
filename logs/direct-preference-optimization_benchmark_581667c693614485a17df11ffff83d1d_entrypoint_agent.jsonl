@@ -1,0 +1,307 @@
+2025-08-31T10:05:28.463849Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.c" -o -name "*.cpp" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "pom.xml" -o -name "build.gradle" | head -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by exploring the repository structure to understand what type of project this is and locate the relevant configuration files.
+Output:
+  ./utils.py
+  ./preference_datasets.py
+  ./train.py
+  ./trainers.py
+------------------------------------------------------------
+2025-08-31T10:05:28.463907Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository structure and identify all proper entrypoints. Let me start by exploring the repository to understand its structure and locate relevant configuration files.
+Output:
+  total 112
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Aug 31 10:04 .
+  drwxr-xr-x 1 root          root  4096 Aug 31 10:04 ..
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Aug 31 10:04 .git
+  -rw-r--r-- 1 benchmarkuser 1001 11357 Aug 31 10:04 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001 11880 Aug 31 10:04 README.md
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Aug 31 10:04 config
+  -rw-r--r-- 1 benchmarkuser 1001 17632 Aug 31 10:04 preference_datasets.py
+  -rw-r--r-- 1 benchmarkuser 1001   192 Aug 31 10:04 requirements.txt
+  -rw-r--r-- 1 benchmarkuser 1001  5095 Aug 31 10:04 train.py
+  -rw-r--r-- 1 benchmarkuser 1001 29209 Aug 31 10:04 trainers.py
+  -rw-r--r-- 1 benchmarkuser 1001  6596 Aug 31 10:04 utils.py
+------------------------------------------------------------
+2025-08-31T10:05:28.463928Z
+Action:
+  command:
+    find . -type f \( -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.c" -o -name "*.cpp" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "pom.xml" -o -name "build.gradle" \)
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the structure and key configuration files.
+Output:
+  ./utils.py
+  ./preference_datasets.py
+  ./train.py
+  ./trainers.py
+------------------------------------------------------------
+2025-08-31T10:05:28.463943Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history, this appears to be a Python project with training functionality. Let me examine the key files to determine the proper entrypoints.
+Output:
+  # DPO: Direct Preference Optimization
+  **New:** in addition to the original DPO algorithm, this repo now supports ['conservative' DPO](https://ericmitchell.ai/cdpo.pdf) and [IPO](https://arxiv.org/pdf/2310.12036.pdf).
+  For conservative DPO, you just need to additionally pass the parameter `loss.label_smoothing=X` for some `X` between 0 and 0.5 when performing DPO training (0 gives the original DPO loss). This parameter is essentially the conservativeness parameter, i.e., the fraction of the training preference data that is incorrect (flipped preference direction). Starting with something like 0.1 might be reasonable, but I haven't tested this yet (and it will depend on the preference dataset).
+  For IPO, just pass `loss=ipo` and `loss.beta=X` for some non-negative `X` (same as with DPO/conservative DPO).
+  ## What is this repo?
+  This repo includes a reference implementation of the DPO algorithm for training language models from preference data, as described in the paper [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290).
+  The code here supports any causal HuggingFace model- look at our examples in `config/model` to add your own. Adding your own datasets is also easy. See [the README section](https://github.com/huggingface/peft) on adding datasets.
+  The DPO pipeline has two stages:
+  1. Run supervised fine-tuning (SFT) on the dataset(s) of interest.
+  2. Run preference learning on the model from step 1, using preference data (ideally from the same distribution as the SFT examples).
+  The files in this repo are:
+  - `train.py`: the main entry point for training (either SFT or DPO preference-based training)
+  - `trainers.py`: the trainer classes (e.g., implementing the loop of learning as well as multi-GPU logic)
+  - `utils.py`: some convenience functions used by multiple other files
+  - `preference_datasets.py`: dataset processing logic for both SFT and DPO preference-based training; **this is where you'll need to make some additions to train on your own data**
+  ## Running SFT
+  For DPO, the SFT stage essentially ensures that the preference data we train on is in-distribution for our policy before we actually do the learning from preferences part.
+  Run SFT for Pythia 6.9B on Anthropic-HH data with batch size 64:
+      python -u train.py model=pythia69 datasets=[hh] loss=sft exp_name=anthropic_dpo_pythia69 gradient_accumulation_steps=2 batch_size=64 eval_batch_size=32 trainer=FSDPTrainer sample_during_eval=false
+  Run SFT for a custom model (for example, Llama at a local path) on Anthropic-HH + Stanford Human Preference data with batch size 64:
+      python -u train.py model=blank_model model.name_or_path=/PATH/TO/LLAMA/WEIGHTS model.block_name=LlamaDecoderLayer datasets=[hh,shp] loss=sft exp_name=anthropic_shp_sft_llama_7b gradient_accumulation_steps=2 batch_size=64 eval_batch_size=32 trainer=FSDPTrainer sample_during_eval=false
+  By default, evaluation will run every 20k **examples**. You can change this arg with `eval_every` arg. If you don't pass `sample_during_eval=false`, sampling will happen during each eval as well.
+  To run a different model, either add a new model config to `config/model`, or use the `blank_model` option for `model` and pass `model.name_or_path` (and `model.block_name` if training with FSDP trainer) explicitly. For example, for GPT-2, this would look like:
+      python -u train.py ... model=blank_model model.name_or_path=gpt2-xl model.block=GPT2Block
+  ## Running DPO
+  To run DPO, use the same command as SFT, but pass `loss=dpo`, `loss.beta=DESIRED_BETA` (0.1-0.5 is a good starting point), and `model.archive=/path/to/checkpoint/from/sft/step-XXXX/policy.pt`. If SFT completed successfully, you should also have a `/.../LATEST/policy.pt` from the end of training.
+  Run DPO on Pythia 6.9B with effective batch size 64:
+      python -u train.py model=pythia69 datasets=[hh] loss=dpo loss.beta=0.1 model.archive=/path/to/checkpoint/from/sft/step-XXXX/policy.pt exp_name=anthropic_dpo_pythia69 gradient_accumulation_steps=2 batch_size=32 eval_batch_size=32 trainer=FSDPTrainer sample_during_eval=false
+  ## A complete example
+  Let's work through a complete example training pythia 2.8B on the Anthropic-HH dataset.
+  See sample wandb outputs for this example [here](https://wandb.ai/eric_anthony_mitchell/dpo-demos) (tagged `readme-example`).
+  ### Step 1: Set up environment
+  First, create a virtualenv and install the dependencies. Python 3.8+ is recommended.
+      python3 -m venv env
+      source env/bin/activate
+      pip install -r requirements.txt
+  ### Step 2: Run SFT
+  We'll take advantage of FSDP's mixed precision in bfloat16 to speed up training; we usually see about a 50% speedup. By default, SFT will run for a single epoch over a mixture of the selected datasets. Datasets will be downloaded on the fly and cached locally.
+      python -u train.py model=pythia28 datasets=[hh] loss=sft exp_name=anthropic_dpo_pythia28 gradient_accumulation_steps=2 batch_size=64 eval_batch_size=32 trainer=FSDPTrainer sample_during_eval=false model.fsdp_policy_mp=bfloat16
+  **See sample wandb outputs for the SFT step [here](https://wandb.ai/eric_anthony_mitchell/dpo-demos/runs/i4i3ddpp).**
+  ### Step 3: Run DPO
+  Check either wandb (if enabled, it is by default) or your output log to find the local run directory. To run DPO, you'll need the path to the final weights, which will look something like `/some/cache/dir/YOUR_USERNAME/pythia28_hh_sft_bf16_2023-06-21_16-58-17_973996/LATEST/policy.pt`. The `LATEST` directory contains the final set of weights from the end of training.
+      python -u train.py model=pythia28 datasets=[hh] loss=dpo loss.beta=0.1 exp_name=anthropic_dpo_pythia28 gradient_accumulation_steps=2 batch_size=64 eval_batch_size=32 trainer=FSDPTrainer sample_during_eval=false model.fsdp_policy_mp=bfloat16 model.archive=/path/to/archive/from/sft/LATEST/policy.pt
+  On 4 80GB A100s, DPO training took about 2hrs 45min.
+  **See sample wandb outputs for the DPO step [here](https://wandb.ai/eric_anthony_mitchell/dpo-demos/runs/og8q3euz).**
+  ### Customizing training
+  The options for training are in `config/config.yaml`, `config/model/blank_model.yaml`, and `config/loss/dpo.yaml`. See the comments in these files for more information on what they do.
+  You can use one of the pre-configured models by passing `model=some_model`, where `config/model/some_model.yaml` exists. We have a few examples already given.
+  If you want to use another model, just create a new config for that model (following our examples; it must be a `.yaml` file!), or use `model=blank_model` with `model.name_or_path=NAME_OR_PATH`, optionally `model.tokenizer_name_or_path=TOKENIZER_NAME_OR_PATH` if it is different than the model's name/path, and `model.block_name=NAME_OF_TRANSFORMER_BLOCK` (if you are using FSDP). The only other options you might want to change are the dpo loss options, which are `loss.beta` and `loss.reference_free` (see `config/loss/dpo.yaml`).
+  ## Trainer classes
+  We implement three different trainer classes in `trainers.py`:
+  - `BasicTrainer`: For multiple GPUs, naively partition the model among them. e.g., for two GPUs, the first half of the model layers will be on GPU 0, the second half will be on GPU 1. This trainer effectively increases your available GPU memory without using multiple GPUs are once for compute (so you get no speedup).
+  - `FSDPTrainer`: Use PyTorch's [Fully Sharded Data Parallel](https://pytorch.org/docs/stable/fsdp.html) (FSDP) implementation to shard each transformer block amongst available GPUs. Should give a significant speedup over `BasicTrainer` with batch size per GPU >1. The batch size per gpu is equal to `batch_size / (gradient_accumulation_steps * num_gpus)`. **You may need to run `ulimit -n 64000` in your launch script before calling `train.py` with this trainer; e.g., `ulimit -n 64000; python train.py ...`.**
+  - `TensorParallelTrainer`: Use PyTorch tensor parallelism (with [this wrapper](https://github.com/BlackSamorez/tensor_parallel)) to shard each linear layer amongst available GPUs. This trainer is experimental, but should work.
+  **Warning:** Sampling may be very slow for `FSDPTrainer` and especially `TensorParallelTrainer` (see [this issue](https://github.com/pytorch/pytorch/issues/100069) and [this issue](https://github.com/BlackSamorez/tensor_parallel/issues/66), respectively for `FSDPTrainer` and `TensorParallelTrainer`). Passing `sample_during_eval=false` is recommended for these trainers.
+  ### Which trainer do I use?
+   For single GPU training, use `BasicTrainer`. For many-GPU setups, `FSDPTrainer` will most likely be the best choice, though these haven't been benchmarked yet.
+  # Adding new datasets
+  Adding new/custom datasets is easy, and shouldn't take more than 10 minutes or so. Add your dataset to `preference_datasets.py` (we've implemented Anthropic-HH, Stanford Human Preferences, and StackExchange as references). Follow our reference datasets (in the functions `get_se()`, `get_shp()`, `get_hh()`); you essentially need to return a dict mapping each prompt to another dict containing three values:
+  - `responses: List[str]`: the list of responses on which preferences are given
+  - `pairs: List[Tuple[int]]`: the preference pairs, where the first value in each tuple is the preferred response and the second value is the dispreferred response
+  - `sft_target: str`: the response to use for this prompt during SFT (this response may or may not be one of the values in `responses`)
+  Once you've added your dataset, for example `xyz`, you can train on it by passing it to `datasets=[xyz]` to an SFT or DPO train command.
+  **Make sure you've updated `preference_datasets:get_dataset()` to return your new dataset when its name is passed in!**
+  # Tips for faster training on multiple GPUs
+  FSDP is recommended for faster training when multiple GPUs are available. In general, you should try to use a batch size of at least 2 on each GPU (i.e., `batch_size // (grad_accumulation_steps * N_GPUS)` is at least 2) to see a speedup from FSDP compared to the `BasicTrainer`. One way to do this is to use mixed precision. This repo implements mixed precision through [FSDP](https://pytorch.org/docs/stable/fsdp.html#torch.distributed.fsdp.MixedPrecision). Enable mixed precision (only supported for `FSDPTrainer`, currently) by passing `model.fsdp_policy_mp=bfloat16` or `model.fsdp_policy_mp=float16` (only `bfloat16` has been tested). Another way to reduce memory usage is activation checkpointing (or *gradient checkpointing*), which can be enabled with `activation_checkpointing=true` (also implemented only for `FSDPTrainer`). Activation checkpointing doesn't always increase throughput, but if you're stuck at batch size per GPU of 1, it's worth a try.
+  See [this article](https://pytorch.org/blog/efficient-large-scale-training-with-pytorch/) for more information about optimizing FSDP.
+  # Citing DPO
+  If DPO or this repository is useful in your own research, you can use the following BibTeX entry:
+      @inproceedings{
+          rafailov2023direct,
+          title={Direct Preference Optimization: Your Language Model is Secretly a Reward Model},
+          author={Rafael Rafailov and Archit Sharma and Eric Mitchell and Christopher D Manning and Stefano Ermon and Chelsea Finn},
+          booktitle={Thirty-seventh Conference on Neural Information Processing Systems},
+          year={2023},
+          url={https://arxiv.org/abs/2305.18290}
+      }
+------------------------------------------------------------
+2025-08-31T10:05:28.464095Z
+Action:
+  command:
+    head -20 train.py
+  description:
+    Based on the repository structure and README content, I can identify the proper entrypoints for this DPO (Direct Preference Optimization) training repository. Let me examine the key files and configuration to confirm the entrypoints.
+Output:
+  import torch
+  torch.backends.cuda.matmul.allow_tf32 = True
+  import torch.nn as nn
+  import transformers
+  from utils import get_local_dir, get_local_run_dir, disable_dropout, init_distributed, get_open_port
+  import os
+  import hydra
+  import torch.multiprocessing as mp
+  from omegaconf import OmegaConf, DictConfig
+  import trainers
+  import wandb
+  import json
+  import socket
+  from typing import Optional, Set
+  import resource
+  OmegaConf.register_new_resolver("get_local_run_dir", lambda exp_name, local_dirs: get_local_run_dir(exp_name, local_dirs))
+------------------------------------------------------------
+2025-08-31T10:05:28.464113Z
+Action:
+  command:
+    find . -name "*.yaml" -o -name "*.yml" | head -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me examine the configuration files and structure to get a complete picture.
+Output:
+  ./config/model/pythia69.yaml
+  ./config/model/llama7b.yaml
+  ./config/model/gpt2-large.yaml
+  ./config/model/gpt2-xl.yaml
+  ./config/model/blank_model.yaml
+  ./config/model/gptj.yaml
+  ./config/model/pythia28.yaml
+  ./config/config.yaml
+  ./config/loss/dpo.yaml
+  ./config/loss/sft.yaml
+------------------------------------------------------------
+2025-08-31T10:05:28.464127Z
+Action:
+  command:
+    cat train.py | grep -A 10 -B 5 "def main\|if __name__"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files and configurations.
+Output:
+      trainer.train()
+      trainer.save()
+  @hydra.main(version_base=None, config_path="config", config_name="config")
+  def main(config: DictConfig):
+      """Main entry point for training. Validates config, creates/initializes model(s), and kicks off worker process(es)."""
+      # Resolve hydra references, e.g. so we don't re-compute the run directory
+      OmegaConf.resolve(config)
+      missing_keys: Set[str] = OmegaConf.missing_keys(config)
+      if missing_keys:
+          raise ValueError(f"Got missing keys in config:\n{missing_keys}")
+      if config.eval_every % config.batch_size != 0:
+  --
+      else:
+          print('starting single-process worker')
+          worker_main(0, 1, config, policy, reference_model)
+  if __name__ == '__main__':
+      main()
+------------------------------------------------------------
+2025-08-31T10:05:28.464147Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "requirements.txt" -o -name "Makefile" -o -name "Dockerfile"
+Output:
+  ./requirements.txt
+------------------------------------------------------------
+2025-08-31T10:05:28.464159Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    train.py
+    EOF
+  description:
+    Based on my analysis of the repository structure, README documentation, and the command history, I can identify the proper entrypoints for this DPO (Direct Preference Optimization) training repository.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:05:28.464171Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze this DPO (Direct Preference Optimization) repository to identify all proper entrypoints based on the command history and file structure.
+Output:
+  train.py
+------------------------------------------------------------
+2025-08-31T10:05:28.464180Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "*.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "package.json"
+  description:
+    I'll analyze this repository based on the command history to identify all proper entrypoints. Let me examine the repository structure and configurations to confirm the entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:05:28.464189Z
+Action:
+  command:
+    ls -la
+  description:
+    Based on the command history and repository analysis, I can see this is a DPO (Direct Preference Optimization) training repository. Let me analyze the structure and identify all proper entrypoints.
+Output:
+  total 116
+  drwxr-xr-x 4 benchmarkuser          1001  4096 Aug 31 10:05 .
+  drwxr-xr-x 1 root          root           4096 Aug 31 10:04 ..
+  drwxr-xr-x 8 benchmarkuser          1001  4096 Aug 31 10:04 .git
+  -rw-r--r-- 1 benchmarkuser          1001 11357 Aug 31 10:04 LICENSE
+  -rw-r--r-- 1 benchmarkuser          1001 11880 Aug 31 10:04 README.md
+  drwxr-xr-x 4 benchmarkuser          1001  4096 Aug 31 10:04 config
+  -rw-r--r-- 1 benchmarkuser benchmarkuser     9 Aug 31 10:05 entrypoints.txt
+  -rw-r--r-- 1 benchmarkuser          1001 17632 Aug 31 10:04 preference_datasets.py
+  -rw-r--r-- 1 benchmarkuser          1001   192 Aug 31 10:04 requirements.txt
+  -rw-r--r-- 1 benchmarkuser          1001  5095 Aug 31 10:04 train.py
+  -rw-r--r-- 1 benchmarkuser          1001 29209 Aug 31 10:04 trainers.py
+  -rw-r--r-- 1 benchmarkuser          1001  6596 Aug 31 10:04 utils.py
+------------------------------------------------------------
+2025-08-31T10:05:28.464204Z
+Action:
+  command:
+    cat train.py | grep -E "if __name__|@hydra.main|def main"
+  description:
+    I'll analyze this DPO (Direct Preference Optimization) repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  @hydra.main(version_base=None, config_path="config", config_name="config")
+  def main(config: DictConfig):
+  if __name__ == '__main__':
+------------------------------------------------------------
+2025-08-31T10:05:28.464215Z
+Action:
+  command:
+    ls -la config/
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and file structure. Let me examine the repository thoroughly to ensure I capture all intended entrypoints.
+Output:
+  total 20
+  drwxr-xr-x 4 benchmarkuser 1001 4096 Aug 31 10:04 .
+  drwxr-xr-x 4 benchmarkuser 1001 4096 Aug 31 10:05 ..
+  -rw-r--r-- 1 benchmarkuser 1001 2791 Aug 31 10:04 config.yaml
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 10:04 loss
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 10:04 model
+------------------------------------------------------------
+2025-08-31T10:05:28.464226Z
+Action:
+  command:
+    grep -n "if __name__" *.py
+  description:
+    Based on my analysis of the repository structure, README documentation, and command history, I can identify the proper entrypoints for this DPO (Direct Preference Optimization) training repository.
+    
+    Let me examine the repository more thoroughly and finalize the entrypoints identification:
+Output:
+  train.py:117:if __name__ == '__main__':
+------------------------------------------------------------
+2025-08-31T10:05:28.464237Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    train.py
+    EOF
+  description:
+    Based on my analysis of the repository structure, README documentation, and command history, I can identify the proper entrypoints for this DPO (Direct Preference Optimization) training repository.
+Output:
+
+------------------------------------------------------------
+2025-08-31T10:05:28.464247Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

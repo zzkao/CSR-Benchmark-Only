@@ -1,0 +1,8 @@
+    ./demo.py
+    ./demo_video.py
+    ./demo_video_smooth.py
+    ./demo_webcam_smooth.py
+    ./latency.py
+    ./gradiodemo.py
+    ./speed_cpu.py
+    ./build.sh

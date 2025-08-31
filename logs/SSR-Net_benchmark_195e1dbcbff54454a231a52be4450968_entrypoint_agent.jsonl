@@ -1,0 +1,385 @@
+2025-08-31T08:26:11.683331Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.class" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "Makefile" -o -name "Dockerfile" | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files.
+Output:
+  ./data/TYY_IMDBWIKI_create_db.py
+  ./data/TYY_MORPH_create_db.py
+  ./data/TYY_utils.py
+  ./training_and_testing/densenet.py
+  ./training_and_testing/tensorflow_backend.py
+  ./training_and_testing/TYY_train.py
+  ./training_and_testing/SSRNET_model.py
+  ./training_and_testing/TYY_utils.py
+  ./training_and_testing/TYY_generators.py
+  ./training_and_testing/TYY_model.py
+  ./training_and_testing/SSRNET_train.py
+  ./training_and_testing/subpixel.py
+  ./training_and_testing/TYY_callbacks.py
+  ./training_and_testing/SSRNET_train_gender.py
+  ./training_and_testing/plot_reg.py
+  ./demo/TYY_demo_mtcnn.py
+  ./demo/TYY_demo_ssrnet_lbp_webcam.py
+  ./demo/SSRNET_model.py
+------------------------------------------------------------
+2025-08-31T08:26:11.683404Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.class" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "Makefile" -o -name "Dockerfile" | wc -l
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and examining key configuration files more thoroughly.
+Output:
+  18
+------------------------------------------------------------
+2025-08-31T08:26:11.683422Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.class" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "Makefile" -o -name "Dockerfile"
+  description:
+    I need to analyze this repository to identify all proper entrypoints. Let me start by exploring the full repository structure and examining configuration files.
+Output:
+  ./data/TYY_IMDBWIKI_create_db.py
+  ./data/TYY_MORPH_create_db.py
+  ./data/TYY_utils.py
+  ./training_and_testing/densenet.py
+  ./training_and_testing/tensorflow_backend.py
+  ./training_and_testing/TYY_train.py
+  ./training_and_testing/SSRNET_model.py
+  ./training_and_testing/TYY_utils.py
+  ./training_and_testing/TYY_generators.py
+  ./training_and_testing/TYY_model.py
+  ./training_and_testing/SSRNET_train.py
+  ./training_and_testing/subpixel.py
+  ./training_and_testing/TYY_callbacks.py
+  ./training_and_testing/SSRNET_train_gender.py
+  ./training_and_testing/plot_reg.py
+  ./demo/TYY_demo_mtcnn.py
+  ./demo/TYY_demo_ssrnet_lbp_webcam.py
+  ./demo/SSRNET_model.py
+------------------------------------------------------------
+2025-08-31T08:26:11.683443Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the repository structure and checking for configuration files that might define entrypoints.
+Output:
+  total 2520
+  drwxr-xr-x 8 benchmarkuser 1001    4096 Aug 31 08:25 .
+  drwxr-xr-x 1 root          root    4096 Aug 31 08:25 ..
+  drwxr-xr-x 8 benchmarkuser 1001    4096 Aug 31 08:25 .git
+  -rw-r--r-- 1 benchmarkuser 1001   11357 Aug 31 08:25 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001    7758 Aug 31 08:25 README.md
+  -rw-r--r-- 1 benchmarkuser 1001 1214348 Aug 31 08:25 age_gender_demo.png
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:25 data
+  drwxr-xr-x 3 benchmarkuser 1001    4096 Aug 31 08:25 demo
+  -rw-r--r-- 1 benchmarkuser 1001  910943 Aug 31 08:25 ijcai18_ssrnet_pdfa_2b.pdf
+  -rw-r--r-- 1 benchmarkuser 1001  305423 Aug 31 08:25 merge_val_morph2.png
+  drwxr-xr-x 5 benchmarkuser 1001    4096 Aug 31 08:25 paper_images
+  drwxr-xr-x 9 benchmarkuser 1001    4096 Aug 31 08:25 pre-trained
+  -rw-r--r-- 1 benchmarkuser 1001   86473 Aug 31 08:25 table1.png
+  drwxr-xr-x 2 benchmarkuser 1001    4096 Aug 31 08:25 training_and_testing
+------------------------------------------------------------
+2025-08-31T08:26:11.683469Z
+Action:
+  command:
+    find . -name "setup.py" -o -name "pyproject.toml" -o -name "requirements.txt" -o -name "environment.yml" -o -name "Pipfile" -o -name "Makefile"
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the repository structure and checking for configuration files that might define entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:26:11.683482Z
+Action:
+  command:
+    cat README.md
+  description:
+    I need to analyze this repository to identify all proper entrypoints. Based on the command history, I can see this is a Python-based project with several directories containing Python scripts. Let me examine the repository structure and identify the proper entrypoints.
+Output:
+  # SSR-Net
+  **[IJCAI18] SSR-Net: A Compact Soft Stagewise Regression Network for Age Estimation**
+  + A real-time age estimation model with 0.32MB.
+  + Gender regression is also added!
+  + Megaage-Asian is provided in https://github.com/b02901145/SSR-Net_megaage-asian
+  + Coreml model (0.17MB) is provided in https://github.com/shamangary/Keras-to-coreml-multiple-inputs-example
+  **Code Author: Tsun-Yi Yang**
+  **Last update: 2019/09/19 (Renew the morph2 dataset link)**
+  <img src="https://github.com/shamangary/SSR-Net/blob/master/table1.png" height="240"/>
+  ### Real-time webcam demo
+  ## Paper
+  ### PDF
+  https://github.com/shamangary/SSR-Net/blob/master/ijcai18_ssrnet_pdfa_2b.pdf
+  ### Paper authors
+  **[Tsun-Yi Yang](http://shamangary.logdown.com/), [Yi-Husan Huang](https://github.com/b02901145), [Yen-Yu Lin](https://www.citi.sinica.edu.tw/pages/yylin/index_zh.html), [Pi-Cheng Hsiu](https://www.citi.sinica.edu.tw/pages/pchsiu/index_en.html), and [Yung-Yu Chuang](https://www.csie.ntu.edu.tw/~cyy/)**
+  ## Abstract
+  This paper presents a novel CNN model called Soft Stagewise Regression Network (SSR-Net) for age estimation from a single image with a compact model size. Inspired by DEX, we address age estimation by performing multi-class classification and then turning classification results into regression by calculating the expected values. SSR-Net takes a coarse-to-fine strategy and performs multi-class classification with multiple stages. Each stage is only responsible for refining the decision of the previous stage. Thus, each stage performs a task with few classes and requires few neurons, greatly reducing the model size. For addressing the quantization issue introduced by grouping ages into classes, SSR-Net assigns a dynamic range to each age class by allowing it to be shifted and scaled according to the input face image. Both the multi-stage strategy and the dynamic range are incorporated into the formulation of soft stagewise regression. A novel network architecture is proposed for carrying out soft stagewise regression. The resultant SSR-Net model is very compact and takes only **0.32 MB**. Despite of its compact size, SSR-Net’s performance approaches those of the state-of-the-art methods whose model sizes are more than 1500x larger.
+  ## Platform
+  + Keras
+  + Tensorflow
+  + GTX-1080Ti
+  + Ubuntu
+  ## Dependencies
+  + A guide for most dependencies. (in Chinese)
+  http://shamangary.logdown.com/posts/3009851
+  + Anaconda
+  + OpenCV
+  + dlib
+  + MTCNN for demo
+  ```
+  pip install mtcnn
+  ```
+  + MobileNet (already in the codes)
+  https://github.com/fchollet/keras/blob/master/keras/applications/mobilenet.py
+  + DenseNet (already in the codes)
+  https://github.com/titu1994/DenseNet
+  + Face alignment (already in the codes)
+  https://github.com/xyfeng/average_portrait
+  + Others
+  ```
+  conda install -c conda-forge moviepy
+  conda install -c cogsci pygame
+  conda install -c conda-forge requests
+  conda install -c conda-forge pytables
+  ```
+  ## Codes
+  There are three different section of this project. 
+  1. Data pre-processing
+  2. Training and testing
+  3. Video demo section
+  We will go through the details in the following sections.
+  This repository is for IMDB, WIKI, and Morph2 datasets.
+  ### 1. Data pre-processing
+  + Download IMDB-WIKI dataset (face only) from https://data.vision.ee.ethz.ch/cvl/rrothe/imdb-wiki/.
+  + Morph2 dataset requires application form 
+  https://www.faceaginggroup.com/?page_id=1414
+  https://ebill.uncw.edu/C20231_ustores/web/classic/product_detail.jsp?PRODUCTID=8
+  + Unzip them under './data'
+  + Run the following codes for dataset pre-processing.
+  ```
+  cd ./data
+  python TYY_IMDBWIKI_create_db.py --db imdb --output imdb.npz
+  python TYY_IMDBWIKI_create_db.py --db wiki --output wiki.npz
+  python TYY_MORPH_create_db.py --output morph_db_align.npz
+  ```
+  ### 2. Training and testing
+  <img src="https://github.com/shamangary/SSR-Net/blob/master/merge_val_morph2.png" height="300"/>
+  The experiments are done by randomly choosing 80% of the dataset as training and 20% of the dataset as validation (or testing). The details of the setting in each dataset is in the paper.
+  For MobileNet and DenseNet:
+  ```
+  cd ./training_and_testing
+  sh run_all.sh
+  ```
+  For SSR-Net:
+  ```
+  cd ./training_and_testing
+  sh run_ssrnet.sh
+  ```
+  + Note that we provide several different hyper-parameters combination in this code. If you only want a single hyper-parameter set, please alter the command inside "run_ssrnet.sh".
+  **Plot the results:**
+  For example, after the training of IMDB dataset, you want to plot the curve and the results.
+  Copy "plot.sh", "ssrnet_plot.sh", and "plot_reg.py" into "./imdb_models".
+  The following command should plot the results of the training process.
+  ```
+  sh plot.sh
+  sh ssrnet_plot.sh
+  ```
+  ### 3. Video demo section
+  Pure CPU demo command:
+  ```
+  cd ./demo
+  KERAS_BACKEND=tensorflow CUDA_VISIBLE_DEVICES='' python TYY_demo_mtcnn.py TGOP.mp4
+  # Or you can use
+  KERAS_BACKEND=tensorflow CUDA_VISIBLE_DEVICES='' python TYY_demo_mtcnn.py TGOP.mp4 '3'
+  ```
+  + Note: You may choose different pre-trained models. However, the morph2 dataset is under a well controlled environment and it is much more smaller than IMDB and WIKI, the pre-trained models from morph2 may perform ly on the in-the-wild images. Therefore, IMDB or WIKI pre-trained models are recommended for in-the-wild images or video demo.
+  + We use dlib detection and face alignment in the previous experimental section since the face data is well organized. However, dlib cannot provide satisfactory face detection for in-the-wild video. Therefore we use mtcnn as the detection process in the demo section.
+  ### Real-time webcam demo
+  Considering the face detection process (MTCNN or Dlib) is not fast enough for real-time demo. We show a real-time webcam version by using lbp face detector.
+  ```
+  cd ./demo
+  KERAS_BACKEND=tensorflow CUDA_VISIBLE_DEVICES='' python TYY_demo_ssrnet_lbp_webcam.py
+  ```
+  + Note that the covered region of face detection is different when you use MTCNN, Dlib, or LBP. You should choose similar size between the inference and the training.
+  + Also, the pre-trained models are mainly for the evaluation of the datasets. They are not really for the real-world images. You should always retrain the model by your own dataset. In webcam demo, we found that morph2 pre-trained model actually perform better than wiki pre-trained model. The discussion will be included in our future work.
+  + If you are Asian, you might want to use the megaage_asian pre-trained model.
+  + The Morph2 pre-trained model is good for webcam but the gender model is overfitted and not practical.
+  ### 4. Extension
+  ### Training the gender model
+  We can reformulate binary classification problem into regression problem, and SSR-Net can be used to predict the confidence.
+  For example, we provide gender regression and demo in the code for the extension.
+  Training the gender network:
+  ```
+  cd ./training_and_testing
+  sh run_ssrnet_gender.sh
+  ```
+  Note that the score can be between [0,1] and the 'V' inside SSR-Net can be changed into 1 for general propose regression.
+  ## Third Party Implementation
+  + MXNET:
+  https://github.com/wayen820/gender_age_estimation_mxnet
+  + Pytorch:
+  https://github.com/oukohou/SSR_Net_Pytorch
+  + Pytorch:
+  https://github.com/CrazySummerday/SSR-Net
+------------------------------------------------------------
+2025-08-31T08:26:11.683655Z
+Action:
+  command:
+    find . -type f -name "*.py" | xargs grep -l "if __name__ == ['\"]__main__['\"]" | head -10
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history and repository structure, I can see this is a Python-based machine learning project focused on age estimation. Let me examine the code structure and identify the proper entrypoints.
+Output:
+  ./data/TYY_IMDBWIKI_create_db.py
+  ./data/TYY_MORPH_create_db.py
+  ./training_and_testing/TYY_train.py
+  ./training_and_testing/SSRNET_train.py
+  ./training_and_testing/SSRNET_train_gender.py
+  ./training_and_testing/plot_reg.py
+  ./demo/TYY_demo_mtcnn.py
+  ./demo/TYY_demo_ssrnet_lbp_webcam.py
+------------------------------------------------------------
+2025-08-31T08:26:11.683693Z
+Action:
+  command:
+    find . -name "run_*.sh" -o -name "*.sh" | grep -E "(run|start|demo)" | head -10
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files and configuration to determine which are intended as main entry points.
+Output:
+  ./training_and_testing/run_ssrnet.sh
+  ./training_and_testing/run_ssrnet_gender.sh
+  ./training_and_testing/run_all.sh
+------------------------------------------------------------
+2025-08-31T08:26:11.683710Z
+Action:
+  command:
+    find . -name "*.sh" -type f
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the shell scripts and Python files to determine the intended entry points.
+Output:
+  ./training_and_testing/plot.sh
+  ./training_and_testing/run_ssrnet.sh
+  ./training_and_testing/ssrnet_plot.sh
+  ./training_and_testing/run_ssrnet_gender.sh
+  ./training_and_testing/run_all.sh
+------------------------------------------------------------
+2025-08-31T08:26:11.683721Z
+Action:
+  command:
+    cat ./training_and_testing/run_all.sh
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and documentation. Let me examine the key files and scripts to determine the intended entry points.
+Output:
+  max=4
+  for i in `seq 1 $max`
+  do
+      echo "$i"
+      KERAS_BACKEND=tensorflow python TYY_train.py --input ../data/imdb_db.npz --db imdb --netType $i
+      KERAS_BACKEND=tensorflow python TYY_train.py --input ../data/wiki_db.npz --db wiki --netType $i --batch_size 50
+      KERAS_BACKEND=tensorflow python TYY_train.py --input ../data/morph2_db_align.npz --db morph --netType $i --batch_size 50
+  done
+------------------------------------------------------------
+2025-08-31T08:26:11.683736Z
+Action:
+  command:
+    cat ./training_and_testing/run_ssrnet.sh
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the remaining key files to complete my analysis.
+Output:
+  max=5
+  for i in `seq 1 $max`
+  do
+      echo "$i"
+      for j in `seq 1 $max`
+      do
+          echo "$j"
+          KERAS_BACKEND=tensorflow python SSRNET_train.py --input ../data/imdb_db.npz --db imdb --netType1 $i --netType2 $j
+          KERAS_BACKEND=tensorflow python SSRNET_train.py --input ../data/wiki_db.npz --db wiki --netType1 $i --netType2 $j --batch_size 50
+          KERAS_BACKEND=tensorflow python SSRNET_train.py --input ../data/morph2_db_align.npz --db morph --netType1 $i --netType2 $j --batch_size 50
+      done
+  done
+------------------------------------------------------------
+2025-08-31T08:26:11.683753Z
+Action:
+  command:
+    cat ./training_and_testing/run_ssrnet_gender.sh
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the files systematically to complete my analysis.
+Output:
+  max=4
+  for i in `seq 4 $max`
+  do
+      echo "$i"
+      for j in `seq 4 $max`
+      do
+          echo "$j"
+          KERAS_BACKEND=tensorflow python SSRNET_train_gender.py --input ../data/imdb_db.npz --db imdb --netType1 $i --netType2 $j
+          KERAS_BACKEND=tensorflow python SSRNET_train_gender.py --input ../data/wiki_db.npz --db wiki --netType1 $i --netType2 $j --batch_size 50
+          KERAS_BACKEND=tensorflow python SSRNET_train_gender.py --input ../data/morph2_db_align.npz --db morph --netType1 $i --netType2 $j --batch_size 50
+      done
+  done
+------------------------------------------------------------
+2025-08-31T08:26:11.683768Z
+Action:
+  command:
+    head -10 ./data/TYY_IMDBWIKI_create_db.py
+  description:
+    Based on the command history and repository structure, I need to analyze this SSR-Net repository to identify all proper entrypoints. Let me examine the key files and create the entrypoints.txt file.
+Output:
+  import numpy as np
+  import cv2
+  import scipy.io
+  import argparse
+  from tqdm import tqdm
+  from TYY_utils import get_meta
+  def get_args():
+      parser = argparse.ArgumentParser(description="This script cleans-up noisy labels "
+------------------------------------------------------------
+2025-08-31T08:26:11.683779Z
+Action:
+  command:
+    head -10 ./demo/TYY_demo_mtcnn.py
+  description:
+    I'll analyze the repository structure and identify all proper entrypoints based on the command history and documentation. Let me examine the files systematically to complete my analysis.
+Output:
+  import os
+  import cv2
+  import dlib
+  import numpy as np
+  import argparse
+  from SSRNET_model import SSR_net
+  import sys
+  import timeit
+  from moviepy.editor import *
+  from mtcnn.mtcnn import MTCNN
+------------------------------------------------------------
+2025-08-31T08:26:11.683789Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    ./data/TYY_IMDBWIKI_create_db.py
+    ./data/TYY_MORPH_create_db.py
+    ./training_and_testing/TYY_train.py
+    ./training_and_testing/SSRNET_train.py
+    ./training_and_testing/SSRNET_train_gender.py
+    ./training_and_testing/plot_reg.py
+    ./training_and_testing/run_all.sh
+    ./training_and_testing/run_ssrnet.sh
+    ./training_and_testing/run_ssrnet_gender.sh
+    ./demo/TYY_demo_mtcnn.py
+    ./demo/TYY_demo_ssrnet_lbp_webcam.py
+    EOF
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints for this SSR-Net age estimation project. Let me examine the repository structure and create the entrypoints.txt file.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:26:11.683806Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+  description:
+    I'll analyze this SSR-Net repository to identify all proper entrypoints based on the command history and repository structure.
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

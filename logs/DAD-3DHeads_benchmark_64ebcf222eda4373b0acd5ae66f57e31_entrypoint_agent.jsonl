@@ -1,0 +1,536 @@
+2025-08-31T08:41:18.926616Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "Makefile" -o -name "Dockerfile" -o -name "*.gradle" -o -name "pom.xml" | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the file structure and examining key configuration files.
+Output:
+  ./dad_3dheads_benchmark/utils.py
+  ./dad_3dheads_benchmark/benchmark.py
+  ./dad_3dheads_benchmark/generate_gt.py
+  ./visualize.py
+  ./demo_utils.py
+  ./utils.py
+  ./Sim3DR/Sim3DR.py
+  ./Sim3DR/setup.py
+  ./Sim3DR/lighting.py
+  ./Sim3DR/_init_paths.py
+  ./Sim3DR/__init__.py
+  ./demo.py
+  ./model_training/model/utils.py
+  ./model_training/model/layers.py
+  ./model_training/model/bifpn.py
+  ./model_training/model/flame.py
+  ./model_training/model/encoders.py
+  ./model_training/model/flame_regression.py
+  ./model_training/model/__init__.py
+  ./model_training/data/flame_dataset.py
+------------------------------------------------------------
+2025-08-31T08:41:18.926696Z
+Action:
+  command:
+    find . -name "*.py" -path "*/bin/*" -o -name "main.py" -o -name "cli.py" -o -name "__main__.py" -o -name "app.py" -o -name "index.py"
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the file structure and examining key configuration files.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:41:18.926713Z
+Action:
+  command:
+    find . -name "README*" -o -name "requirements*.txt" -o -name "environment*.yml" | head -10
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the repository structure and key configuration files.
+Output:
+  ./dad_3dheads_benchmark/README.md
+  ./requirements.txt
+  ./README.md
+------------------------------------------------------------
+2025-08-31T08:41:18.926728Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Let me start by examining the repository structure and key configuration files that were already found.
+Output:
+  total 116
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Aug 31 08:39 .
+  drwxr-xr-x 1 root          root  4096 Aug 31 08:39 ..
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Aug 31 08:39 .git
+  -rw-r--r-- 1 benchmarkuser 1001    43 Aug 31 08:39 .gitattributes
+  -rw-r--r-- 1 benchmarkuser 1001    23 Aug 31 08:39 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 20848 Aug 31 08:39 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001  5105 Aug 31 08:39 README.md
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Aug 31 08:39 Sim3DR
+  -rw-r--r-- 1 benchmarkuser 1001     0 Aug 31 08:39 __init__.py
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Aug 31 08:39 dad_3dheads_benchmark
+  -rw-r--r-- 1 benchmarkuser 1001   187 Aug 31 08:39 dad_3dnet.yaml
+  -rw-r--r-- 1 benchmarkuser 1001  1900 Aug 31 08:39 demo.py
+  -rw-r--r-- 1 benchmarkuser 1001  6303 Aug 31 08:39 demo_utils.py
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Aug 31 08:39 images
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Aug 31 08:39 inference
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Aug 31 08:39 model_training
+  -rw-r--r-- 1 benchmarkuser 1001  8639 Aug 31 08:39 predictor.py
+  -rw-r--r-- 1 benchmarkuser 1001   270 Aug 31 08:39 requirements.txt
+  -rw-r--r-- 1 benchmarkuser 1001  1703 Aug 31 08:39 train.py
+  -rw-r--r-- 1 benchmarkuser 1001   292 Aug 31 08:39 utils.py
+  -rw-r--r-- 1 benchmarkuser 1001  2106 Aug 31 08:39 visualize.py
+------------------------------------------------------------
+2025-08-31T08:41:18.926756Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze this repository to identify all proper entrypoints by examining the file structure, configuration files, and documentation.
+Output:
+  <div align="center">
+  # DAD-3DHeads: A Large-scale Dense, Accurate and Diverse Dataset for 3D Head Alignment from a Single Image
+  [![Paper](https://img.shields.io/badge/arXiv-2204.03688-brightgreen)](https://arxiv.org/abs/2204.03688)
+  [![Conference](https://img.shields.io/badge/CVPR-2022-blue)](https://cvpr2022.thecvf.com)
+  [![Project WebPage](https://img.shields.io/badge/Project-webpage-%23fc4d5d)](https://www.pinatafarm.com/research/dad-3dheads/)
+  [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+  </div>
+  ![](./images/banner.png)
+  This is an official repository for the paper
+  ```
+  DAD-3DHeads: A Large-scale Dense, Accurate and Diverse Dataset for 3D Head Alignment from a Single Image
+  Tetiana Martyniuk, Orest Kupyn, Yana Kurlyak, Igor Krashenyi, Jiři Matas, Viktoriia Sharmanska
+  CVPR 2022
+  ```
+  ## Installation
+  The code uses **Python 3.8**.
+  #### Create a Conda virtual environment:
+  ```bash
+  conda create --name DAD-3DHeads python=3.8
+  conda activate DAD-3DHeads
+  ```
+  #### Clone the project and install requirements:
+  ```bash
+  git clone https://github.com/PinataFarms/DAD-3DHeads.git
+  cd DAD-3DHeads
+  pip install -r requirements.txt
+  ```
+  ## Training
+  #### Prepare the DAD-3DHeads dataset:
+  First, you need to download the [DAD-3DHeads](https://www.pinatafarm.com/research/dad-3dheads/dataset) dataset and extract it to the `dataset/DAD-3DHeadsDataset` directory. The dataset is available upon request. Please [fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSdo8RPxtFR1xHBJ7gkNHbEse0eYOsHR739b9zZ4BtGWQv49LQ/viewform) to get access to it.
+  The dataset directory structure should be the following:
+  ```
+  ./dataset
+  --DAD-3DHeadsDataset
+  ----train
+  ------images
+  --------<ID>.png
+  ------annotations
+  --------<ID>.json
+  ------train.json
+  ----val
+  ------images/<ID>.png
+  ------annotations/<ID>.json
+  ------val.json
+  ----test
+  ------images/<ID>.png
+  ------test.json
+  ```
+  Annotations ```<ID>.json``` file structure:
+  ```
+  --vertices
+  --model_view_matrix
+  --projection_matrix
+  ```
+  Metadata ```[train|val|test].json``` file structure:
+  ```
+  --item_id
+  --annotation_path
+  --img_path
+  --bbox #[x, y, w, h] format
+  ----0
+  ----1
+  ----2
+  ----3
+  --attributes
+  ----quality #[hq, lq]
+  ----gender #[female, male, undefined]
+  ----expression #[true, false]
+  ----age #[child, young, middle_aged, senior]
+  ----occlusions #[true, false]
+  ----pose #[front, sided, atypical]
+  ----standard light #[true, false]
+  ```
+  The training code uses [hydra](https://hydra.cc/docs/intro/). To change the training setup, add a new or edit the existing `.yaml` file in the `model_training/config` folder.
+  #### Visualize the ground-truth labels:
+  ```bash
+  ```
+  Pick `subset` from the `train, val, test` options, and the corresponding `item_id` (without file extension).
+  #### Run training code:
+  ```bash
+  python train.py
+  ```
+  ## Demo
+  ![](./images/demo_vis.png)
+  First row (from left to right): input image, 68 2D face landmarks visualization, 191 2D face landmarks visualization, 445 2D face landmarks visualization.  
+  Second row (from left to right): face mesh visualization, head mesh visualization, head pose visualization, 3D head mesh.
+  #### Run demo:
+  ```bash
+  # Visualize 68 2D face landmarks
+  python demo.py images/demo_heads/1.jpeg outputs 68_landmarks
+  # Visualize 191 2D face landmarks
+  python demo.py images/demo_heads/1.jpeg outputs 191_landmarks
+  # Visualize 445 2D face landmarks
+  python demo.py images/demo_heads/1.jpeg outputs 445_landmarks
+  # Visualize face mesh
+  python demo.py images/demo_heads/1.jpeg outputs face_mesh
+  # Visualize head mesh
+  python demo.py images/demo_heads/1.jpeg outputs head_mesh
+  # Visualize head pose
+  python demo.py images/demo_heads/1.jpeg outputs pose
+  # Get 3D mesh .obj file
+  python demo.py images/demo_heads/1.jpeg outputs 3d_mesh
+  # Get flame parameters .json file
+  python demo.py images/demo_heads/1.jpeg outputs flame_params
+  ```
+  ## License
+  This work is licensed under a
+  [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+  [![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+  [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+  [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+  [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+  By using this code, you acknowledge that you have read the license terms, understand them, and agree to be bound by them. If you do not agree with these terms and conditions, you must not use the code.
+  ## Citation
+  If you use the DAD-3DHeads Dataset and/or this code - implicitly or explicitly - for your research projects, please cite the following paper:
+  ```
+  @inproceedings{dad3dheads,
+      title={DAD-3DHeads: A Large-scale Dense, Accurate and Diverse Dataset for 3D Head Alignment from a Single Image},
+      author={Martyniuk, Tetiana and Kupyn, Orest and Kurlyak, Yana and Krashenyi, Igor and Matas, Ji\v{r}i and Sharmanska, Viktoriia},
+      booktitle = {Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR)},
+      year={2022}
+  }
+  ```
+------------------------------------------------------------
+2025-08-31T08:41:18.926867Z
+Action:
+  command:
+    cat setup.py 2>/dev/null || echo "No setup.py found"
+  description:
+    I'll analyze this repository to identify all proper entrypoints by examining the files, configurations, and documentation.
+Output:
+  No setup.py found
+------------------------------------------------------------
+2025-08-31T08:41:18.926879Z
+Action:
+  command:
+    cat pyproject.toml 2>/dev/null || echo "No pyproject.toml found"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and file structure provided. Let me examine the key files and configurations.
+Output:
+  No pyproject.toml found
+------------------------------------------------------------
+2025-08-31T08:41:18.926892Z
+Action:
+  command:
+    head -10 demo.py
+  description:
+    I'll analyze this repository to identify all proper entrypoints. Based on the command history, I can see the repository structure and key files have been explored. Let me examine the critical files to identify the intended entrypoints.
+Output:
+  from functools import partial
+  from collections import namedtuple
+  import os
+  from fire import Fire
+  from pytorch_toolbelt.utils import read_rgb_image
+  from predictor import FaceMeshPredictor
+  from demo_utils import (
+      draw_landmarks,
+      draw_3d_landmarks,
+------------------------------------------------------------
+2025-08-31T08:41:18.926909Z
+Action:
+  command:
+    head -20 train.py
+  description:
+    Let me analyze the repository structure and identify all proper entrypoints by examining the key files and configurations.
+Output:
+  import os
+  from typing import Dict, Any
+  import torch
+  import hydra
+  from omegaconf import DictConfig, OmegaConf
+  from model_training.utils import load_hydra_config, create_logger
+  from model_training.train.trainer import DAD3DTrainer
+  from model_training.model import load_model
+  from model_training.train.flame_lightning_model import FlameLightningModel
+  from model_training.data import FlameDataset
+  logger = create_logger(__name__)
+  torch.autograd.set_detect_anomaly(True)
+  def train(config):
+      train_dataset = FlameDataset.from_config(config=config["train"])
+      val_dataset = FlameDataset.from_config(config=config["val"])
+------------------------------------------------------------
+2025-08-31T08:41:18.926926Z
+Action:
+  command:
+    cat dad_3dheads_benchmark/benchmark.py | head -20
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files systematically.
+Output:
+  from typing import List, Dict, Any
+  import os
+  from collections import namedtuple
+  import torch
+  import numpy as np
+  from utils import get_68_landmarks, read_img, read_json, calc_ch_dist, get_flame_indices
+  from fire import Fire
+  import tqdm
+  MeshArrays = namedtuple(
+      "MeshArrays",
+      ["vertices3d", "vertices3d_world_homo", "projection_matrix", "model_view_matrix"],
+  )
+  class HeadAnnotation:
+      """Class for storing a head annotation."""
+      def __init__(self, id: str, mesh: MeshArrays, bbox: List[int], image_height: int):
+          self.id = id
+------------------------------------------------------------
+2025-08-31T08:41:18.926986Z
+Action:
+  command:
+    find . -name "__main__.py" -o -name "cli.py" -o -name "app.py" | grep -v test
+  description:
+    Let me analyze the repository to identify all proper entrypoints by examining the files and configurations found in the command history.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:41:18.926998Z
+Action:
+  command:
+    cat demo.py | head -50
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the file structure and content already examined in the command history.
+Output:
+  from functools import partial
+  from collections import namedtuple
+  import os
+  from fire import Fire
+  from pytorch_toolbelt.utils import read_rgb_image
+  from predictor import FaceMeshPredictor
+  from demo_utils import (
+      draw_landmarks,
+      draw_3d_landmarks,
+      draw_mesh,
+      draw_pose,
+      get_uv_texture,
+      get_pncc,
+      get_mesh,
+      get_flame_params,
+      get_output_path,
+      MeshSaver,
+      ImageSaver,
+      JsonSaver,
+  )
+  DemoFuncs = namedtuple(
+      "DemoFuncs",
+      ["processor", "saver"],
+  )
+  demo_funcs = {
+      "68_landmarks": DemoFuncs(draw_landmarks, ImageSaver),
+      "191_landmarks": DemoFuncs(partial(draw_3d_landmarks, subset="191"), ImageSaver),
+      "445_landmarks": DemoFuncs(partial(draw_3d_landmarks, subset="445"), ImageSaver),
+      "head_mesh": DemoFuncs(partial(draw_mesh, subset="head"), ImageSaver),
+      "face_mesh": DemoFuncs(partial(draw_mesh, subset="face"), ImageSaver),
+      "pose": DemoFuncs(draw_pose, ImageSaver),
+      "uv_texture": DemoFuncs(get_uv_texture, ImageSaver),
+      "pncc": DemoFuncs(get_pncc, ImageSaver),
+      "3d_mesh": DemoFuncs(get_mesh, MeshSaver),
+      "flame_params": DemoFuncs(get_flame_params, JsonSaver)
+  }
+  def demo(
+      input_image_path: str = 'images/demo_heads/1.jpeg',
+      outputs_folder: str = "outputs",
+      type_of_output: str = "68_landmarks",
+      os.makedirs(outputs_folder, exist_ok=True)
+      # Preprocess and get predictions.
+------------------------------------------------------------
+2025-08-31T08:41:18.927021Z
+Action:
+  command:
+    cat train.py | tail -20
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and file structure provided.
+Output:
+      save_path = os.path.join(experiment_dir, "experiment_config.yaml")
+      OmegaConf.set_struct(hydra_config, False)
+      hydra_config["yaml_path"] = save_path
+      hydra_config["experiment"]["folder"] = experiment_dir
+      logger.info(OmegaConf.to_yaml(hydra_config, resolve=True))
+      config = load_hydra_config(hydra_config)
+      with open(save_path, "w") as f:
+          OmegaConf.save(config=config, f=f.name)
+      return config
+  @hydra.main(config_name="train", config_path="model_training/config")
+      config = prepare_experiment(hydra_config)
+      logger.info("Experiment dir %s" % config["experiment"]["folder"])
+      train(config)
+  if __name__ == "__main__":
+      run_experiment()
+------------------------------------------------------------
+2025-08-31T08:41:18.927036Z
+Action:
+  command:
+    cat dad_3dheads_benchmark/generate_gt.py | head -20
+  description:
+    Based on the command history and analysis of the repository structure, I'll identify all proper entrypoints by examining the key files and configurations.
+Output:
+  import json
+  from tqdm import tqdm
+  from fire import Fire
+  from utils import read_img
+  def generate_gt(
+          base_path: str,
+          output_filename: str = 'data/ground_truth_val.json',
+  ):
+      with open(f'{base_path}/DAD-3DHeadsDataset/val/val.json', "r") as f:
+          val_anno = json.load(f)
+      val_json = []
+      for el in tqdm(val_anno):
+          annotation_path = f'{base_path}/DAD-3DHeadsDataset/val/annotations/{el["item_id"]}.json'
+          image = read_img(f'{base_path}/DAD-3DHeadsDataset/val/images/{el["item_id"]}.png')
+          image_height = image.shape[0]
+          anno = json.loads(open(annotation_path).read())
+          val_json.append(
+------------------------------------------------------------
+2025-08-31T08:41:18.927052Z
+Action:
+  command:
+    cat Sim3DR/setup.py | head -20
+Output:
+  '''
+  python setup.py build_ext -i
+  to compile
+  '''
+  from distutils.core import setup, Extension
+  from Cython.Build import cythonize
+  from Cython.Distutils import build_ext
+  import numpy
+  setup(
+      name='Sim3DR_Cython',  # not the package name
+      cmdclass={'build_ext': build_ext},
+      ext_modules=[Extension("Sim3DR_Cython",
+                             sources=["lib/rasterize.pyx", "lib/rasterize_kernel.cpp"],
+                             language='c++',
+                             include_dirs=[numpy.get_include()],
+                             extra_compile_args=["-std=c++11"])],
+  )
+------------------------------------------------------------
+2025-08-31T08:41:18.927064Z
+Action:
+  command:
+    cat demo.py | grep -A 10 "if __name__"
+  description:
+    Based on the command history and repository analysis, I need to identify all proper entrypoints in this DAD-3DHeads repository. Let me examine the key files and create the entrypoints list.
+Output:
+  if __name__ == "__main__":
+      Fire(demo)
+------------------------------------------------------------
+2025-08-31T08:41:18.927074Z
+Action:
+  command:
+    cat dad_3dheads_benchmark/benchmark.py | grep -A 10 "if __name__"
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files and create the entrypoints list.
+Output:
+  if __name__ == "__main__":
+      Fire(evaluate)
+------------------------------------------------------------
+2025-08-31T08:41:18.927084Z
+Action:
+  command:
+    cat dad_3dheads_benchmark/generate_gt.py | grep -A 10 "if __name__"
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files and create the entrypoints list.
+Output:
+  if __name__ == "__main__":
+      Fire(generate_gt)
+------------------------------------------------------------
+2025-08-31T08:41:18.927094Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo.py
+    train.py
+    dad_3dheads_benchmark/benchmark.py
+    dad_3dheads_benchmark/generate_gt.py
+    EOF
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and file structure examined. Let me create the comprehensive list of entrypoints.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:41:18.927106Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo.py
+    train.py
+    dad_3dheads_benchmark/benchmark.py
+    dad_3dheads_benchmark/generate_gt.py
+    EOF
+  description:
+    Based on the command history and repository analysis, I can identify the proper entrypoints in this DAD-3DHeads repository. Let me examine the key files and create the entrypoints list.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:41:18.927117Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and my analysis of the repository structure, I need to identify all proper entrypoints for this DAD-3DHeads repository. Let me examine the files and create the entrypoints list.
+Output:
+  demo.py
+  train.py
+  dad_3dheads_benchmark/benchmark.py
+  dad_3dheads_benchmark/generate_gt.py
+------------------------------------------------------------
+2025-08-31T08:41:18.927143Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files and create the final entrypoints list.
+Output:
+  demo.py
+  train.py
+  dad_3dheads_benchmark/benchmark.py
+  dad_3dheads_benchmark/generate_gt.py
+------------------------------------------------------------
+2025-08-31T08:41:18.927153Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    demo.py
+    train.py
+    dad_3dheads_benchmark/benchmark.py
+    dad_3dheads_benchmark/generate_gt.py
+    EOF
+  description:
+    I'll analyze this repository to identify all proper entrypoints based on the command history and repository structure. Let me examine the key files and create the comprehensive list.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:41:18.927163Z
+Action:
+  command:
+    cat entrypoints.txt
+  description:
+    Based on the command history and repository analysis, I can see that proper entrypoints have already been identified and written to `entrypoints.txt`. Let me verify the current state and complete the task.
+Output:
+  demo.py
+  train.py
+  dad_3dheads_benchmark/benchmark.py
+  dad_3dheads_benchmark/generate_gt.py
+------------------------------------------------------------
+2025-08-31T08:41:18.927172Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+------------------------------------------------------------

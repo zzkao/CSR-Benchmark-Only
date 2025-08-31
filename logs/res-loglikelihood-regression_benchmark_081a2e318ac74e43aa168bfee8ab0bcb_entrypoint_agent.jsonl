@@ -1,0 +1,644 @@
+2025-08-31T08:44:33.293222Z
+Action:
+  command:
+    find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.c" -o -name "*.cpp" -o -name "*.sh" -o -name "Makefile" -o -name "makefile" -o -name "Dockerfile" -o -name "package.json" -o -name "pyproject.toml" -o -name "setup.py" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "build.gradle" -o -name "*.yml" -o -name "*.yaml" | head -50
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by exploring the repository structure and contents.
+Output:
+  ./scripts/train.sh
+  ./scripts/validate.sh
+  ./scripts/validate.py
+  ./scripts/train.py
+  ./setup.py
+  ./configs/256x192_res50_regress-flow.yaml
+  ./configs/256x192_res50_3d_h36mmpii-flow.yaml
+  ./rlepose/trainer.py
+  ./rlepose/models/layers/real_nvp.py
+  ./rlepose/models/layers/Resnet.py
+  ./rlepose/models/regression_nf_3d.py
+  ./rlepose/models/criterion.py
+  ./rlepose/models/builder.py
+  ./rlepose/models/regression_nf.py
+  ./rlepose/models/__init__.py
+  ./rlepose/version.py
+  ./rlepose/utils/env.py
+  ./rlepose/utils/bbox.py
+  ./rlepose/utils/config.py
+  ./rlepose/utils/nms.py
+  ./rlepose/utils/transforms.py
+  ./rlepose/utils/metrics.py
+  ./rlepose/utils/registry.py
+  ./rlepose/utils/presets/simple_transform_3d.py
+  ./rlepose/utils/presets/simple_transform.py
+  ./rlepose/utils/presets/__init__.py
+  ./rlepose/utils/pose_utils.py
+  ./rlepose/utils/__init__.py
+  ./rlepose/datasets/mpii.py
+  ./rlepose/datasets/h36m.py
+  ./rlepose/datasets/coco_det.py
+  ./rlepose/datasets/h36m_mpii.py
+  ./rlepose/datasets/mscoco.py
+  ./rlepose/datasets/__init__.py
+  ./rlepose/datasets/custom.py
+  ./rlepose/opt.py
+  ./rlepose/__init__.py
+------------------------------------------------------------
+2025-08-31T08:44:33.293288Z
+Action:
+  command:
+    cat setup.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the key configuration files and scripts.
+Output:
+  import os
+  import platform
+  import subprocess
+  import time
+  import numpy as np
+  from Cython.Build import cythonize
+  from setuptools import Extension, find_packages, setup
+  import torch
+  from torch.utils.cpp_extension import BuildExtension, CUDAExtension, CppExtension
+  MAJOR = 0
+  MINOR = 1
+  PATCH = 0
+  SUFFIX = ''
+  SHORT_VERSION = '{}.{}.{}{}'.format(MAJOR, MINOR, PATCH, SUFFIX)
+  version_file = 'rlepose/version.py'
+  def readme():
+      with open('README.md') as f:
+          content = f.read()
+      return content
+  def get_git_hash():
+      def _minimal_ext_cmd(cmd):
+          # construct minimal environment
+          env = {}
+          for k in ['SYSTEMROOT', 'PATH', 'HOME']:
+              v = os.environ.get(k)
+              if v is not None:
+                  env[k] = v
+          # LANGUAGE is used on win32
+          env['LANGUAGE'] = 'C'
+          env['LANG'] = 'C'
+          env['LC_ALL'] = 'C'
+          out = subprocess.Popen(
+              cmd, stdout=subprocess.PIPE, env=env).communicate()[0]
+          return out
+      try:
+          out = _minimal_ext_cmd(['git', 'rev-parse', 'HEAD'])
+          sha = out.strip().decode('ascii')
+      except OSError:
+          sha = 'unknown'
+      return sha
+  def get_hash():
+      if os.path.exists('.git'):
+          sha = get_git_hash()[:7]
+      elif os.path.exists(version_file):
+          try:
+              from rlepose.version import __version__
+              sha = __version__.split('+')[-1]
+          except ImportError:
+              raise ImportError('Unable to get git version')
+      else:
+          sha = 'unknown'
+      return sha
+  def write_version_py():
+      content = """# GENERATED VERSION FILE
+  # TIME: {}
+  __version__ = '{}'
+  short_version = '{}'
+  """
+      sha = get_hash()
+      VERSION = SHORT_VERSION + '+' + sha
+      with open(version_file, 'w') as f:
+          f.write(content.format(time.asctime(), VERSION, SHORT_VERSION))
+  def get_version():
+      with open(version_file, 'r') as f:
+          exec(compile(f.read(), version_file, 'exec'))
+      return locals()['__version__']
+  def make_cython_ext(name, module, sources):
+      extra_compile_args = None
+      if platform.system() != 'Windows':
+          extra_compile_args = {
+              'cxx': ['-Wno-unused-function', '-Wno-write-strings']
+          }
+      extension = Extension(
+          '{}.{}'.format(module, name),
+          [os.path.join(*module.split('.'), p) for p in sources],
+          include_dirs=[np.get_include()],
+          language='c++',
+          extra_compile_args=extra_compile_args)
+      extension, = cythonize(extension)
+      return extension
+  def make_cuda_ext(name, module, sources, sources_cuda=[]):
+      define_macros = []
+      extra_compile_args = {'cxx': []}
+      if torch.cuda.is_available() or os.getenv('FORCE_CUDA', '0') == '1':
+          define_macros += [('WITH_CUDA', None)]
+          extension = CUDAExtension
+          extra_compile_args['nvcc'] = [
+              '-D__CUDA_NO_HALF_OPERATORS__',
+              '-D__CUDA_NO_HALF_CONVERSIONS__',
+              '-D__CUDA_NO_HALF2_OPERATORS__',
+          ]
+          sources += sources_cuda
+      else:
+          print(f'Compiling {name} without CUDA')
+          extension = CppExtension
+      return extension(
+          name=f'{module}.{name}',
+          sources=[os.path.join(*module.split('.'), p) for p in sources],
+          define_macros=define_macros,
+          extra_compile_args=extra_compile_args)
+  def get_ext_modules():
+      ext_modules = []
+      return ext_modules
+  def get_install_requires():
+      install_requires = [
+          'six', 'terminaltables', 'scipy==1.1.0',
+          'opencv-python', 'matplotlib', 'visdom',
+          'tqdm', 'tensorboardx', 'easydict',
+          'pyyaml',
+          'torch>=1.1.0', 'torchvision>=0.3.0',
+          'munkres', 'timm==0.1.20', 'natsort'
+      ]
+      return install_requires
+  def is_installed(package_name):
+      from pip._internal.utils.misc import get_installed_distributions
+      for p in get_installed_distributions():
+          if package_name in p.egg_name():
+              return True
+      return False
+  if __name__ == '__main__':
+      write_version_py()
+      setup(
+          name='rlepose',
+          version=get_version(),
+          description='Code for Residual Log-likehood Estimation',
+          long_description=readme(),
+          packages=find_packages(exclude=('data', 'exp',)),
+          package_data={'': ['*.json', '*.txt']},
+          classifiers=[
+              'Development Status :: 4 - Beta',
+              'License :: OSI Approved :: Apache Software License',
+              'Operating System :: OS Independent',
+              'Programming Language :: Python :: 2',
+              'Programming Language :: Python :: 2.7',
+              'Programming Language :: Python :: 3',
+              'Programming Language :: Python :: 3.4',
+              'Programming Language :: Python :: 3.5',
+              'Programming Language :: Python :: 3.6',
+              'Programming Language :: Python :: 3.7',
+          ],
+          license='GPLv3',
+          python_requires=">=3",
+          setup_requires=['pytest-runner', 'numpy', 'cython'],
+          tests_require=['pytest'],
+          install_requires=get_install_requires(),
+          ext_modules=get_ext_modules(),
+          cmdclass={'build_ext': BuildExtension},
+          zip_safe=False)
+------------------------------------------------------------
+2025-08-31T08:44:33.293398Z
+Action:
+  command:
+    cat scripts/train.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints. Let me start by examining the key configuration files and scripts that have already been found.
+Output:
+  import logging
+  import os
+  import random
+  import sys
+  import numpy as np
+  import torch
+  import torch.multiprocessing as mp
+  import torch.utils.data
+  from rlepose.models import builder
+  from rlepose.opt import cfg, logger, opt
+  from rlepose.trainer import train, validate, validate_gt, validate_gt_3d
+  from rlepose.utils.env import init_dist
+  from rlepose.utils.metrics import NullWriter
+  from rlepose.utils.transforms import get_coord
+  num_gpu = torch.cuda.device_count()
+  def _init_fn(worker_id):
+      np.random.seed(opt.seed)
+      random.seed(opt.seed)
+  def setup_seed(seed):
+      random.seed(seed)
+      os.environ['PYTHONHASHSEED'] = str(seed)
+      np.random.seed(seed)
+      torch.manual_seed(seed)
+      torch.cuda.manual_seed(seed)
+      torch.cuda.manual_seed_all(seed)
+      torch.backends.cudnn.benchmark = False
+      torch.backends.cudnn.deterministic = True
+  def main():
+      if opt.seed is not None:
+          setup_seed(opt.seed)
+      if opt.launcher == 'slurm':
+          main_worker(None, opt, cfg)
+      else:
+          ngpus_per_node = torch.cuda.device_count()
+          opt.ngpus_per_node = ngpus_per_node
+          mp.spawn(main_worker, nprocs=ngpus_per_node, args=(opt, cfg))
+  def main_worker(gpu, opt, cfg):
+      if opt.seed is not None:
+          setup_seed(opt.seed)
+      if gpu is not None:
+          opt.gpu = gpu
+      init_dist(opt)
+      if opt.log:
+          cfg_file_name = os.path.basename(opt.cfg)
+          filehandler = logging.FileHandler(
+              './exp/{}-{}/training.log'.format(opt.exp_id, cfg_file_name))
+          streamhandler = logging.StreamHandler()
+          logger.setLevel(logging.INFO)
+          logger.addHandler(filehandler)
+          logger.addHandler(streamhandler)
+      else:
+          null_writer = NullWriter()
+          sys.stdout = null_writer
+      logger.info('******************************')
+      logger.info(opt)
+      logger.info('******************************')
+      logger.info(cfg)
+      logger.info('******************************')
+      opt.nThreads = int(opt.nThreads / num_gpu)
+      # Model Initialize
+      m = preset_model(cfg)
+      m.cuda(opt.gpu)
+      m = torch.nn.parallel.DistributedDataParallel(m, device_ids=[opt.gpu])
+      criterion = builder.build_loss(cfg.LOSS).cuda()
+      if cfg.TRAIN.OPTIMIZER == 'adam':
+          optimizer = torch.optim.Adam(m.parameters(), lr=cfg.TRAIN.LR)
+      elif cfg.TRAIN.OPTIMIZER == 'sgd':
+          optimizer = torch.optim.SGD(m.parameters(), lr=cfg.TRAIN.LR, momentum=0.9, weight_decay=0.0001)
+      lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(
+          optimizer, milestones=cfg.TRAIN.LR_STEP, gamma=cfg.TRAIN.LR_FACTOR)
+      train_dataset = builder.build_dataset(cfg.DATASET.TRAIN, preset_cfg=cfg.DATA_PRESET, train=True, heatmap2coord=cfg.TEST.HEATMAP2COORD)
+      train_sampler = torch.utils.data.distributed.DistributedSampler(
+          train_dataset, num_replicas=opt.world_size, rank=opt.rank)
+      train_loader = torch.utils.data.DataLoader(
+          train_dataset, batch_size=cfg.TRAIN.BATCH_SIZE, shuffle=(train_sampler is None), num_workers=opt.nThreads, sampler=train_sampler, worker_init_fn=_init_fn)
+      output_3d = cfg.DATA_PRESET.get('OUT_3D', False)
+      heatmap_to_coord = get_coord(cfg, cfg.DATA_PRESET.HEATMAP_SIZE, output_3d)
+      opt.trainIters = 0
+      best_err = 999
+      for i in range(cfg.TRAIN.BEGIN_EPOCH, cfg.TRAIN.END_EPOCH):
+          opt.epoch = i
+          train_sampler.set_epoch(i)
+          current_lr = optimizer.state_dict()['param_groups'][0]['lr']
+          logger.info(f'############# Starting Epoch {opt.epoch} | LR: {current_lr} #############')
+          # Training
+          loss, acc = train(opt, cfg, train_loader, m, criterion, optimizer)
+          logger.epochInfo('Train', opt.epoch, loss, acc)
+          lr_scheduler.step()
+          if (i + 1) % opt.snapshot == 0:
+              # Save checkpoint
+              if opt.log:
+                  torch.save(m.module.state_dict(), './exp/{}-{}/model_{}.pth'.format(opt.exp_id, cfg.FILE_NAME, opt.epoch))
+              # Prediction Test
+              with torch.no_grad():
+                  if output_3d:
+                      err = validate_gt_3d(m, opt, cfg, heatmap_to_coord)
+                      if opt.log and err <= best_err:
+                          best_err = err
+                          torch.save(m.module.state_dict(), './exp/{}-{}/best_model.pth'.format(opt.exp_id, cfg.FILE_NAME))
+                      logger.info(f'##### Epoch {opt.epoch} | gt results: {err}/{best_err} #####')
+                  else:
+                      gt_AP = validate_gt(m, opt, cfg, heatmap_to_coord)
+                      det_AP = validate(m, opt, cfg, heatmap_to_coord)
+                      logger.info(f'##### Epoch {opt.epoch} | gt mAP: {gt_AP} | det mAP: {det_AP} #####')
+          torch.distributed.barrier()  # Sync
+      torch.save(m.module.state_dict(), './exp/{}-{}/final.pth'.format(opt.exp_id, cfg.FILE_NAME))
+  def preset_model(cfg):
+      model = builder.build_sppe(cfg.MODEL, preset_cfg=cfg.DATA_PRESET)
+      if cfg.MODEL.PRETRAINED:
+          logger.info(f'Loading model from {cfg.MODEL.PRETRAINED}...')
+          model.load_state_dict(torch.load(cfg.MODEL.PRETRAINED))
+      elif cfg.MODEL.TRY_LOAD:
+          logger.info(f'Loading model from {cfg.MODEL.TRY_LOAD}...')
+          pretrained_state = torch.load(cfg.MODEL.TRY_LOAD)
+          model_state = model.state_dict()
+          pretrained_state = {k: v for k, v in pretrained_state.items()
+                              if k in model_state and v.size() == model_state[k].size()}
+          model_state.update(pretrained_state)
+          model.load_state_dict(model_state)
+      else:
+          logger.info('Create new model')
+          model._initialize()
+      return model
+  if __name__ == "__main__":
+          print(f'Wrong world size. Changing it from {opt.world_size} to {num_gpu}.')
+          opt.world_size = num_gpu
+      main()
+------------------------------------------------------------
+2025-08-31T08:44:33.293503Z
+Action:
+  command:
+    cat scripts/validate.py
+  description:
+    I'll analyze the repository to identify all proper entrypoints by examining the files, configuration, and command history provided.
+Output:
+  """Validation script."""
+  import torch
+  import torch.multiprocessing as mp
+  from rlepose.models import builder
+  from rlepose.opt import cfg, opt
+  from rlepose.trainer import validate, validate_gt, validate_gt_3d
+  from rlepose.utils.env import init_dist
+  from rlepose.utils.transforms import get_coord
+  num_gpu = torch.cuda.device_count()
+  def main():
+      if opt.launcher in ['none', 'slurm']:
+          main_worker(None, opt, cfg)
+      else:
+          ngpus_per_node = torch.cuda.device_count()
+          opt.ngpus_per_node = ngpus_per_node
+          mp.spawn(main_worker, nprocs=ngpus_per_node, args=(opt, cfg))
+  def main_worker(gpu, opt, cfg):
+      if gpu is not None:
+          opt.gpu = gpu
+      init_dist(opt)
+      torch.backends.cudnn.benchmark = True
+      m = builder.build_sppe(cfg.MODEL, preset_cfg=cfg.DATA_PRESET)
+      print(f'Loading model from {opt.checkpoint}...')
+      m.load_state_dict(torch.load(opt.checkpoint, map_location='cpu'), strict=True)
+      m.cuda(opt.gpu)
+      m = torch.nn.parallel.DistributedDataParallel(m, device_ids=[opt.gpu])
+      output_3d = cfg.DATA_PRESET.get('OUT_3D', False)
+      heatmap_to_coord = get_coord(cfg, cfg.DATA_PRESET.HEATMAP_SIZE, output_3d)
+      with torch.no_grad():
+          if output_3d:
+              err = validate_gt_3d(m, opt, cfg, heatmap_to_coord, opt.valid_batch)
+              if opt.log:
+                  print('##### results: {} #####'.format(err))
+          else:
+              gt_AP = validate_gt(m, opt, cfg, heatmap_to_coord, opt.valid_batch)
+              detbox_AP = validate(m, opt, cfg, heatmap_to_coord, opt.valid_batch)
+              if opt.log:
+                  print('##### gt box: {} mAP | det box: {} mAP #####'.format(gt_AP, detbox_AP))
+  if __name__ == "__main__":
+          print(f'Wrong world size. Changing it from {opt.world_size} to {num_gpu}.')
+          opt.world_size = num_gpu
+      main()
+------------------------------------------------------------
+2025-08-31T08:44:33.293541Z
+Action:
+  command:
+    cat scripts/train.sh
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure. Let me examine the key files and configurations.
+Output:
+  set -x
+  CONFIG=$1
+  EXPID=${2:-"test_rle"}
+  PORT=${3:-23456}
+  HOST=$(hostname -i)
+  python ./scripts/train.py \
+      --nThreads 16 \
+      --launcher pytorch --rank 0 \
+      --dist-url tcp://${HOST}:${PORT} \
+      --exp-id ${EXPID} \
+      --cfg ${CONFIG} --seed 123123
+------------------------------------------------------------
+2025-08-31T08:44:33.293556Z
+Action:
+  command:
+    cat scripts/validate.sh
+Output:
+  set -x
+  CONFIG=$1
+  CKPT=$2
+  PORT=${3:-23456}
+  HOST=$(hostname -i)
+  python ./scripts/validate.py \
+      --cfg ${CONFIG} \
+      --valid-batch 64 \
+      --flip-test \
+      --checkpoint ${CKPT} \
+      --launcher pytorch --rank 0 \
+      --dist-url tcp://${HOST}:${PORT} \
+------------------------------------------------------------
+2025-08-31T08:44:33.293567Z
+Action:
+  command:
+    find . -name "*.py" -exec grep -l "if __name__ == ['\"]__main__['\"]" {} \;
+  description:
+    I'll analyze the repository structure and command history to identify all proper entrypoints. Let me examine the repository further and create the entrypoints.txt file.
+Output:
+  ./scripts/validate.py
+  ./scripts/train.py
+  ./setup.py
+------------------------------------------------------------
+2025-08-31T08:44:33.293582Z
+Action:
+  command:
+    ls -la
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and files. Let me examine the repository structure and create the entrypoints.txt file.
+Output:
+  total 48
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 08:43 .
+  drwxr-xr-x 1 root          root 4096 Aug 31 08:43 ..
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 08:43 .git
+  -rw-r--r-- 1 benchmarkuser 1001 1240 Aug 31 08:43 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001 3818 Aug 31 08:43 README.md
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:43 assets
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:43 configs
+  drwxr-xr-x 3 benchmarkuser 1001 4096 Aug 31 08:43 exp
+  drwxr-xr-x 5 benchmarkuser 1001 4096 Aug 31 08:43 rlepose
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:43 scripts
+  -rw-r--r-- 1 benchmarkuser 1001 5130 Aug 31 08:43 setup.py
+------------------------------------------------------------
+2025-08-31T08:44:33.293598Z
+Action:
+  command:
+    ls -la scripts/
+  description:
+    I'll analyze the repository structure and command history to identify all proper entrypoints. Based on the provided information, let me examine the key files and configurations.
+Output:
+  total 28
+  drwxr-xr-x 2 benchmarkuser 1001 4096 Aug 31 08:43 .
+  drwxr-xr-x 8 benchmarkuser 1001 4096 Aug 31 08:43 ..
+  -rw-r--r-- 1 benchmarkuser 1001 5839 Aug 31 08:43 train.py
+  -rwxr-xr-x 1 benchmarkuser 1001  259 Aug 31 08:43 train.sh
+  -rw-r--r-- 1 benchmarkuser 1001 1877 Aug 31 08:43 validate.py
+  -rwxr-xr-x 1 benchmarkuser 1001  259 Aug 31 08:43 validate.sh
+------------------------------------------------------------
+2025-08-31T08:44:33.293611Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure provided.
+Output:
+  # Human Pose Regression with Residual Log-likelihood Estimation
+  [[`Paper`](https://jeffli.site/res-loglikelihood-regression/resources/ICCV21-RLE.pdf)]
+  [[`arXiv`](https://arxiv.org/abs/2107.11291)]
+  [[`Project Page`](https://jeffli.site/res-loglikelihood-regression/)]
+  <div align="center">
+      <img src="assets/rle.jpg", width="600" alt><br>
+      Regression with Residual Log-likelihood Estimation
+  </div>
+  ## TODO
+  - [ ] Provide minimal implementation of RLE loss.
+  - [ ] Add model zoo.
+  - [x] Provide implementation on Human3.6M dataset.
+  - [x] Provide implementation on COCO dataset.
+  ### Installation
+  1. Install pytorch >= 1.1.0 following official instruction.
+  2. Install `rlepose`:
+  ``` bash
+  pip install cython
+  python setup.py develop
+  ```
+  3. Install [COCOAPI](https://github.com/cocodataset/cocoapi).
+  ``` bash
+  pip install -U 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
+  ```
+  4. Init `data` directory:
+  ``` bash
+  mkdir data
+  ```
+  5. Download [COCO](https://cocodataset.org/#download) data, [MPII](http://human-pose.mpi-inf.mpg.de/#download) ([annotations](https://drive.google.com/file/d/1--EQZnCJI_XJIc9_bw-dzw3MrRFLMptw/view?usp=sharing)) and [Human3.6M](https://drive.google.com/drive/folders/1kgVH-GugrLoc9XyvP6nRoaFpw3TmM5xK) data (from [PoseNet](https://github.com/mks0601/3DMPPE_POSENET_RELEASE) or [ours](https://drive.google.com/drive/folders/1sF2xjAfvEw7rvNaQJqadAU2QDUVFfhQH?usp=sharing)):
+  ```
+  |-- data
+  `-- |-- coco
+      |   |-- annotations
+      |   |   |-- person_keypoints_train2017.json
+      |   |   `-- person_keypoints_val2017.json
+      |   `-- images
+      |       |-- train2017
+      |       |   |-- 000000000009.jpg
+      |       |   |-- 000000000025.jpg
+      |       |   |-- 000000000030.jpg
+      |       |   |-- ... 
+      |       `-- val2017
+      |           |-- 000000000139.jpg
+      |           |-- 000000000285.jpg
+      |           |-- 000000000632.jpg
+      |           |-- ... 
+      |-- mpii
+      |   |-- annotations
+      |   |   `-- annot_mpii.json
+      |   `-- images
+              |-- 000001163.jpg
+              |-- 000003072.jpg
+              |-- 000004812.jpg
+              |--- ...
+      |-- h36m
+      `-- |-- annotations
+          |   |-- Sample_trainmin_train_Human36M_protocol_2.json
+          |   `-- Sample_64_test_Human36M_protocol_2.json
+          `-- images
+              |-- s_01_act_02_subact_01_ca_01
+              |   |-- ...
+              |-- s_01_act_02_subact_01_ca_02
+              |   |-- ...
+              `-- ... 
+  ```
+  ## Training
+  ### Train on MSCOCO
+  ``` bash
+  ./scripts/train.sh ./configs/256x192_res50_regress-flow.yaml train_rle_coco
+  ```
+  ### Train on Human3.6M
+  ``` bash
+  ./scripts/train.sh ./configs/256x192_res50_3d_h36mmpii-flow.yaml train_rle_h36m
+  ```
+  ## Evaluation
+  ### Validate on MSCOCO
+  Download the pretrained model from [Google Drive](https://drive.google.com/file/d/1YBHqNKkxIVv8CqgDxkezC-4vyKpx-zXK/view?usp=sharing).
+  ``` bash
+  ./scripts/validate.sh ./configs/256x192_res50_regress-flow.yaml ./coco-laplace-rle.pth
+  ```
+  ### Validate on Human3.6M
+  Download the pretrained model from [Google Drive](https://drive.google.com/file/d/1v2ZhembnFyJ_FXGHEOCzGaM-tAVFMy7A/view?usp=sharing).
+  ``` bash
+  ./scripts/validate.sh ./configs/256x192_res50_3d_h36mmpii-flow.yaml ./h36m-laplace-rle.pth
+  ```
+  ### Citing
+  If our code helps your research, please consider citing the following paper:
+  ```
+  @inproceedings{li2021human,
+      title={Human Pose Regression with Residual Log-likelihood Estimation},
+      author={Li, Jiefeng and Bian, Siyuan and Zeng, Ailing and Wang, Can and Pang, Bo and Liu, Wentao and Lu, Cewu},
+      booktitle={ICCV},
+      year={2021}
+  }
+  ```
+------------------------------------------------------------
+2025-08-31T08:44:33.293661Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    scripts/train.py
+    scripts/validate.py
+    scripts/train.sh
+    scripts/validate.sh
+    EOF
+  description:
+    I'll analyze the repository to identify all proper entrypoints based on the command history and file structure provided.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:44:33.293676Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    scripts/train.py
+    scripts/validate.py
+    scripts/train.sh
+    scripts/validate.sh
+    EOF
+  description:
+    I'll analyze the repository structure and command history to identify all proper entrypoints. Based on the provided information, let me examine the key files and create the entrypoints.txt file.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:44:33.293689Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    scripts/train.py
+    scripts/validate.py
+    scripts/train.sh
+    scripts/validate.sh
+    EOF
+  description:
+    Based on my analysis of the repository structure, command history, and file contents, I can identify the proper entrypoints for this RLEpose (Residual Log-likelihood Estimation for Human Pose Regression) project.
+    
+    Let me examine the repository and create the entrypoints file:
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:44:33.293703Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    scripts/train.py
+    scripts/validate.py
+    scripts/train.sh
+    scripts/validate.sh
+    EOF
+  description:
+    I'll analyze the repository structure and command history to identify all proper entrypoints for this RLEpose project.
+Output:
+
+------------------------------------------------------------
+2025-08-31T08:44:33.293714Z
+Action:
+  command:
+    cat > entrypoints.txt << 'EOF'
+    scripts/train.py
+    scripts/validate.py
+    scripts/train.sh
+    scripts/validate.sh
+    EOF
+  description:
+    I need to analyze the repository structure and command history to identify all proper entrypoints. Based on the provided command history, I can see the repository structure and key files.
+Output:
+
+------------------------------------------------------------

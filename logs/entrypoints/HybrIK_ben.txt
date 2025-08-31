@@ -1,0 +1,11 @@
+    ./scripts/demo_image.py
+    ./scripts/demo_video.py
+    ./scripts/demo_video_x.py
+    ./scripts/train_smpl.py
+    ./scripts/train_smpl_cam.py
+    ./scripts/validate_smpl.py
+    ./scripts/validate_smpl_cam.py
+    ./scripts/validate_smplx_cam.py
+    ./colab.sh
+    ./fetch_data.sh
+    ./setup.py

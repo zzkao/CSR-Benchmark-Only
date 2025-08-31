@@ -1,0 +1,14 @@
+    ./train_ms.py
+    ./train_ft.py
+    ./train_ft_robot.py
+    ./train_ft_synthia.py
+    ./train_ms_robot.py
+    ./train_ms_synthia.py
+    ./evaluate_cityscapes.py
+    ./evaluate_gta5.py
+    ./evaluate_robot.py
+    ./generate_plabel_cityscapes.py
+    ./generate_plabel_cityscapes_SYNTHIA.py
+    ./generate_plabel_robot.py
+    ./compute_iou.py
+    ./convert_robot_color.py
