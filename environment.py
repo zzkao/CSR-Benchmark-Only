@@ -87,6 +87,9 @@ class Environment:
         description = f"{benchname} TEST SCRIPT COMMAND"
         print(f"RUNNING {benchname} TEST SCRIPT")
 
+        # Return to base directory
+        self.executor.execute(Action("cd ~", name=benchname))
+
         success = total = 0
         with open(test_filepath) as f:
             for line in f:
