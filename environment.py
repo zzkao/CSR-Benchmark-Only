@@ -25,8 +25,8 @@ class Environment:
         print(f"Agent running in container {self.container_name}")
 
         # Define repo path
-        REPO_NAME= repo_url.rsplit('/', 1)[-1]
-        self.name = f"{REPO_NAME}_{self.container_name}"
+        self.REPO_NAME= repo_url.rsplit('/', 1)[-1]
+        self.name = f"{self.REPO_NAME}_{self.container_name}"
         self.repo_path = os.path.abspath(f"./data/CSRBench100/{self.name}/")
 
         # Pull the repo
@@ -79,11 +79,11 @@ class Environment:
     
     def run_test_scripts(self, entrypoints_test):
         if entrypoints_test:
-            test_filepath = f"./data/test_scripts/{self.name}_entrypoints_test"
+            test_filepath = f"./data/test_scripts/{self.REPO_NAME}_entrypoints_test"
             description = "ENTRYPOINTS TEST SCRIPT COMMAND"
             print("RUNNING ENTRYPOINTS TEST SCRIPT")
         else:
-            test_filepath = f"./data/test_scripts/{self.name}_default_test"
+            test_filepath = f"./data/test_scripts/{self.REPO_NAME}_default_test"
             description = "DEFAULT TEST SCRIPT COMMAND"
             print("RUNNING DEFAULT TEST SCRIPT")
 

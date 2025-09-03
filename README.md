@@ -65,7 +65,7 @@ python environment.py
 ## Test Dummy Agent Framework
 Once docker works, paste your `ANTHROPIC_API_KEY` into `.env` try running 
 ```bash
-python main.py --repo https://github.com/stanford-oval/storm --docker benchmark-image --cycles 75
+python main.py --docker benchmark-image --cycles 75 --repo https://github.com/stanford-oval/storm
 ```
 to run the agent for a maximum of 75 cycles. The agent will automatically stop when setup is deemed complete and the log of the command history will be in `logs/`. Furthermore, a `results` file will be created to track the repos that were benchmarked, whether it was successful, and the number of cycles that were ran.
 
