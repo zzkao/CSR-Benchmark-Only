@@ -79,22 +79,22 @@ class Environment:
     
     def run_test_scripts(self, entrypoints_test):
         if entrypoints_test:
+            benchname = "ENTRYPOINTS"
             test_filepath = f"./data/test_scripts/{self.REPO_NAME}_entrypoints_test"
-            description = "ENTRYPOINTS TEST SCRIPT COMMAND"
-            print("RUNNING ENTRYPOINTS TEST SCRIPT")
         else:
+            benchname = "DEFAULT"
             test_filepath = f"./data/test_scripts/{self.REPO_NAME}_default_test"
-            description = "DEFAULT TEST SCRIPT COMMAND"
-            print("RUNNING DEFAULT TEST SCRIPT")
+        description = f"{benchname} TEST SCRIPT COMMAND"
+        print(f"RUNNING {benchname} TEST SCRIPT")
 
         success = total = 0
         with open(test_filepath) as f:
             for line in f:
-                if line[0] == "#":
+                if line[0] == "#" or line[0] == "\n" :
                     continue
                 else:
                     total += 1
-                    test_script_command = Action(f"{line} > /dev/null; echo $?", description=description)
+                    test_script_command = Action(f"{line} > /dev/null; echo $?", description=description, name=benchname)
                     state = self.execute(test_script_command)
                     exit_status = state.output
                     if exit_status == "0":
