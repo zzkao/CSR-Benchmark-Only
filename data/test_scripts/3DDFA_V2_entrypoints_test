@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Environment Setup / Requirement / Installation
+git clone https://github.com/cleardusk/3DDFA_V2.git
+cd 3DDFA_V2
+pip install torch torchvision matplotlib numpy opencv-python imageio imageio-ffmpeg pyyaml tqdm argparse cython scikit-image scipy onnxruntime gradio
+brew install libomp  # For macOS users running with --onnx flag
+sh ./build.sh
+cd FaceBoxes && sh ./build_cpu_nms.sh && cd ..
+cd Sim3DR && sh ./build_sim3dr.sh && cd ..
+cd utils/asset && gcc -shared -Wall -O3 render.c -o render.so -fPIC && cd ../..
+
+# Data / Checkpoint / Weight Download (URL)
+# Note: Pre-trained weights are included in the repository
+# Training data 300W-LP can be downloaded from: https://drive.google.com/file/d/0B7OEHD3T4eCkVGs0TkhUWFN6N1k/view?usp=sharing
+
+# Training
+# No training commands available - this is an inference-only repository
+
+# Inference / Demonstration
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o 2d_sparse
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o 2d_dense
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o 3d
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o depth
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o pncc
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o pose
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o uv_tex
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o ply
+python3 demo.py -f examples/inputs/emma.jpg --onnx -o obj
+python3 demo_video.py -f examples/inputs/videos/214.avi --onnx -o 2d_sparse
+python3 demo_video.py -f examples/inputs/videos/214.avi --onnx -o 3d
+python3 demo_video_smooth.py -f examples/inputs/videos/214.avi --onnx -o 2d_sparse -n_pre 1 -n_next 1
+python3 demo_video_smooth.py -f examples/inputs/videos/214.avi --onnx -o 2d_dense -n_pre 1 -n_next 1
+python3 demo_video_smooth.py -f examples/inputs/videos/214.avi --onnx -o 3d -n_pre 1 -n_next 1
+python3 demo_webcam_smooth.py --onnx -o 2d_sparse -n_pre 1 -n_next 1
+python3 demo_webcam_smooth.py --onnx -o 2d_dense -n_pre 1 -n_next 1
+python3 demo_webcam_smooth.py --onnx -o 3d -n_pre 1 -n_next 1
+python3 latency.py --onnx -f examples/inputs/JianzhuGuo.jpg --warmup true --dense_flag true --repeated 32
+python3 gradiodemo.py
+python3 speed_cpu.py
+bash build.sh
+
+# Testing / Evaluation
+export OMP_NUM_THREADS=4 && python3 latency.py --onnx --warmup true --dense_flag true --repeated 32
+export OMP_NUM_THREADS=1 && python3 speed_cpu.py
+export OMP_NUM_THREADS=2 && python3 speed_cpu.py
+export OMP_NUM_THREADS=4 && python3 speed_cpu.py
+python3 latency.py -c configs/mb1_120x120.yml -f examples/inputs/JianzhuGuo.jpg --onnx --warmup true --dense_flag false --repeated 10
+python3 latency.py -c configs/mb05_120x120.yml -f examples/inputs/JianzhuGuo.jpg --onnx --warmup true --dense_flag true --repeated 10

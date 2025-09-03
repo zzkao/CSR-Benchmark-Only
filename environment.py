@@ -66,6 +66,8 @@ class Environment:
     
     def close(self):
         """Close executor and remove container."""
+        self.run_test_scripts(True)
+        self.run_test_scripts(False)
         self.log_environment_history()
 
         if hasattr(self, "executor"):
@@ -74,9 +76,34 @@ class Environment:
         if not self.keep_docker:
             subprocess.run(["docker", "rm", "-f", self.container_name],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    
+    def run_test_scripts(self, entrypoints_test):
+        if entrypoints_test:
+            test_filepath = f"./data/test_scripts/{self.name}_entrypoints_test"
+            description = "ENTRYPOINTS TEST SCRIPT COMMAND"
+            print("RUNNING ENTRYPOINTS TEST SCRIPT")
+        else:
+            test_filepath = f"./data/test_scripts/{self.name}_default_test"
+            description = "DEFAULT TEST SCRIPT COMMAND"
+            print("RUNNING DEFAULT TEST SCRIPT")
+
+        success = total = 0
+        with open(test_filepath) as f:
+            for line in f:
+                if line[0] == "#":
+                    continue
+                else:
+                    total += 1
+                    test_script_command = Action(f"{line} > /dev/null; echo $?", description=description)
+                    state = self.execute(test_script_command)
+                    exit_status = state.output
+                    if exit_status == "0":
+                        success += 1
+        
+        print(success / total)
+        return success / total
 
     def log_environment_history(self, pretty=True):
-
         for name in self.history.keys():
 
             log_file = f"logs/{self.name}_{name}.jsonl"

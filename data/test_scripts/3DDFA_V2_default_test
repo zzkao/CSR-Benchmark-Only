@@ -1,0 +1,23 @@
+#!/bin/bash
+# Environment Setup / Requirement / Installation
+git clone https://github.com/cleardusk/3DDFA_V2.git && cd 3DDFA_V2
+# macOS only (required for --onnx acceleration):
+# brew install libomp
+sh ./build.sh
+export OMP_NUM_THREADS=4
+
+# Data / Checkpoint / Weight Download (URL)
+# (No explicit download commands in README; pretrained weights are included: weights/mb1_120x120.pth, weights/mb05_120x120.pth)
+
+# Training
+# (No training commands provided in README)
+
+# Inference / Demonstration
+python3 demo.py -f examples/inputs/emma.jpg --onnx
+python3 demo.py -f examples/inputs/emma.jpg -o 3d
+python3 demo_video.py -f examples/inputs/videos/214.avi --onnx
+python3 demo_video_smooth.py -f examples/inputs/videos/214.avi --onnx
+python3 demo_webcam_smooth.py --onnx
+
+# Testing / Evaluation
+python3 latency.py --onnx
