@@ -88,7 +88,7 @@ class Environment:
         print(f"RUNNING {benchname} TEST SCRIPT")
 
         # Return to base directory
-        self.executor.execute(Action("cd ~", name=benchname))
+        self.executor.execute(Action("cd ~/workspace", name=benchname))
 
         success = total = 0
         with open(test_filepath) as f:
@@ -97,7 +97,7 @@ class Environment:
                     continue
                 else:
                     total += 1
-                    test_script_command = Action(f"{line} > /dev/null; echo $?", description=description, name=benchname)
+                    test_script_command = Action(f"{line} > /dev/null 2>&1; echo $?", description=description, name=benchname)
                     state = self.execute(test_script_command)
                     exit_status = state.output
                     if exit_status == "0":
