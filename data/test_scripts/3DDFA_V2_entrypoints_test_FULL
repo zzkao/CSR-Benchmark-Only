@@ -1,3 +1,14 @@
+#!/bin/bash
+
+# Environment Setup / Requirement / Installation
+git clone https://github.com/cleardusk/3DDFA_V2.git
+cd 3DDFA_V2
+pip install torch torchvision matplotlib numpy opencv-python imageio imageio-ffmpeg pyyaml tqdm argparse cython scikit-image scipy onnxruntime gradio
+brew install libomp  # For macOS users running with --onnx flag
+sh ./build.sh
+cd FaceBoxes && sh ./build_cpu_nms.sh && cd ..
+cd Sim3DR && sh ./build_sim3dr.sh && cd ..
+cd utils/asset && gcc -shared -Wall -O3 render.c -o render.so -fPIC && cd ../..
 
 # Data / Checkpoint / Weight Download (URL)
 # Note: Pre-trained weights are included in the repository

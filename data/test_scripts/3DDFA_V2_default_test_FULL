@@ -1,3 +1,8 @@
+#!/bin/bash
+# Environment Setup / Requirement / Installation
+git clone https://github.com/cleardusk/3DDFA_V2.git && cd 3DDFA_V2
+# macOS only (required for --onnx acceleration):
+# brew install libomp
 sh ./build.sh
 export OMP_NUM_THREADS=4
 

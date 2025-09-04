@@ -103,7 +103,7 @@ class Environment:
                     if exit_status == "0":
                         success += 1
         
-        print(success / total)
+        print(f"{success} / {total}")
         return success / total
 
     def log_environment_history(self, pretty=True):
