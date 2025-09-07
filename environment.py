@@ -66,8 +66,6 @@ class Environment:
     
     def close(self):
         """Close executor and remove container."""
-        self.run_test_scripts(True)
-        self.run_test_scripts(False)
         self.log_environment_history()
 
         if hasattr(self, "executor"):
@@ -77,18 +75,14 @@ class Environment:
             subprocess.run(["docker", "rm", "-f", self.container_name],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    def run_test_scripts(self, entrypoints_test):
-        if entrypoints_test:
-            benchname = "ENTRYPOINTS"
-            test_filepath = f"./data/test_scripts/{self.REPO_NAME}_entrypoints_test"
-        else:
-            benchname = "DEFAULT"
-            test_filepath = f"./data/test_scripts/{self.REPO_NAME}_default_test"
-        description = f"{benchname} TEST SCRIPT COMMAND"
-        print(f"RUNNING {benchname} TEST SCRIPT")
+    def run_test_scripts(self):
+        test_filepath = f"./data/test_scripts/{self.REPO_NAME}.txt"
+        description = f"TEST SCRIPT COMMAND"
+        print(f"RUNNING TEST SCRIPT")
 
         # Return to base directory
-        self.executor.execute(Action("cd ~/workspace", name=benchname))
+        self.execute(Action("cd /workspace", name="TEST"))
+        self.execute(Action("ls", name="TEST"))
 
         success = total = 0
         with open(test_filepath) as f:
@@ -97,7 +91,7 @@ class Environment:
                     continue
                 else:
                     total += 1
-                    test_script_command = Action(f"{line} > /dev/null 2>&1; echo $?", description=description, name=benchname)
+                    test_script_command = Action(f"{line} > /dev/null 2>&1; echo $?", description=description, name="TEST")
                     state = self.execute(test_script_command)
                     exit_status = state.output
                     if exit_status == "0":

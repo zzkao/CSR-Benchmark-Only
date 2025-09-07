@@ -1,0 +1,25 @@
+# Data / Checkpoint / Weight Download (URL)
+# Create data directory
+mkdir -p data
+
+# Download CIFAR data in tfrecords format
+wget https://drive.google.com/file/d/1NY3lWYRfsTWfsjFPxJUlPumy-WFeD7zK/ -O data/cifar_tfrecords.zip
+unzip data/cifar_tfrecords.zip -d data/
+
+# Training
+# Train on original CIFAR dataset
+sh cifar_trainval.sh
+
+# Train on long-tailed CIFAR dataset
+sh cifar_im_trainval.sh
+
+# Train with class-balanced loss
+sh cifar_im_trainval_cb.sh
+
+# Inference / Demonstration
+# No explicit inference commands in README
+# Inference is part of evaluation in training scripts
+
+# Testing / Evaluation
+# View training progress and results
+tensorboard --logdir=./results --port=6006
