@@ -75,7 +75,7 @@ class Environment:
             subprocess.run(["docker", "rm", "-f", self.container_name],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    def _read_commands(bash_file):
+    def _read_commands(self, bash_file):
         commands = []
         current_cmd = []
 
