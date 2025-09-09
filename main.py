@@ -54,7 +54,7 @@ for repo_link in REPO_LINKS:
     else:
         agent = TestAgent()
         run_agent(agent)
-        env.run_test_scripts(False)
+        env.run_test_scripts()
 
     if not KEEP_REPO:
         subprocess.run(["./clear_repos.sh"])
