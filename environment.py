@@ -75,6 +75,28 @@ class Environment:
             subprocess.run(["docker", "rm", "-f", self.container_name],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
+    def _read_commands(bash_file):
+        commands = []
+        current_cmd = []
+
+        with open(bash_file) as f:
+            for line in f:
+                line = line.strip()
+                # skip comments and empty lines
+                if not line or line.startswith("#"):
+                    continue
+
+                # if line ends with \, continue building the command
+                if line.endswith("\\"):
+                    current_cmd.append(line[:-1].strip())
+                else:
+                    current_cmd.append(line)
+                    # end of a full command
+                    commands.append(" ".join(current_cmd))
+                    current_cmd = []
+
+        return commands
+
     def run_test_scripts(self):
         test_filepath = f"./data/test_scripts/{self.REPO_NAME}.txt"
         description = f"TEST SCRIPT COMMAND"
@@ -84,19 +106,18 @@ class Environment:
         self.execute(Action("cd /workspace", name="TEST"))
         self.execute(Action("ls", name="TEST"))
 
-        success = total = 0
-        with open(test_filepath) as f:
-            for line in f:
-                if line[0] == "#" or line[0] == "\n" :
-                    continue
-                else:
-                    total += 1
-                    test_script_command = Action(f"{line} > /dev/null 2>&1; echo $?", description=description, name="TEST")
-                    state = self.execute(test_script_command)
-                    exit_status = state.output
-                    if exit_status == "0":
-                        success += 1
+        commands = self._read_commands(test_filepath)
+        success = 0
+        for command in commands:
+            test_script_command = Action(f"{command} > /dev/null 2>&1; echo $?", description=description, name="TEST")
+            state = self.execute(test_script_command)
+            exit_status = state.output
+
+            # This requires update
+            if exit_status == "0":
+                success += 1
         
+        total = len(commands)
         print(f"{success} / {total}")
         return success / total
 
