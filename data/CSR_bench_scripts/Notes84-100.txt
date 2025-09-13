@@ -1,0 +1,4 @@
+Notes on repos
+87)Will need 8 GPUs. If you keep it (faithful to typical examples), note that single-GPU users should run the unsupervised example instead or reduce nproc_per_node.
+89) –num_train_epochs is set to 1 for lab purpose but README states set it to 10
+91)GPU expectations: SFT/RM can fit on 4×80GB; PPO needs 8×80GB; best-of-n tested on 1×80GB. The model is OpenAI but the repo leans on GPT-4-based annotators (via AlpacaEval 1)

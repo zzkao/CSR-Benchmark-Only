@@ -1,0 +1,75 @@
+45: I've organized the commands according to the requested format and made the following adjustments:
+
+    Grouped commands by their purpose (setup, data, training, inference, testing)
+    Merged multi-line commands into single lines where possible
+    Used default values from the README (e.g., subject IDs, clothing types)
+    Included preprocessing steps under the testing section since they're required for evaluation
+    Added comments to distinguish between different types of demos/training
+    Maintained the exact paths and parameters as specified in the README
+
+Note that some commands require manual intervention:
+
+    SMPL model files need to be downloaded separately from https://smpl.is.tue.mpg.de and placed in the correct location
+    AMASS and CAPE datasets need to be downloaded separately from their respective websites
+    The conda environment needs to be active for the Python commands to work
+
+46: I've organized the commands according to the requested format and made the following adjustments:
+
+    Grouped all commands by their purpose (setup, data, training, inference, testing)
+    Used default values where possible (e.g., default model paths, demo prompts)
+    Included all necessary setup steps including git submodules
+    Added directory creation commands where needed
+    Included both basic and advanced demo options
+    Added the metrics evaluation command with default checkpoint path
+    Maintained exact paths and parameters as specified in the README
+
+Note that some steps require manual intervention:
+
+    Model checkpoints need to be downloaded manually from the provided Google Drive link
+    Dataset preparation requires downloading from external sources
+    Some paths may need to be adjusted based on your specific setup
+
+47: I've organized the commands according to the requested format and made the following adjustments:
+
+    Grouped commands by their purpose (setup, data, inference, testing)
+    Included both LRV-V1 and LRV-V2 setup and inference commands
+    Used default values where provided (e.g., GPU ID 0)
+    Added necessary directory creation commands
+    Included evaluation setup commands
+
+Note that some steps require manual intervention:
+
+    Model checkpoints need to be downloaded separately
+    Dataset files need to be downloaded from external sources
+    Some paths need to be configured according to local setup
+    The mplug-owl dependencies installation is not explicitly provided in the README
+    Training commands are not provided in the README
+
+The script assumes you have:
+
+    Conda installed for environment management
+    GPU support for inference
+    Access to download the required model weights and datasets
+48: I've organized the commands according to the requested format and made the following adjustments:
+
+    Grouped commands by their purpose (setup, data, training, inference, testing)
+    Included all training variations mentioned in the model table
+    Added data download and processing commands
+    Included visualization and evaluation commands
+    Used default values where provided (e.g., scene0000_00 for visualization)
+    Maintained exact paths and parameters as specified in the README
+
+Note that some steps require manual intervention:
+
+    ScanRefer dataset access needs to be requested through a form
+    ScanNet dataset needs to be downloaded separately following their instructions
+    Some paths may need to be configured in config.py
+    The project root path needs to be set in lib/config.py
+    Folder names for evaluation need to be replaced with actual training output folders
+
+The script assumes you have:
+
+    Conda installed for environment management
+    CUDA support for PyTorch
+    Sufficient disk space for datasets and features (~36GB for multiview features)
+    Access to the required datasets

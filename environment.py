@@ -75,7 +75,7 @@ class Environment:
             subprocess.run(["docker", "rm", "-f", self.container_name],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    def _read_commands(self, bash_file):
+    def _read_test_script_commands(self, bash_file):
         commands = []
         current_cmd = []
 
@@ -97,8 +97,8 @@ class Environment:
 
         return commands
 
-    def run_test_scripts(self):
-        test_filepath = f"./data/test_scripts/{self.REPO_NAME}.txt"
+    def run_test_scripts(self, num):
+        test_filepath = f"./data/CSR_bench_scripts/{num}.sh"
         description = f"TEST SCRIPT COMMAND"
         print(f"RUNNING TEST SCRIPT")
 
@@ -106,7 +106,7 @@ class Environment:
         self.execute(Action("cd /workspace", name="TEST"))
         self.execute(Action("ls", name="TEST"))
 
-        commands = self._read_commands(test_filepath)
+        commands = self._read_test_script_commands(test_filepath)
         success = 0
         for command in commands:
             test_script_command = Action(f"{command} > /dev/null 2>&1; echo $?", description=description, name="TEST")

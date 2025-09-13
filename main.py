@@ -6,6 +6,7 @@ from test_entrypoint_agent import EntrypointAgent
 from test_eval_agent import TestScriptAgent
 from datetime import datetime
 import subprocess
+import traceback
 
 parser = argparse.ArgumentParser(description='GSRBench100')
 parser.add_argument('--repo', type=str, help='Repository link', required=True)
@@ -34,27 +35,51 @@ if REPO_LINK == "ALL":
 else:
     REPO_LINKS = [f'{REPO_LINK}']
 
-
 def run_agent(agent):
-    if NUM_CYCLES:
-        output, count = agent.run(env, cycles=NUM_CYCLES)
-    else:
-        output, count = agent.run(env)
-    with open(results_file, "a") as f:
-        f.write(f"{REPO_NAME}: {output}, Cycles: {count}\n")
+    try:
+        if NUM_CYCLES:
+            output, count = agent.run(env, cycles=NUM_CYCLES)
+        else:
+            output, count = agent.run(env)
+        with open(results_file, "a") as f:
+            f.write(f"{REPO_NAME}: {output}, Cycles: {count}\n")
+    except Exception as e:
+        with open(results_file, "a") as f:
+            f.write(f"{REPO_NAME}: ERROR during agent run - {e}\n")
+            f.write(traceback.format_exc() + "\n")
 
-for repo_link in REPO_LINKS:
-    REPO_NAME= repo_link.rsplit('/', 1)[-1]
-    env = Environment(repo_link, keep_docker=KEEP_DOCKER, image_name=DOCKER_IMAGE_NAME, verbose=VERBOSE)
+for i, repo_link in enumerate(REPO_LINKS):
+    REPO_NAME = repo_link.rsplit('/', 1)[-1]
+    try:
+        env = Environment(
+            repo_link,
+            keep_docker=KEEP_DOCKER,
+            image_name=DOCKER_IMAGE_NAME,
+            verbose=VERBOSE
+        )
 
-    if SCRIPT:
-        agent = EntrypointAgent()
-        run_agent(agent)
+        if SCRIPT:
+            agent = EntrypointAgent()
+            run_agent(agent, env, REPO_NAME)
+        else:
+            agent = TestAgent()
+            run_agent(agent, env, REPO_NAME)
+            try:
+                env.run_test_scripts(i + 1)
+            except Exception as e:
+                with open(results_file, "a") as f:
+                    f.write(f"{REPO_NAME}: ERROR during test scripts - {e}\n")
+                    f.write(traceback.format_exc() + "\n")
 
-    else:
-        agent = TestAgent()
-        run_agent(agent)
-        env.run_test_scripts()
+    except Exception as e:
+        with open(results_file, "a") as f:
+            f.write(f"{REPO_NAME}: FATAL ERROR - {e}\n")
+            f.write(traceback.format_exc() + "\n")
 
-    if not KEEP_REPO:
-        subprocess.run(["./clear_repos.sh"])
+    finally:
+        if not KEEP_REPO:
+            try:
+                subprocess.run(["./clear_repos.sh"], check=True)
+            except subprocess.CalledProcessError as e:
+                with open(results_file, "a") as f:
+                    f.write(f"{REPO_NAME}: ERROR clearing repo - {e}\n")
