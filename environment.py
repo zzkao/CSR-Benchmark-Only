@@ -3,6 +3,7 @@ import uuid
 import atexit
 from state import *
 from command_executor import CommandExecutor
+from script_evaluator import ScriptEvaluator
 import os
 import time
 import json
@@ -51,6 +52,7 @@ class Environment:
 
         # Create executor tied to this container
         self.executor = CommandExecutor(container_name=self.container_name, timeout=timeout)
+        self.evaluator = ScriptEvaluator()
 
         # Ensure cleanup on interpreter exit
         atexit.register(self.close)
@@ -109,12 +111,12 @@ class Environment:
         commands = self._read_test_script_commands(test_filepath)
         success = 0
         for command in commands:
-            test_script_command = Action(f"{command} > /dev/null 2>&1; echo $?", description=description, name="TEST")
+            test_script_command = Action(f"{command}", description=description, name="TEST")
             state = self.execute(test_script_command)
-            exit_status = state.output
+            output = state.output
 
-            # This requires update
-            if exit_status == "0":
+            result = self.evaluator.query(bash_script=command, output=output)
+            if result:
                 success += 1
         
         total = len(commands)

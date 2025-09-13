@@ -3,7 +3,6 @@ import os
 from environment import Environment
 from test_agent_framework import TestAgent
 from test_entrypoint_agent import EntrypointAgent
-from test_eval_agent import TestScriptAgent
 from datetime import datetime
 import subprocess
 import traceback
