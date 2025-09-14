@@ -1,8 +1,4 @@
 #!/bin/bash
-# Environment Setup / Requirement / Installation
-git clone https://github.com/cleardusk/3DDFA_V2.git
-cd 3DDFA_V2
-pip install -r requirements.txt
 
 # Data / Checkpoint / Weight Download (URL)
 bash prepare_data.sh

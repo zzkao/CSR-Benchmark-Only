@@ -68,7 +68,7 @@ class State:
                 "Action:\n"
                 f"{self._indent(str(self.action))}\n"
                 "Output:\n"
-                f"{self._indent(self.output)}"
+                f"{self._indent(self.output)}\n"
                 "Evaluation:\n"
                 f"{self._indent(self.eval)}"
             )

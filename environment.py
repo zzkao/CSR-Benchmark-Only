@@ -5,7 +5,6 @@ from state import *
 from command_executor import CommandExecutor
 from script_evaluator import ScriptEvaluator
 import os
-import time
 import json
 from datetime import datetime
 from collections import defaultdict
@@ -101,8 +100,6 @@ class Environment:
 
     def run_test_scripts(self, num):
         test_filepath = f"./data/CSR_bench_scripts/{num}.sh"
-        description = f"TEST SCRIPT COMMAND"
-        print(f"RUNNING TEST SCRIPT")
 
         # Return to base directory
         self.execute(Action("cd /workspace", agent_name="TEST"))
@@ -111,7 +108,7 @@ class Environment:
         commands = self._read_test_script_commands(test_filepath)
         success = 0
         for command in commands:
-            test_script_command = Action(f"{command}", description=description, agent_name="TEST")
+            test_script_command = Action(f"{command}", agent_name="TEST")
             state = self.execute(test_script_command)
             output = state.output
 
