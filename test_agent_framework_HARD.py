@@ -41,7 +41,7 @@ PROMPT_TEMPLATE = """
 {history}
 """
 
-class TestAgent():
+class HardTestAgent():
     def __init__(self):
         self.LLM = CoreAgent(model_id="claude-sonnet-4-20250514")
         self.tools = [{"type": "bash_20250124", "name": "bash"}]
@@ -96,6 +96,6 @@ class TestAgent():
 
 if __name__ == "__main__":
     env = Environment(repo_path="data/CSRBench100/storm", image_name="benchmark-image")
-    agent = TestAgent()
+    agent = HardTestAgent()
     agent.run(env)
     env.log_environment_history(log_file='logs/test.jsonl')
