@@ -34,7 +34,7 @@ if REPO_LINK == "ALL":
 else:
     REPO_LINKS = [f'{REPO_LINK}']
 
-def run_agent(agent):
+def run_agent(agent, env, REPO_NAME):
     try:
         if NUM_CYCLES:
             output, count = agent.run(env, cycles=NUM_CYCLES)
