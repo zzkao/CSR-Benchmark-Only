@@ -1,0 +1,1034 @@
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/stanford-oval/storm
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/cleardusk/3DDFA_V2
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/RobustFieldAutonomyLab/LeGO-LOAM
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/cure-lab/LTSF-Linear
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/adobe/antialiased-cnns
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/keyu-tian/SparK
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/elliottwu/unsup3d
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/Jeff-sjtu/HybrIK
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/wyhuai/DDNM
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/tjiiv-cprg/EPro-PnP
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/JosephKJ/OWOD
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/wpeebles/gangealing
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/graphdeeplearning/graphtransformer
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/YyzHarry/imbalanced-regression
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/bnu-wangxun/Deep_Metric
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/YyzHarry/imbalanced-semi-self
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/huggingface/naacl_transfer_learning_tutorial
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/luost26/diffusion-point-cloud
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/shamangary/FSA-Net
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/kwotsin/mimicry
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/richardaecn/class-balanced-loss
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/shamangary/SSR-Net
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/SimonKohl/probabilistic_unet
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/baudm/parseq
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/lkeab/BCNet
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/SysCV/transfiner
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/bertjiazheng/Structured3D
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/zju3dv/mvpose
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/dddzg/up-detr
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/GraphSAINT/GraphSAINT
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/PinataFarms/DAD-3DHeads
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/shenweichen/DSIN
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/Lakonik/SSDNeRF
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/Jeff-sjtu/res-loglikelihood-regression
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/wvangansbeke/Unsupervised-Semantic-Segmentation
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/yzhq97/transmomo.pytorch
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/layumi/Seg-Uncertainty
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/JiangWenPL/multiperson
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/Owen-Liuyuxuan/visualDet3D
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/kach/gradient-descent-the-ultimate-optimizer
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/cure-lab/SmoothNet
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/MinkaiXu/GeoDiff
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/MIVRC/MSRN-PyTorch
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/charlesCXK/RGBD_Semantic_Segmentation_PyTorch
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/xuchen-ethz/snarf
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/IDEA-Research/HumanSD
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/FuxiaoLiu/LRV-Instruction
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/daveredrum/ScanRefer
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/Ysz2022/NeRCo
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/Paranioar/SGRAF
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/sjmoran/CURL
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/shaohua0116/Multiview2Novelview
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/abhi1kumar/DEVIANT
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/JarrentWu1031/CCPL
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/tfzhou/MATNet
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/PinataFarms/FEARTracker
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/mabaorui/NeuralPull
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/ShihaoShao-GH/SuperGlobal
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/tiangexiang/CurveNet
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/StanfordMIMI/DDM2
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/zjunlp/DART
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/daiquocnguyen/Graph-Transformer
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/acbull/GPT-GNN
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/tatsu-lab/stanford_alpaca
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/tloen/alpaca-lora
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/meta-llama/llama3
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/lm-sys/FastChat
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/mistralai/mistral-finetune
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/meta-llama/llama
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/meta-llama/llama-recipes
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/openai/gpt-3
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/microsoft/graphrag
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/geekan/MetaGPT
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/princeton-nlp/SWE-agent
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/eric-mitchell/direct-preference-optimization
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/zilliztech/GPTCache
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/SJTU-IPADS/PowerInfer
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/princeton-nlp/tree-of-thought-llm
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/mistralai/mistral-inference
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/state-spaces/mamba
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/YyzHarry/multi-domain-imbalance
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/codeKgu/Text-GCN
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/vLAR-group/RayDF
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/amazon-science/unconditional-time-series-diffusion
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/zjunlp/OntoProtein
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/Rose-STL-Lab/dyffusion
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/princeton-nlp/SimCSE
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/princeton-nlp/LM-BFF
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/princeton-nlp/PURE
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/tatsu-lab/alpaca_eval
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/tatsu-lab/alpaca_farm
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/THUDM/GraphMAE
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/lxuechen/private-transformers
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/HazyResearch/hyena-dna
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/princeton-nlp/MeZO
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/zjunlp/HVPNeT
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/12wang3/rrl
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/YyzHarry/SubpopBench
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/csdongxian/skip-connections-matter
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/zhaochen/CSR-Benchmark-Only/main.py", line 3, in <module>
+    from environment import Environment
+  File "/home/zhaochen/CSR-Benchmark-Only/environment.py", line 5, in <module>
+    from command_executor import CommandExecutor
+  File "/home/zhaochen/CSR-Benchmark-Only/command_executor.py", line 1, in <module>
+    import pexpect
+ModuleNotFoundError: No module named 'pexpect'
+❌ Failed on repo: https://github.com/songlab-cal/tape
+----------------------------------------
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/3DDFA_V2_benchmark_9e5d2d84d2034f19be6944d28e8c3a9e'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/naacl_transfer_learning_tutorial_benchmark_eb3ff4ab4d1a47d6a87c265fdc6b11bf'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/diffusion-point-cloud_benchmark_37b2c1f0285a4b619b01d92631d1ee8e'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/FSA-Net_benchmark_d08d7046d4e24a5195607d530eed8683'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/mimicry_benchmark_eeacd055041742faa45bad209f412eb4'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/class-balanced-loss_benchmark_2b3ee22f4b9344b5aa45e6c129837619'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/SSR-Net_benchmark_c5e3f27071484602b1bcbe984c210421'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/probabilistic_unet_benchmark_51a3abfe46734f36a72b7c0ec9c0406f'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/parseq_benchmark_3a4a09797f5548bc91ae210ac4d59ce3'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/BCNet_benchmark_71b1396265cd430d9bf75565d010fcef'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/transfiner_benchmark_de4f220f15394b6d88f3089af0595d8d'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/Structured3D_benchmark_daa3ce6a8a7343cf89e187cbfe3217a6'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/mvpose_benchmark_dbbd193e19294f34b848aacc00efd606'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/up-detr_benchmark_e0a9c77f90cd4517befbf6fe0df920c6'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/GraphSAINT_benchmark_08f034aa8a214f71a94c897d2927f70b'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/DAD-3DHeads_benchmark_588b87d12730477287b0f06feccb73ca'...
+Updating files:  75% (97/128)Updating files:  76% (98/128)Updating files:  77% (99/128)Updating files:  78% (100/128)Updating files:  79% (102/128)Updating files:  80% (103/128)Updating files:  81% (104/128)Updating files:  82% (105/128)Updating files:  83% (107/128)Updating files:  84% (108/128)Updating files:  85% (109/128)Updating files:  86% (111/128)Updating files:  87% (112/128)Updating files:  88% (113/128)Updating files:  89% (114/128)Updating files:  90% (116/128)Updating files:  91% (117/128)Updating files:  92% (118/128)Updating files:  93% (120/128)Updating files:  94% (121/128)Updating files:  95% (122/128)Updating files:  96% (123/128)Updating files:  97% (125/128)Updating files:  98% (126/128)Updating files:  99% (127/128)Updating files: 100% (128/128)Updating files: 100% (128/128), done.
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/3DDFA_V2_benchmark_d49ff086ff66444fb2a33dd08f443c50'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/naacl_transfer_learning_tutorial_benchmark_0f3b419f9237474eb908cc6a5a6e6036'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/diffusion-point-cloud_benchmark_4e9d0fbe479e45da895719b8d4c2ba07'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/FSA-Net_benchmark_56d00de6b96a44078440750bdca96019'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/mimicry_benchmark_8accaa170e254f3aada91f589049968b'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/class-balanced-loss_benchmark_c4f3e93c8b364a61afef167e9a454d83'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/SSR-Net_benchmark_f3f062b2951a42ebb7379e21dbf332c0'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/probabilistic_unet_benchmark_ad2b9027b2e64831a985f32303ecff9e'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/parseq_benchmark_f937f63648c54ef6993b4534cff0f3f2'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/BCNet_benchmark_28999feea2a64bb1bceafad7ef17960f'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/transfiner_benchmark_5658ea261ed74994a4241d41035a0c1b'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/Structured3D_benchmark_63730b5342da4477990c376fdd2d4136'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/mvpose_benchmark_d44a9f0cd85e4544acc2e53d67568537'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/up-detr_benchmark_10dca41db3eb4f3a9430dabb7ac31a97'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/GraphSAINT_benchmark_80d5fd946bc84c358da8848de38477e5'...
+Cloning into '/home/zhaochen/CSR-Benchmark-Only/data/CSRBench100/DAD-3DHeads_benchmark_92deac24d7db4583b31feb2200e916e5'...
+Updating files:  75% (97/128)Updating files:  76% (98/128)Updating files:  77% (99/128)Updating files:  78% (100/128)Updating files:  79% (102/128)Updating files:  80% (103/128)Updating files:  81% (104/128)Updating files:  82% (105/128)Updating files:  83% (107/128)Updating files:  84% (108/128)Updating files:  85% (109/128)Updating files:  86% (111/128)Updating files:  87% (112/128)Updating files:  88% (113/128)Updating files:  89% (114/128)Updating files:  90% (116/128)Updating files:  91% (117/128)Updating files:  92% (118/128)Updating files:  93% (120/128)Updating files:  94% (121/128)Updating files:  95% (122/128)Updating files:  96% (123/128)Updating files:  97% (125/128)Updating files:  98% (126/128)Updating files:  99% (127/128)Updating files: 100% (128/128)Updating files: 100% (128/128), done.

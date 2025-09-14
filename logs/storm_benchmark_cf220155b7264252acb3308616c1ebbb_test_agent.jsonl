@@ -1,0 +1,1003 @@
+2025-09-14T08:53:32.385934Z
+Action:
+  command:
+    pwd && ls -la
+  description:
+    I'll help you set up this repository. Let me start by examining the README to understand what this repository is about and what setup steps are needed.
+Output:
+  /workspace
+  total 76
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Sep 14 08:44 .
+  drwxr-xr-x 1 root          root  4096 Sep 14 08:44 ..
+  drwxr-xr-x 8 benchmarkuser 1001  4096 Sep 14 08:44 .git
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Sep 14 08:44 .github
+  -rw-r--r-- 1 benchmarkuser 1001   251 Sep 14 08:44 .gitignore
+  -rw-r--r-- 1 benchmarkuser 1001   244 Sep 14 08:44 .pre-commit-config.yaml
+  -rw-r--r-- 1 benchmarkuser 1001  2395 Sep 14 08:44 CONTRIBUTING.md
+  -rw-r--r-- 1 benchmarkuser 1001  1091 Sep 14 08:44 LICENSE
+  -rw-r--r-- 1 benchmarkuser 1001 20091 Sep 14 08:44 README.md
+  drwxr-xr-x 2 benchmarkuser 1001  4096 Sep 14 08:44 assets
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Sep 14 08:44 examples
+  drwxr-xr-x 3 benchmarkuser 1001  4096 Sep 14 08:44 frontend
+  drwxr-xr-x 4 benchmarkuser 1001  4096 Sep 14 08:44 knowledge_storm
+  -rw-r--r-- 1 benchmarkuser 1001   188 Sep 14 08:44 requirements.txt
+  -rw-r--r-- 1 benchmarkuser 1001  1267 Sep 14 08:44 setup.py
+------------------------------------------------------------
+2025-09-14T08:53:32.386099Z
+Action:
+  command:
+    cat README.md
+  description:
+    I'll help you set up this repository. Let me start by examining the README to understand what this repository is about and what setup steps are needed.
+Output:
+  <p align="center">
+    <img src="assets/logo.svg" style="width: 25%; height: auto;">
+  </p>
+  # STORM: Synthesis of Topic Outlines through Retrieval and Multi-perspective Question Asking
+  <p align="center">
+  </p>
+  **Latest News** 🔥
+  - [2025/01] We add [litellm](https://github.com/BerriAI/litellm) integration for language models and embedding models in `knowledge-storm` v1.1.0.
+  - [2024/09] Co-STORM codebase is now released and integrated into `knowledge-storm` python package v1.0.0. Run `pip install knowledge-storm --upgrade` to check it out.
+  - [2024/09] We introduce collaborative STORM (Co-STORM) to support human-AI collaborative knowledge curation! [Co-STORM Paper](https://www.arxiv.org/abs/2408.15232) has been accepted to EMNLP 2024 main conference.
+  - [2024/07] You can now install our package with `pip install knowledge-storm`!
+  - [2024/07] We add `VectorRM` to support grounding on user-provided documents, complementing existing support of search engines (`YouRM`, `BingSearch`). (check out [#58](https://github.com/stanford-oval/storm/pull/58))
+  - [2024/07] We release demo light for developers a minimal user interface built with streamlit framework in Python, handy for local development and demo hosting (checkout [#54](https://github.com/stanford-oval/storm/pull/54))
+  - [2024/06] We will present STORM at NAACL 2024! Find us at Poster Session 2 on June 17 or check our [presentation material](assets/storm_naacl2024_slides.pdf). 
+  - [2024/05] We add Bing Search support in [rm.py](knowledge_storm/rm.py). Test STORM with `GPT-4o` - we now configure the article generation part in our demo using `GPT-4o` model.
+  - [2024/04] We release refactored version of STORM codebase! We define [interface](knowledge_storm/interface.py) for STORM pipeline and reimplement STORM-wiki (check out [`src/storm_wiki`](knowledge_storm/storm_wiki)) to demonstrate how to instantiate the pipeline. We provide API to support customization of different language models and retrieval/search integration.
+  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+  ## Overview [(Try STORM now!)](https://storm.genie.stanford.edu/)
+  <p align="center">
+    <img src="assets/overview.svg" style="width: 90%; height: auto;">
+  </p>
+  STORM is a LLM system that writes Wikipedia-like articles from scratch based on Internet search. Co-STORM further enhanced its feature by enabling human to collaborative LLM system to support more aligned and preferred information seeking and knowledge curation.
+  While the system cannot produce publication-ready articles that often require a significant number of edits, experienced Wikipedia editors have found it helpful in their pre-writing stage.
+  **More than 70,000 people have tried our [live research preview](https://storm.genie.stanford.edu/). Try it out to see how STORM can help your knowledge exploration journey and please provide feedback to help us improve the system 🙏!**
+  ## How STORM & Co-STORM works
+  ### STORM
+  STORM breaks down generating long articles with citations into two steps:
+  1. **Pre-writing stage**: The system conducts Internet-based research to collect references and generates an outline.
+  2. **Writing stage**: The system uses the outline and references to generate the full-length article with citations.
+  <p align="center">
+    <img src="assets/two_stages.jpg" style="width: 60%; height: auto;">
+  </p>
+  STORM identifies the core of automating the research process as automatically coming up with good questions to ask. Directly prompting the language model to ask questions does not work well. To improve the depth and breadth of the questions, STORM adopts two strategies:
+  1. **Perspective-Guided Question Asking**: Given the input topic, STORM discovers different perspectives by surveying existing articles from similar topics and uses them to control the question-asking process.
+  2. **Simulated Conversation**: STORM simulates a conversation between a Wikipedia writer and a topic expert grounded in Internet sources to enable the language model to update its understanding of the topic and ask follow-up questions.
+  ### CO-STORM
+  Co-STORM proposes **a collaborative discourse protocol** which implements a turn management policy to support smooth collaboration among 
+  - **Co-STORM LLM experts**: This type of agent generates answers grounded on external knowledge sources and/or raises follow-up questions based on the discourse history.
+  - **Moderator**: This agent generates thought-provoking questions inspired by information discovered by the retriever but not directly used in previous turns. Question generation can also be grounded!
+  - **Human user**: The human user will take the initiative to either (1) observe the discourse to gain deeper understanding of the topic, or (2) actively engage in the conversation by injecting utterances to steer the discussion focus.
+  <p align="center">
+    <img src="assets/co-storm-workflow.jpg" style="width: 60%; height: auto;">
+  </p>
+  Co-STORM also maintains a dynamic updated **mind map**, which organize collected information into a hierarchical concept structure, aiming to **build a shared conceptual space between the human user and the system**. The mind map has been proven to help reduce the mental load when the discourse goes long and in-depth. 
+  Both STORM and Co-STORM are implemented in a highly modular way using [dspy](https://github.com/stanfordnlp/dspy).
+  ## Installation
+  To install the knowledge storm library, use `pip install knowledge-storm`. 
+  You could also install the source code which allows you to modify the behavior of STORM engine directly.
+  1. Clone the git repository.
+      ```shell
+      git clone https://github.com/stanford-oval/storm.git
+      cd storm
+      ```
+  2. Install the required packages.
+     ```shell
+     conda create -n storm python=3.11
+     conda activate storm
+     pip install -r requirements.txt
+     ```
+  ## API
+  Currently, our package support:
+  - Language model components: All language models supported by litellm as listed [here](https://docs.litellm.ai/docs/providers)
+  - Embedding model components: All embedding models supported by litellm as listed [here](https://docs.litellm.ai/docs/embedding/supported_embedding)
+  - retrieval module components: `YouRM`, `BingSearch`, `VectorRM`, `SerperRM`, `BraveRM`, `SearXNG`, `DuckDuckGoSearchRM`, `TavilySearchRM`, `GoogleSearch`, and `AzureAISearch` as 
+  :star2: **PRs for integrating more search engines/retrievers into [knowledge_storm/rm.py](knowledge_storm/rm.py) are highly appreciated!**
+  Both STORM and Co-STORM are working in the information curation layer, you need to set up the information retrieval module and language model module to create their `Runner` classes respectively.
+  ### STORM
+  The STORM knowledge curation engine is defined as a simple Python `STORMWikiRunner` class. Here is an example of using You.com search engine and OpenAI models.
+  ```python
+  import os
+  from knowledge_storm import STORMWikiRunnerArguments, STORMWikiRunner, STORMWikiLMConfigs
+  from knowledge_storm.lm import LitellmModel
+  from knowledge_storm.rm import YouRM
+  lm_configs = STORMWikiLMConfigs()
+  openai_kwargs = {
+      'api_key': os.getenv("OPENAI_API_KEY"),
+      'temperature': 1.0,
+      'top_p': 0.9,
+  }
+  # STORM is a LM system so different components can be powered by different models to reach a good balance between cost and quality.
+  # For a good practice, choose a cheaper/faster model for `conv_simulator_lm` which is used to split queries, synthesize answers in the conversation.
+  # Choose a more powerful model for `article_gen_lm` to generate verifiable text with citations.
+  gpt_35 = LitellmModel(model='gpt-3.5-turbo', max_tokens=500, **openai_kwargs)
+  gpt_4 = LitellmModel(model='gpt-4o', max_tokens=3000, **openai_kwargs)
+  lm_configs.set_conv_simulator_lm(gpt_35)
+  lm_configs.set_question_asker_lm(gpt_35)
+  lm_configs.set_outline_gen_lm(gpt_4)
+  lm_configs.set_article_gen_lm(gpt_4)
+  lm_configs.set_article_polish_lm(gpt_4)
+  # Check out the STORMWikiRunnerArguments class for more configurations.
+  engine_args = STORMWikiRunnerArguments(...)
+  rm = YouRM(ydc_api_key=os.getenv('YDC_API_KEY'), k=engine_args.search_top_k)
+  runner = STORMWikiRunner(engine_args, lm_configs, rm)
+  ```
+  The `STORMWikiRunner` instance can be evoked with the simple `run` method:
+  ```python
+  topic = input('Topic: ')
+  runner.run(
+      topic=topic,
+      do_research=True,
+      do_generate_outline=True,
+      do_generate_article=True,
+      do_polish_article=True,
+  )
+  runner.post_run()
+  runner.summary()
+  ```
+  - `do_research`: if True, simulate conversations with difference perspectives to collect information about the topic; otherwise, load the results.
+  - `do_generate_outline`: if True, generate an outline for the topic; otherwise, load the results.
+  - `do_generate_article`: if True, generate an article for the topic based on the outline and the collected information; otherwise, load the results.
+  - `do_polish_article`: if True, polish the article by adding a summarization section and (optionally) removing duplicate content; otherwise, load the results.
+  ### Co-STORM
+  The Co-STORM knowledge curation engine is defined as a simple Python `CoStormRunner` class. Here is an example of using Bing search engine and OpenAI models.
+  ```python
+  from knowledge_storm.collaborative_storm.engine import CollaborativeStormLMConfigs, RunnerArgument, CoStormRunner
+  from knowledge_storm.lm import LitellmModel
+  from knowledge_storm.logging_wrapper import LoggingWrapper
+  from knowledge_storm.rm import BingSearch
+  # Co-STORM adopts the same multi LM system paradigm as STORM 
+  lm_config: CollaborativeStormLMConfigs = CollaborativeStormLMConfigs()
+  openai_kwargs = {
+      "api_key": os.getenv("OPENAI_API_KEY"),
+      "api_provider": "openai",
+      "temperature": 1.0,
+      "top_p": 0.9,
+      "api_base": None,
+  } 
+  question_answering_lm = LitellmModel(model=gpt_4o_model_name, max_tokens=1000, **openai_kwargs)
+  discourse_manage_lm = LitellmModel(model=gpt_4o_model_name, max_tokens=500, **openai_kwargs)
+  utterance_polishing_lm = LitellmModel(model=gpt_4o_model_name, max_tokens=2000, **openai_kwargs)
+  warmstart_outline_gen_lm = LitellmModel(model=gpt_4o_model_name, max_tokens=500, **openai_kwargs)
+  question_asking_lm = LitellmModel(model=gpt_4o_model_name, max_tokens=300, **openai_kwargs)
+  knowledge_base_lm = LitellmModel(model=gpt_4o_model_name, max_tokens=1000, **openai_kwargs)
+  lm_config.set_question_answering_lm(question_answering_lm)
+  lm_config.set_discourse_manage_lm(discourse_manage_lm)
+  lm_config.set_utterance_polishing_lm(utterance_polishing_lm)
+  lm_config.set_warmstart_outline_gen_lm(warmstart_outline_gen_lm)
+  lm_config.set_question_asking_lm(question_asking_lm)
+  lm_config.set_knowledge_base_lm(knowledge_base_lm)
+  # Check out the Co-STORM's RunnerArguments class for more configurations.
+  topic = input('Topic: ')
+  runner_argument = RunnerArgument(topic=topic, ...)
+  logging_wrapper = LoggingWrapper(lm_config)
+  bing_rm = BingSearch(bing_search_api_key=os.environ.get("BING_SEARCH_API_KEY"),
+                       k=runner_argument.retrieve_top_k)
+  costorm_runner = CoStormRunner(lm_config=lm_config,
+                                 runner_argument=runner_argument,
+                                 logging_wrapper=logging_wrapper,
+                                 rm=bing_rm)
+  ```
+  The `CoStormRunner` instance can be evoked with the `warmstart()` and `step(...)` methods.
+  ```python
+  # Warm start the system to build shared conceptual space between Co-STORM and users
+  costorm_runner.warm_start()
+  # Step through the collaborative discourse 
+  # Run either of the code snippets below in any order, as many times as you'd like
+  # To observe the conversation:
+  conv_turn = costorm_runner.step()
+  # To inject your utterance to actively steer the conversation:
+  costorm_runner.step(user_utterance="YOUR UTTERANCE HERE")
+  # Generate report based on the collaborative discourse
+  costorm_runner.knowledge_base.reorganize()
+  article = costorm_runner.generate_report()
+  print(article)
+  ```
+  ## Quick Start with Example Scripts
+  We provide scripts in our [examples folder](examples) as a quick start to run STORM and Co-STORM with different configurations.
+  We suggest using `secrets.toml` to set up the API keys. Create a file `secrets.toml` under the root directory and add the following content:
+  ```shell
+  # ============ language model configurations ============ 
+  # Set up OpenAI API key.
+  OPENAI_API_KEY="your_openai_api_key"
+  # If you are using the API service provided by OpenAI, include the following line:
+  OPENAI_API_TYPE="openai"
+  # If you are using the API service provided by Microsoft Azure, include the following lines:
+  OPENAI_API_TYPE="azure"
+  AZURE_API_BASE="your_azure_api_base_url"
+  AZURE_API_VERSION="your_azure_api_version"
+  # ============ retriever configurations ============ 
+  BING_SEARCH_API_KEY="your_bing_search_api_key" # if using bing search
+  # ============ encoder configurations ============ 
+  ENCODER_API_TYPE="openai" # if using openai encoder
+  ```
+  ### STORM examples
+  **To run STORM with `gpt` family models with default configurations:**
+  Run the following command.
+  ```bash
+  python examples/storm_examples/run_storm_wiki_gpt.py \
+      --output-dir $OUTPUT_DIR \
+      --retriever bing \
+      --do-research \
+      --do-generate-outline \
+      --do-generate-article \
+      --do-polish-article
+  ```
+  **To run STORM using your favorite language models or grounding on your own corpus:** Check out [examples/storm_examples/README.md](examples/storm_examples/README.md).
+  ### Co-STORM examples
+  To run Co-STORM with `gpt` family models with default configurations,
+  1. Add `BING_SEARCH_API_KEY="xxx"` and `ENCODER_API_TYPE="xxx"` to `secrets.toml`
+  2. Run the following command
+  ```bash
+  python examples/costorm_examples/run_costorm_gpt.py \
+      --output-dir $OUTPUT_DIR \
+      --retriever bing
+  ```
+  ## Customization of the Pipeline
+  ### STORM
+  If you have installed the source code, you can customize STORM based on your own use case. STORM engine consists of 4 modules:
+  1. Knowledge Curation Module: Collects a broad coverage of information about the given topic.
+  2. Outline Generation Module: Organizes the collected information by generating a hierarchical outline for the curated knowledge.
+  3. Article Generation Module: Populates the generated outline with the collected information.
+  4. Article Polishing Module: Refines and enhances the written article for better presentation.
+  The interface for each module is defined in `knowledge_storm/interface.py`, while their implementations are instantiated in `knowledge_storm/storm_wiki/modules/*`. These modules can be customized according to your specific requirements (e.g., generating sections in bullet point format instead of full paragraphs).
+  ### Co-STORM
+  If you have installed the source code, you can customize Co-STORM based on your own use case
+  1. Co-STORM introduces multiple LLM agent types (i.e. Co-STORM experts and Moderator). LLM agent interface is defined in `knowledge_storm/interface.py` , while its implementation is instantiated in `knowledge_storm/collaborative_storm/modules/co_storm_agents.py`. Different LLM agent policies can be customized.
+  2. Co-STORM introduces a collaborative discourse protocol, with its core function centered on turn policy management. We provide an example implementation of turn policy management through `DiscourseManager` in `knowledge_storm/collaborative_storm/engine.py`. It can be customized and further improved.
+  ## Datasets
+  To facilitate the study of automatic knowledge curation and complex information seeking, our project releases the following datasets:
+  ### FreshWiki
+  The FreshWiki Dataset is a collection of 100 high-quality Wikipedia articles focusing on the most-edited pages from February 2022 to September 2023. See Section 2.1 in [STORM paper](https://arxiv.org/abs/2402.14207) for more details.
+  You can download the dataset from [huggingface](https://huggingface.co/datasets/EchoShao8899/FreshWiki) directly. To ease the data contamination issue, we archive the [source code](https://github.com/stanford-oval/storm/tree/NAACL-2024-code-backup/FreshWiki) for the data construction pipeline that can be repeated at future dates.
+  ### WildSeek
+  To study users’ interests in complex information seeking tasks in the wild, we utilized data collected from the web research preview to create the WildSeek dataset. We downsampled the data to ensure the diversity of the topics and the quality of the data. Each data point is a pair comprising a topic and the user’s goal for conducting deep search on the topic.  For more details, please refer to Section 2.2 and Appendix A of [Co-STORM paper](https://www.arxiv.org/abs/2408.15232).
+  The WildSeek dataset is available [here](https://huggingface.co/datasets/YuchengJiang/WildSeek).
+  ## Replicate STORM & Co-STORM paper result
+  For STORM paper experiments, please switch to the branch `NAACL-2024-code-backup` [here](https://github.com/stanford-oval/storm/tree/NAACL-2024-code-backup).
+  For Co-STORM paper experiments, please switch to the branch `EMNLP-2024-code-backup` (placeholder for now, will be updated soon).
+  ## Roadmap & Contributions
+  Our team is actively working on:
+  1. Human-in-the-Loop Functionalities: Supporting user participation in the knowledge curation process.
+  2. Information Abstraction: Developing abstractions for curated information to support presentation formats beyond the Wikipedia-style report.
+  If you have any questions or suggestions, please feel free to open an issue or pull request. We welcome contributions to improve the system and the codebase!
+  Contact person: [Yijia Shao](mailto:shaoyj@stanford.edu) and [Yucheng Jiang](mailto:yuchengj@stanford.edu)
+  ## Acknowledgement
+  We would like to thank Wikipedia for its excellent open-source content. The FreshWiki dataset is sourced from Wikipedia, licensed under the Creative Commons Attribution-ShareAlike (CC BY-SA) license.
+  We are very grateful to [Michelle Lam](https://michelle123lam.github.io/) for designing the logo for this project and [Dekun Ma](https://dekun.me) for leading the UI development.
+  Thanks to Vercel for their support of [open-source software](https://storm.genie.stanford.edu)
+  ## Citation
+  Please cite our paper if you use this code or part of it in your work:
+  ```bibtex
+  @inproceedings{jiang-etal-2024-unknown,
+      title = "Into the Unknown Unknowns: Engaged Human Learning through Participation in Language Model Agent Conversations",
+      author = "Jiang, Yucheng  and
+        Shao, Yijia  and
+        Ma, Dekun  and
+        Semnani, Sina  and
+        Lam, Monica",
+      editor = "Al-Onaizan, Yaser  and
+        Bansal, Mohit  and
+        Chen, Yun-Nung",
+      booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+      month = nov,
+      year = "2024",
+      address = "Miami, Florida, USA",
+      publisher = "Association for Computational Linguistics",
+      url = "https://aclanthology.org/2024.emnlp-main.554/",
+      doi = "10.18653/v1/2024.emnlp-main.554",
+      pages = "9917--9955",
+  }
+  @inproceedings{shao-etal-2024-assisting,
+      title = "Assisting in Writing {W}ikipedia-like Articles From Scratch with Large Language Models",
+      author = "Shao, Yijia  and
+        Jiang, Yucheng  and
+        Kanell, Theodore  and
+        Xu, Peter  and
+        Khattab, Omar  and
+        Lam, Monica",
+      editor = "Duh, Kevin  and
+        Gomez, Helena  and
+        Bethard, Steven",
+      booktitle = "Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+      month = jun,
+      year = "2024",
+      address = "Mexico City, Mexico",
+      publisher = "Association for Computational Linguistics",
+      url = "https://aclanthology.org/2024.naacl-long.347/",
+      doi = "10.18653/v1/2024.naacl-long.347",
+      pages = "6252--6278",
+  }
+  ```
+------------------------------------------------------------
+2025-09-14T08:53:32.386576Z
+Action:
+  command:
+    conda create -n storm python=3.11 -y
+  description:
+    I can see from the command history that you've already examined the current directory and read the README. Let me analyze what we have:
+    
+    ## Repository Analysis
+    This is **STORM** (Synthesis of Topic Outlines through Retrieval and Multi-perspective Question Asking) - a system that generates Wikipedia-like articles using LLMs and internet search. It also includes **Co-STORM** for human-AI collaborative knowledge curation.
+    
+    ## Setup Progress
+    From the command history, I can see:
+    1. ✅ Repository is already cloned and accessible
+    2. ✅ README has been examined
+    3. ❌ Python environment and dependencies not yet installed
+    4. ❌ Package installation not completed
+    
+    ## Next Steps
+    The README indicates two installation options:
+    1. Install via pip: `pip install knowledge-storm`
+    2. Install from source (which allows customization)
+    
+    Since we have the source code, let's proceed with the conda environment setup as recommended in the README:
+Output:
+  bash: conda: command not found
+------------------------------------------------------------
+2025-09-14T08:53:32.386640Z
+Action:
+  command:
+    python3 --version && which python3
+  description:
+    I see that conda is not available. Let me check what Python environment we have and proceed with pip installation instead.
+Output:
+  Python 3.11.2
+  /usr/bin/python3
+------------------------------------------------------------
+2025-09-14T08:53:32.386654Z
+Action:
+  command:
+    cat requirements.txt
+  description:
+    I can see we have Python 3.11.2 available but conda is not installed. Since we have a suitable Python version, I'll proceed with installing the dependencies using pip. Let me install the required packages from the requirements.txt file.
+Output:
+  dspy_ai==2.4.9
+  wikipedia==1.4.0
+  sentence-transformers
+  toml
+  langchain-text-splitters
+  trafilatura
+  langchain-huggingface
+  qdrant-client
+  langchain-qdrant
+  numpy==1.26.4
+  litellm==1.59.3
+  diskcache
+------------------------------------------------------------
+2025-09-14T08:53:32.386668Z
+Action:
+  command:
+    pip install -r requirements.txt --progress-bar off
+  description:
+    I can see from the command history that you've examined the repository and started the setup process. The repository contains STORM, a system for generating Wikipedia-like articles using LLMs and internet search. Let me continue with the setup by installing the required dependencies.
+Output:
+  error: externally-managed-environment
+  × This environment is externally managed
+      python3-xyz, where xyz is the package you are trying to
+      install.
+      If you wish to install a non-Debian-packaged Python package,
+      create a virtual environment using python3 -m venv path/to/venv.
+      Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
+      sure you have python3-full installed.
+      If you wish to install a non-Debian packaged Python application,
+      it may be easiest to use pipx install xyz, which will manage a
+      virtual environment for you. Make sure you have pipx installed.
+      See /usr/share/doc/python3.11/README.venv for more information.
+  note: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.
+  hint: See PEP 668 for the detailed specification.
+------------------------------------------------------------
+2025-09-14T08:53:32.386688Z
+Action:
+  command:
+    python3 -m venv storm_env
+Output:
+
+------------------------------------------------------------
+2025-09-14T08:53:32.386698Z
+Action:
+  command:
+    source storm_env/bin/activate && pip install -r requirements.txt --progress-bar off
+  description:
+    I can see that the system has an externally managed Python environment that requires a virtual environment. Let me create one and continue with the setup:
+Output:
+  Collecting dspy_ai==2.4.9
+    Downloading dspy_ai-2.4.9-py3-none-any.whl (220 kB)
+  Collecting wikipedia==1.4.0
+    Downloading wikipedia-1.4.0.tar.gz (27 kB)
+    Preparing metadata (setup.py) ... - done
+  Collecting sentence-transformers
+    Downloading sentence_transformers-5.1.0-py3-none-any.whl (483 kB)
+  Collecting toml
+    Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+  Collecting langchain-text-splitters
+    Downloading langchain_text_splitters-0.3.11-py3-none-any.whl (33 kB)
+  Collecting trafilatura
+    Downloading trafilatura-2.0.0-py3-none-any.whl (132 kB)
+  Collecting langchain-huggingface
+    Downloading langchain_huggingface-0.3.1-py3-none-any.whl (27 kB)
+  Collecting qdrant-client
+    Downloading qdrant_client-1.15.1-py3-none-any.whl (337 kB)
+  Collecting langchain-qdrant
+    Downloading langchain_qdrant-0.2.1-py3-none-any.whl (24 kB)
+  Collecting numpy==1.26.4
+    Downloading numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.3 MB)
+  Collecting litellm==1.59.3
+    Downloading litellm-1.59.3-py3-none-any.whl (6.7 MB)
+  Collecting diskcache
+    Downloading diskcache-5.6.3-py3-none-any.whl (45 kB)
+  Collecting backoff~=2.2.1
+    Downloading backoff-2.2.1-py3-none-any.whl (15 kB)
+  Collecting joblib~=1.3.2
+    Downloading joblib-1.3.2-py3-none-any.whl (302 kB)
+  Collecting openai<2.0.0,>=0.28.1
+    Downloading openai-1.107.2-py3-none-any.whl (946 kB)
+  Collecting pandas
+    Downloading pandas-2.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.4 MB)
+  Collecting regex
+    Downloading regex-2025.9.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (798 kB)
+  Collecting ujson
+    Downloading ujson-5.11.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (57 kB)
+  Collecting tqdm
+    Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
+  Collecting datasets<3.0.0,~=2.14.6
+    Downloading datasets-2.14.7-py3-none-any.whl (520 kB)
+  Collecting requests
+    Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+  Collecting optuna
+    Downloading optuna-4.5.0-py3-none-any.whl (400 kB)
+  Collecting pydantic~=2.0
+    Downloading pydantic-2.11.9-py3-none-any.whl (444 kB)
+  Collecting structlog
+    Downloading structlog-25.4.0-py3-none-any.whl (68 kB)
+  Collecting beautifulsoup4
+    Downloading beautifulsoup4-4.13.5-py3-none-any.whl (105 kB)
+  Collecting aiohttp
+    Downloading aiohttp-3.12.15-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.7 MB)
+  Collecting click
+    Downloading click-8.2.1-py3-none-any.whl (102 kB)
+  Collecting httpx<0.28.0,>=0.23.0
+    Downloading httpx-0.27.2-py3-none-any.whl (76 kB)
+  Collecting importlib-metadata>=6.8.0
+    Downloading importlib_metadata-8.7.0-py3-none-any.whl (27 kB)
+  Collecting jinja2<4.0.0,>=3.1.2
+    Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+  Collecting jsonschema<5.0.0,>=4.22.0
+    Downloading jsonschema-4.25.1-py3-none-any.whl (90 kB)
+  Collecting python-dotenv>=0.2.0
+    Downloading python_dotenv-1.1.1-py3-none-any.whl (20 kB)
+  Collecting tiktoken>=0.7.0
+    Downloading tiktoken-0.11.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
+  Collecting tokenizers
+    Downloading tokenizers-0.22.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+  Collecting transformers<5.0.0,>=4.41.0
+    Downloading transformers-4.56.1-py3-none-any.whl (11.6 MB)
+  Collecting torch>=1.11.0
+    Downloading torch-2.8.0-cp311-cp311-manylinux_2_28_x86_64.whl (888.1 MB)
+  Collecting scikit-learn
+    Downloading scikit_learn-1.7.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.7 MB)
+  Collecting scipy
+    Downloading scipy-1.16.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (35.9 MB)
+  Collecting huggingface-hub>=0.20.0
+    Downloading huggingface_hub-0.34.4-py3-none-any.whl (561 kB)
+  Collecting Pillow
+    Downloading pillow-11.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.6 MB)
+  Collecting typing_extensions>=4.5.0
+    Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+  Collecting langchain-core<2.0.0,>=0.3.75
+    Downloading langchain_core-0.3.76-py3-none-any.whl (447 kB)
+  Collecting certifi
+    Downloading certifi-2025.8.3-py3-none-any.whl (161 kB)
+  Collecting charset_normalizer>=3.4.0
+    Downloading charset_normalizer-3.4.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (150 kB)
+  Collecting courlan>=1.3.2
+    Downloading courlan-1.3.2-py3-none-any.whl (33 kB)
+  Collecting htmldate>=1.9.2
+    Downloading htmldate-1.9.3-py3-none-any.whl (31 kB)
+  Collecting justext>=3.0.1
+    Downloading justext-3.0.2-py2.py3-none-any.whl (837 kB)
+  Collecting lxml>=5.3.0
+    Downloading lxml-6.0.1-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+  Collecting urllib3<3,>=1.26
+    Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+  Collecting grpcio>=1.41.0
+    Downloading grpcio-1.74.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (6.2 MB)
+  Collecting httpx[http2]>=0.20.0
+    Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+  Collecting portalocker<4.0,>=2.7.0
+    Downloading portalocker-3.2.0-py3-none-any.whl (22 kB)
+  Collecting protobuf>=3.20.0
+    Downloading protobuf-6.32.1-cp39-abi3-manylinux2014_x86_64.whl (322 kB)
+  Collecting babel>=2.16.0
+    Downloading babel-2.17.0-py3-none-any.whl (10.2 MB)
+  Collecting tld>=0.13
+    Downloading tld-0.13.1-py2.py3-none-any.whl (274 kB)
+  Collecting pyarrow>=8.0.0
+    Downloading pyarrow-21.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (42.8 MB)
+  Collecting pyarrow-hotfix
+    Downloading pyarrow_hotfix-0.7-py3-none-any.whl (7.9 kB)
+  Collecting dill<0.3.8,>=0.3.0
+    Downloading dill-0.3.7-py3-none-any.whl (115 kB)
+  Collecting xxhash
+    Downloading xxhash-3.5.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (194 kB)
+  Collecting multiprocess
+    Downloading multiprocess-0.70.18-py311-none-any.whl (144 kB)
+  Collecting fsspec[http]<=2023.10.0,>=2023.1.0
+    Downloading fsspec-2023.10.0-py3-none-any.whl (166 kB)
+  Collecting packaging
+    Downloading packaging-25.0-py3-none-any.whl (66 kB)
+  Collecting pyyaml>=5.1
+    Downloading PyYAML-6.0.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (762 kB)
+  Collecting dateparser>=1.1.2
+    Downloading dateparser-1.2.2-py3-none-any.whl (315 kB)
+  Collecting lxml>=5.3.0
+    Downloading lxml-5.4.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.9 MB)
+  Collecting python-dateutil>=2.9.0.post0
+    Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+  Collecting anyio
+    Downloading anyio-4.10.0-py3-none-any.whl (107 kB)
+  Collecting httpcore==1.*
+    Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+  Collecting idna
+    Downloading idna-3.10-py3-none-any.whl (70 kB)
+  Collecting sniffio
+    Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+  Collecting h11>=0.16
+    Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+  Collecting httpx[http2]>=0.20.0
+    Downloading httpx-0.28.0-py3-none-any.whl (73 kB)
+  Collecting h2<5,>=3
+    Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+  Collecting filelock
+    Downloading filelock-3.19.1-py3-none-any.whl (15 kB)
+  Collecting fsspec>=2023.5.0
+    Downloading fsspec-2025.9.0-py3-none-any.whl (199 kB)
+  Collecting hf-xet<2.0.0,>=1.1.3
+    Downloading hf_xet-1.1.10-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.2 MB)
+  Collecting zipp>=3.20
+    Downloading zipp-3.23.0-py3-none-any.whl (10 kB)
+  Collecting MarkupSafe>=2.0
+    Downloading MarkupSafe-3.0.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (23 kB)
+  Collecting attrs>=22.2.0
+    Downloading attrs-25.3.0-py3-none-any.whl (63 kB)
+  Collecting jsonschema-specifications>=2023.03.6
+    Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+  Collecting referencing>=0.28.4
+    Downloading referencing-0.36.2-py3-none-any.whl (26 kB)
+  Collecting rpds-py>=0.7.1
+    Downloading rpds_py-0.27.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (384 kB)
+  Collecting langsmith>=0.3.45
+    Downloading langsmith-0.4.27-py3-none-any.whl (384 kB)
+  Collecting tenacity!=8.4.0,<10.0.0,>=8.1.0
+    Downloading tenacity-9.1.2-py3-none-any.whl (28 kB)
+  Collecting jsonpatch<2.0,>=1.33
+    Downloading jsonpatch-1.33-py2.py3-none-any.whl (12 kB)
+  Collecting distro<2,>=1.7.0
+    Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+  Collecting jiter<1,>=0.4.0
+    Downloading jiter-0.10.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (352 kB)
+  Collecting annotated-types>=0.6.0
+    Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+  Collecting pydantic-core==2.33.2
+    Downloading pydantic_core-2.33.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
+  Collecting typing-inspection>=0.4.0
+    Downloading typing_inspection-0.4.1-py3-none-any.whl (14 kB)
+  Collecting sympy>=1.13.3
+    Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+  Collecting networkx
+    Downloading networkx-3.5-py3-none-any.whl (2.0 MB)
+  Collecting nvidia-cuda-nvrtc-cu12==12.8.93
+    Downloading nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (88.0 MB)
+  Collecting nvidia-cuda-runtime-cu12==12.8.90
+    Downloading nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (954 kB)
+  Collecting nvidia-cuda-cupti-cu12==12.8.90
+    Downloading nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.2 MB)
+  Collecting nvidia-cudnn-cu12==9.10.2.21
+    Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+  Collecting nvidia-cublas-cu12==12.8.4.1
+    Downloading nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (594.3 MB)
+  Collecting nvidia-cufft-cu12==11.3.3.83
+    Downloading nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (193.1 MB)
+  Collecting nvidia-curand-cu12==10.3.9.90
+    Downloading nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl (63.6 MB)
+  Collecting nvidia-cusolver-cu12==11.7.3.90
+    Downloading nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl (267.5 MB)
+  Collecting nvidia-cusparse-cu12==12.5.8.93
+    Downloading nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (288.2 MB)
+  Collecting nvidia-cusparselt-cu12==0.7.1
+    Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (287.2 MB)
+  Collecting nvidia-nccl-cu12==2.27.3
+    Downloading nvidia_nccl_cu12-2.27.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (322.4 MB)
+  Collecting nvidia-nvtx-cu12==12.8.90
+    Downloading nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (89 kB)
+  Collecting nvidia-nvjitlink-cu12==12.8.93
+    Downloading nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (39.3 MB)
+  Collecting nvidia-cufile-cu12==1.13.1.3
+    Downloading nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+  Collecting triton==3.4.0
+    Downloading triton-3.4.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (155.5 MB)
+  Requirement already satisfied: setuptools>=40.8.0 in ./storm_env/lib/python3.11/site-packages (from triton==3.4.0->torch>=1.11.0->sentence-transformers->-r requirements.txt (line 3)) (66.1.1)
+  Collecting safetensors>=0.4.3
+    Downloading safetensors-0.6.2-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (485 kB)
+  Collecting aiohappyeyeballs>=2.5.0
+    Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl (15 kB)
+  Collecting aiosignal>=1.4.0
+    Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+  Collecting frozenlist>=1.1.1
+    Downloading frozenlist-1.7.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (235 kB)
+  Collecting multidict<7.0,>=4.5
+    Downloading multidict-6.6.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+  Collecting propcache>=0.2.0
+    Downloading propcache-0.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (213 kB)
+  Collecting yarl<2.0,>=1.17.0
+    Downloading yarl-1.20.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (348 kB)
+  Collecting soupsieve>1.2
+    Downloading soupsieve-2.8-py3-none-any.whl (36 kB)
+  Collecting alembic>=1.5.0
+    Downloading alembic-1.16.5-py3-none-any.whl (247 kB)
+  Collecting colorlog
+    Downloading colorlog-6.9.0-py3-none-any.whl (11 kB)
+  Collecting sqlalchemy>=1.4.2
+    Downloading sqlalchemy-2.0.43-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+  Collecting pytz>=2020.1
+    Downloading pytz-2025.2-py2.py3-none-any.whl (509 kB)
+  Collecting tzdata>=2022.7
+    Downloading tzdata-2025.2-py2.py3-none-any.whl (347 kB)
+  Collecting threadpoolctl>=3.1.0
+    Downloading threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+  Collecting Mako
+    Downloading mako-1.3.10-py3-none-any.whl (78 kB)
+  Collecting tzlocal>=0.2
+    Downloading tzlocal-5.3.1-py3-none-any.whl (18 kB)
+  Collecting hyperframe<7,>=6.1
+    Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+  Collecting hpack<5,>=4.1
+    Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+  Collecting jsonpointer>=1.9
+    Downloading jsonpointer-3.0.0-py2.py3-none-any.whl (7.6 kB)
+  Collecting orjson>=3.9.14
+    Downloading orjson-3.11.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (132 kB)
+  Collecting requests-toolbelt>=1.0.0
+    Downloading requests_toolbelt-1.0.0-py2.py3-none-any.whl (54 kB)
+  Collecting zstandard>=0.23.0
+    Downloading zstandard-0.24.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.6 MB)
+  WARNING: lxml 6.0.1 does not provide the extra 'html_clean'
+  Collecting lxml[html_clean]>=4.4.2
+    Downloading lxml-6.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+  WARNING: lxml 6.0.0 does not provide the extra 'html_clean'
+  WARNING: lxml 5.4.0 does not provide the extra 'html_clean'
+  Collecting six>=1.5
+    Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+  Collecting greenlet>=1
+    Downloading greenlet-3.2.4-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (587 kB)
+  Collecting mpmath<1.4,>=1.1.0
+    Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+  Collecting multiprocess
+    Downloading multiprocess-0.70.17-py311-none-any.whl (144 kB)
+    Downloading multiprocess-0.70.16-py311-none-any.whl (143 kB)
+    Downloading multiprocess-0.70.15-py311-none-any.whl (135 kB)
+  Installing collected packages: pytz, nvidia-cusparselt-cu12, mpmath, zstandard, zipp, xxhash, urllib3, ujson, tzlocal, tzdata, typing_extensions, triton, tqdm, toml, tld, threadpoolctl, tenacity, sympy, structlog, soupsieve, sniffio, six, safetensors, rpds-py, regex, pyyaml, python-dotenv, pyarrow-hotfix, pyarrow, protobuf, propcache, portalocker, Pillow, packaging, orjson, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, multidict, MarkupSafe, lxml, jsonpointer, joblib, jiter, idna, hyperframe, hpack, hf-xet, h11, grpcio, greenlet, fsspec, frozenlist, filelock, distro, diskcache, dill, colorlog, click, charset_normalizer, certifi, backoff, babel, attrs, annotated-types, aiohappyeyeballs, yarl, typing-inspection, sqlalchemy, scipy, requests, referencing, python-dateutil, pydantic-core, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, multiprocess, Mako, jsonpatch, jinja2, importlib-metadata, httpcore, h2, courlan, beautifulsoup4, anyio, aiosignal, wikipedia, tiktoken, scikit-learn, requests-toolbelt, pydantic, pandas, nvidia-cusolver-cu12, justext, jsonschema-specifications, huggingface-hub, httpx, dateparser, alembic, aiohttp, torch, tokenizers, optuna, openai, langsmith, jsonschema, htmldate, transformers, trafilatura, qdrant-client, litellm, langchain-core, datasets, sentence-transformers, langchain-text-splitters, langchain-qdrant, langchain-huggingface, dspy_ai
+    DEPRECATION: wikipedia is being installed using the legacy 'setup.py install' method, because it does not have a 'pyproject.toml' and the 'wheel' package is not installed. pip 23.1 will enforce this behaviour change. A possible replacement is to enable the '--use-pep517' option. Discussion can be found at https://github.com/pypa/pip/issues/8559
+    Running setup.py install for wikipedia ... - \ done
+  Successfully installed Mako-1.3.10 MarkupSafe-3.0.2 Pillow-11.3.0 aiohappyeyeballs-2.6.1 aiohttp-3.12.15 aiosignal-1.4.0 alembic-1.16.5 annotated-types-0.7.0 anyio-4.10.0 attrs-25.3.0 babel-2.17.0 backoff-2.2.1 beautifulsoup4-4.13.5 certifi-2025.8.3 charset_normalizer-3.4.3 click-8.2.1 colorlog-6.9.0 courlan-1.3.2 datasets-2.14.7 dateparser-1.2.2 dill-0.3.7 diskcache-5.6.3 distro-1.9.0 dspy_ai-2.4.9 filelock-3.19.1 frozenlist-1.7.0 fsspec-2023.10.0 greenlet-3.2.4 grpcio-1.74.0 h11-0.16.0 h2-4.3.0 hf-xet-1.1.10 hpack-4.1.0 htmldate-1.9.3 httpcore-1.0.9 httpx-0.27.2 huggingface-hub-0.34.4 hyperframe-6.1.0 idna-3.10 importlib-metadata-8.7.0 jinja2-3.1.6 jiter-0.10.0 joblib-1.3.2 jsonpatch-1.33 jsonpointer-3.0.0 jsonschema-4.25.1 jsonschema-specifications-2025.9.1 justext-3.0.2 langchain-core-0.3.76 langchain-huggingface-0.3.1 langchain-qdrant-0.2.1 langchain-text-splitters-0.3.11 langsmith-0.4.27 litellm-1.59.3 lxml-5.4.0 mpmath-1.3.0 multidict-6.6.4 multiprocess-0.70.15 networkx-3.5 numpy-1.26.4 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.3 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvtx-cu12-12.8.90 openai-1.107.2 optuna-4.5.0 orjson-3.11.3 packaging-25.0 pandas-2.3.2 portalocker-3.2.0 propcache-0.3.2 protobuf-6.32.1 pyarrow-21.0.0 pyarrow-hotfix-0.7 pydantic-2.11.9 pydantic-core-2.33.2 python-dateutil-2.9.0.post0 python-dotenv-1.1.1 pytz-2025.2 pyyaml-6.0.2 qdrant-client-1.15.1 referencing-0.36.2 regex-2025.9.1 requests-2.32.5 requests-toolbelt-1.0.0 rpds-py-0.27.1 safetensors-0.6.2 scikit-learn-1.7.2 scipy-1.16.2 sentence-transformers-5.1.0 six-1.17.0 sniffio-1.3.1 soupsieve-2.8 sqlalchemy-2.0.43 structlog-25.4.0 sympy-1.14.0 tenacity-9.1.2 threadpoolctl-3.6.0 tiktoken-0.11.0 tld-0.13.1 tokenizers-0.22.0 toml-0.10.2 torch-2.8.0 tqdm-4.67.1 trafilatura-2.0.0 transformers-4.56.1 triton-3.4.0 typing-inspection-0.4.1 typing_extensions-4.15.0 tzdata-2025.2 tzlocal-5.3.1 ujson-5.11.0 urllib3-2.5.0 wikipedia-1.4.0 xxhash-3.5.0 yarl-1.20.1 zipp-3.23.0 zstandard-0.24.0
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.386884Z
+Action:
+  command:
+    source storm_env/bin/activate && pip install -e . --progress-bar off
+Output:
+  Obtaining file:///workspace
+    Preparing metadata (setup.py) ... - done
+  Requirement already satisfied: diskcache in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (5.6.3)
+  Requirement already satisfied: dspy_ai==2.4.9 in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (2.4.9)
+  Requirement already satisfied: langchain-huggingface in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (0.3.1)
+  Requirement already satisfied: langchain-qdrant in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (0.2.1)
+  Requirement already satisfied: langchain-text-splitters in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (0.3.11)
+  Requirement already satisfied: litellm==1.59.3 in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (1.59.3)
+  Requirement already satisfied: numpy==1.26.4 in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (1.26.4)
+  Requirement already satisfied: qdrant-client in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (1.15.1)
+  Requirement already satisfied: sentence-transformers in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (5.1.0)
+  Requirement already satisfied: toml in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (0.10.2)
+  Requirement already satisfied: trafilatura in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (2.0.0)
+  Requirement already satisfied: wikipedia==1.4.0 in ./storm_env/lib/python3.11/site-packages (from knowledge-storm==1.1.0) (1.4.0)
+  Requirement already satisfied: backoff~=2.2.1 in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (2.2.1)
+  Requirement already satisfied: joblib~=1.3.2 in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (1.3.2)
+  Requirement already satisfied: openai<2.0.0,>=0.28.1 in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (1.107.2)
+  Requirement already satisfied: pandas in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (2.3.2)
+  Requirement already satisfied: regex in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (2025.9.1)
+  Requirement already satisfied: ujson in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (5.11.0)
+  Requirement already satisfied: tqdm in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (4.67.1)
+  Requirement already satisfied: datasets<3.0.0,~=2.14.6 in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (2.14.7)
+  Requirement already satisfied: requests in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (2.32.5)
+  Requirement already satisfied: optuna in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (4.5.0)
+  Requirement already satisfied: pydantic~=2.0 in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (2.11.9)
+  Requirement already satisfied: structlog in ./storm_env/lib/python3.11/site-packages (from dspy_ai==2.4.9->knowledge-storm==1.1.0) (25.4.0)
+  Requirement already satisfied: aiohttp in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (3.12.15)
+  Requirement already satisfied: click in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (8.2.1)
+  Requirement already satisfied: httpx<0.28.0,>=0.23.0 in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (0.27.2)
+  Requirement already satisfied: importlib-metadata>=6.8.0 in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (8.7.0)
+  Requirement already satisfied: jinja2<4.0.0,>=3.1.2 in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (3.1.6)
+  Requirement already satisfied: jsonschema<5.0.0,>=4.22.0 in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (4.25.1)
+  Requirement already satisfied: python-dotenv>=0.2.0 in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (1.1.1)
+  Requirement already satisfied: tiktoken>=0.7.0 in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (0.11.0)
+  Requirement already satisfied: tokenizers in ./storm_env/lib/python3.11/site-packages (from litellm==1.59.3->knowledge-storm==1.1.0) (0.22.0)
+  Requirement already satisfied: beautifulsoup4 in ./storm_env/lib/python3.11/site-packages (from wikipedia==1.4.0->knowledge-storm==1.1.0) (4.13.5)
+  Requirement already satisfied: langchain-core<1.0.0,>=0.3.70 in ./storm_env/lib/python3.11/site-packages (from langchain-huggingface->knowledge-storm==1.1.0) (0.3.76)
+  Requirement already satisfied: huggingface-hub>=0.33.4 in ./storm_env/lib/python3.11/site-packages (from langchain-huggingface->knowledge-storm==1.1.0) (0.34.4)
+  Requirement already satisfied: grpcio>=1.41.0 in ./storm_env/lib/python3.11/site-packages (from qdrant-client->knowledge-storm==1.1.0) (1.74.0)
+  Requirement already satisfied: portalocker<4.0,>=2.7.0 in ./storm_env/lib/python3.11/site-packages (from qdrant-client->knowledge-storm==1.1.0) (3.2.0)
+  Requirement already satisfied: protobuf>=3.20.0 in ./storm_env/lib/python3.11/site-packages (from qdrant-client->knowledge-storm==1.1.0) (6.32.1)
+  Requirement already satisfied: urllib3<3,>=1.26.14 in ./storm_env/lib/python3.11/site-packages (from qdrant-client->knowledge-storm==1.1.0) (2.5.0)
+  Requirement already satisfied: transformers<5.0.0,>=4.41.0 in ./storm_env/lib/python3.11/site-packages (from sentence-transformers->knowledge-storm==1.1.0) (4.56.1)
+  Requirement already satisfied: torch>=1.11.0 in ./storm_env/lib/python3.11/site-packages (from sentence-transformers->knowledge-storm==1.1.0) (2.8.0)
+  Requirement already satisfied: scikit-learn in ./storm_env/lib/python3.11/site-packages (from sentence-transformers->knowledge-storm==1.1.0) (1.7.2)
+  Requirement already satisfied: scipy in ./storm_env/lib/python3.11/site-packages (from sentence-transformers->knowledge-storm==1.1.0) (1.16.2)
+  Requirement already satisfied: Pillow in ./storm_env/lib/python3.11/site-packages (from sentence-transformers->knowledge-storm==1.1.0) (11.3.0)
+  Requirement already satisfied: typing_extensions>=4.5.0 in ./storm_env/lib/python3.11/site-packages (from sentence-transformers->knowledge-storm==1.1.0) (4.15.0)
+  Requirement already satisfied: certifi in ./storm_env/lib/python3.11/site-packages (from trafilatura->knowledge-storm==1.1.0) (2025.8.3)
+  Requirement already satisfied: charset_normalizer>=3.4.0 in ./storm_env/lib/python3.11/site-packages (from trafilatura->knowledge-storm==1.1.0) (3.4.3)
+  Requirement already satisfied: courlan>=1.3.2 in ./storm_env/lib/python3.11/site-packages (from trafilatura->knowledge-storm==1.1.0) (1.3.2)
+  Requirement already satisfied: htmldate>=1.9.2 in ./storm_env/lib/python3.11/site-packages (from trafilatura->knowledge-storm==1.1.0) (1.9.3)
+  Requirement already satisfied: justext>=3.0.1 in ./storm_env/lib/python3.11/site-packages (from trafilatura->knowledge-storm==1.1.0) (3.0.2)
+  Requirement already satisfied: lxml>=5.3.0 in ./storm_env/lib/python3.11/site-packages (from trafilatura->knowledge-storm==1.1.0) (5.4.0)
+  Requirement already satisfied: babel>=2.16.0 in ./storm_env/lib/python3.11/site-packages (from courlan>=1.3.2->trafilatura->knowledge-storm==1.1.0) (2.17.0)
+  Requirement already satisfied: tld>=0.13 in ./storm_env/lib/python3.11/site-packages (from courlan>=1.3.2->trafilatura->knowledge-storm==1.1.0) (0.13.1)
+  Requirement already satisfied: pyarrow>=8.0.0 in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (21.0.0)
+  Requirement already satisfied: pyarrow-hotfix in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (0.7)
+  Requirement already satisfied: dill<0.3.8,>=0.3.0 in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (0.3.7)
+  Requirement already satisfied: xxhash in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (3.5.0)
+  Requirement already satisfied: multiprocess in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (0.70.15)
+  Requirement already satisfied: fsspec[http]<=2023.10.0,>=2023.1.0 in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (2023.10.0)
+  Requirement already satisfied: packaging in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (25.0)
+  Requirement already satisfied: pyyaml>=5.1 in ./storm_env/lib/python3.11/site-packages (from datasets<3.0.0,~=2.14.6->dspy_ai==2.4.9->knowledge-storm==1.1.0) (6.0.2)
+  Requirement already satisfied: dateparser>=1.1.2 in ./storm_env/lib/python3.11/site-packages (from htmldate>=1.9.2->trafilatura->knowledge-storm==1.1.0) (1.2.2)
+  Requirement already satisfied: python-dateutil>=2.9.0.post0 in ./storm_env/lib/python3.11/site-packages (from htmldate>=1.9.2->trafilatura->knowledge-storm==1.1.0) (2.9.0.post0)
+  Requirement already satisfied: anyio in ./storm_env/lib/python3.11/site-packages (from httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (4.10.0)
+  Requirement already satisfied: httpcore==1.* in ./storm_env/lib/python3.11/site-packages (from httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (1.0.9)
+  Requirement already satisfied: idna in ./storm_env/lib/python3.11/site-packages (from httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (3.10)
+  Requirement already satisfied: sniffio in ./storm_env/lib/python3.11/site-packages (from httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (1.3.1)
+  Requirement already satisfied: h11>=0.16 in ./storm_env/lib/python3.11/site-packages (from httpcore==1.*->httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (0.16.0)
+  Requirement already satisfied: h2<5,>=3 in ./storm_env/lib/python3.11/site-packages (from httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (4.3.0)
+  Requirement already satisfied: filelock in ./storm_env/lib/python3.11/site-packages (from huggingface-hub>=0.33.4->langchain-huggingface->knowledge-storm==1.1.0) (3.19.1)
+  Requirement already satisfied: hf-xet<2.0.0,>=1.1.3 in ./storm_env/lib/python3.11/site-packages (from huggingface-hub>=0.33.4->langchain-huggingface->knowledge-storm==1.1.0) (1.1.10)
+  Requirement already satisfied: zipp>=3.20 in ./storm_env/lib/python3.11/site-packages (from importlib-metadata>=6.8.0->litellm==1.59.3->knowledge-storm==1.1.0) (3.23.0)
+  Requirement already satisfied: MarkupSafe>=2.0 in ./storm_env/lib/python3.11/site-packages (from jinja2<4.0.0,>=3.1.2->litellm==1.59.3->knowledge-storm==1.1.0) (3.0.2)
+  Requirement already satisfied: attrs>=22.2.0 in ./storm_env/lib/python3.11/site-packages (from jsonschema<5.0.0,>=4.22.0->litellm==1.59.3->knowledge-storm==1.1.0) (25.3.0)
+  Requirement already satisfied: jsonschema-specifications>=2023.03.6 in ./storm_env/lib/python3.11/site-packages (from jsonschema<5.0.0,>=4.22.0->litellm==1.59.3->knowledge-storm==1.1.0) (2025.9.1)
+  Requirement already satisfied: referencing>=0.28.4 in ./storm_env/lib/python3.11/site-packages (from jsonschema<5.0.0,>=4.22.0->litellm==1.59.3->knowledge-storm==1.1.0) (0.36.2)
+  Requirement already satisfied: rpds-py>=0.7.1 in ./storm_env/lib/python3.11/site-packages (from jsonschema<5.0.0,>=4.22.0->litellm==1.59.3->knowledge-storm==1.1.0) (0.27.1)
+  Requirement already satisfied: langsmith>=0.3.45 in ./storm_env/lib/python3.11/site-packages (from langchain-core<1.0.0,>=0.3.70->langchain-huggingface->knowledge-storm==1.1.0) (0.4.27)
+  Requirement already satisfied: tenacity!=8.4.0,<10.0.0,>=8.1.0 in ./storm_env/lib/python3.11/site-packages (from langchain-core<1.0.0,>=0.3.70->langchain-huggingface->knowledge-storm==1.1.0) (9.1.2)
+  Requirement already satisfied: jsonpatch<2.0,>=1.33 in ./storm_env/lib/python3.11/site-packages (from langchain-core<1.0.0,>=0.3.70->langchain-huggingface->knowledge-storm==1.1.0) (1.33)
+  Requirement already satisfied: distro<2,>=1.7.0 in ./storm_env/lib/python3.11/site-packages (from openai<2.0.0,>=0.28.1->dspy_ai==2.4.9->knowledge-storm==1.1.0) (1.9.0)
+  Requirement already satisfied: jiter<1,>=0.4.0 in ./storm_env/lib/python3.11/site-packages (from openai<2.0.0,>=0.28.1->dspy_ai==2.4.9->knowledge-storm==1.1.0) (0.10.0)
+  Requirement already satisfied: annotated-types>=0.6.0 in ./storm_env/lib/python3.11/site-packages (from pydantic~=2.0->dspy_ai==2.4.9->knowledge-storm==1.1.0) (0.7.0)
+  Requirement already satisfied: pydantic-core==2.33.2 in ./storm_env/lib/python3.11/site-packages (from pydantic~=2.0->dspy_ai==2.4.9->knowledge-storm==1.1.0) (2.33.2)
+  Requirement already satisfied: typing-inspection>=0.4.0 in ./storm_env/lib/python3.11/site-packages (from pydantic~=2.0->dspy_ai==2.4.9->knowledge-storm==1.1.0) (0.4.1)
+  Requirement already satisfied: sympy>=1.13.3 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (1.14.0)
+  Requirement already satisfied: networkx in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (3.5)
+  Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.8.93 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (12.8.93)
+  Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.90 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (12.8.90)
+  Requirement already satisfied: nvidia-cuda-cupti-cu12==12.8.90 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (12.8.90)
+  Requirement already satisfied: nvidia-cudnn-cu12==9.10.2.21 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (9.10.2.21)
+  Requirement already satisfied: nvidia-cublas-cu12==12.8.4.1 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (12.8.4.1)
+  Requirement already satisfied: nvidia-cufft-cu12==11.3.3.83 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (11.3.3.83)
+  Requirement already satisfied: nvidia-curand-cu12==10.3.9.90 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (10.3.9.90)
+  Requirement already satisfied: nvidia-cusolver-cu12==11.7.3.90 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (11.7.3.90)
+  Requirement already satisfied: nvidia-cusparse-cu12==12.5.8.93 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (12.5.8.93)
+  Requirement already satisfied: nvidia-cusparselt-cu12==0.7.1 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (0.7.1)
+  Requirement already satisfied: nvidia-nccl-cu12==2.27.3 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (2.27.3)
+  Requirement already satisfied: nvidia-nvtx-cu12==12.8.90 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (12.8.90)
+  Requirement already satisfied: nvidia-nvjitlink-cu12==12.8.93 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (12.8.93)
+  Requirement already satisfied: nvidia-cufile-cu12==1.13.1.3 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (1.13.1.3)
+  Requirement already satisfied: triton==3.4.0 in ./storm_env/lib/python3.11/site-packages (from torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (3.4.0)
+  Requirement already satisfied: setuptools>=40.8.0 in ./storm_env/lib/python3.11/site-packages (from triton==3.4.0->torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (66.1.1)
+  Requirement already satisfied: safetensors>=0.4.3 in ./storm_env/lib/python3.11/site-packages (from transformers<5.0.0,>=4.41.0->sentence-transformers->knowledge-storm==1.1.0) (0.6.2)
+  Requirement already satisfied: aiohappyeyeballs>=2.5.0 in ./storm_env/lib/python3.11/site-packages (from aiohttp->litellm==1.59.3->knowledge-storm==1.1.0) (2.6.1)
+  Requirement already satisfied: aiosignal>=1.4.0 in ./storm_env/lib/python3.11/site-packages (from aiohttp->litellm==1.59.3->knowledge-storm==1.1.0) (1.4.0)
+  Requirement already satisfied: frozenlist>=1.1.1 in ./storm_env/lib/python3.11/site-packages (from aiohttp->litellm==1.59.3->knowledge-storm==1.1.0) (1.7.0)
+  Requirement already satisfied: multidict<7.0,>=4.5 in ./storm_env/lib/python3.11/site-packages (from aiohttp->litellm==1.59.3->knowledge-storm==1.1.0) (6.6.4)
+  Requirement already satisfied: propcache>=0.2.0 in ./storm_env/lib/python3.11/site-packages (from aiohttp->litellm==1.59.3->knowledge-storm==1.1.0) (0.3.2)
+  Requirement already satisfied: yarl<2.0,>=1.17.0 in ./storm_env/lib/python3.11/site-packages (from aiohttp->litellm==1.59.3->knowledge-storm==1.1.0) (1.20.1)
+  Requirement already satisfied: soupsieve>1.2 in ./storm_env/lib/python3.11/site-packages (from beautifulsoup4->wikipedia==1.4.0->knowledge-storm==1.1.0) (2.8)
+  Requirement already satisfied: alembic>=1.5.0 in ./storm_env/lib/python3.11/site-packages (from optuna->dspy_ai==2.4.9->knowledge-storm==1.1.0) (1.16.5)
+  Requirement already satisfied: colorlog in ./storm_env/lib/python3.11/site-packages (from optuna->dspy_ai==2.4.9->knowledge-storm==1.1.0) (6.9.0)
+  Requirement already satisfied: sqlalchemy>=1.4.2 in ./storm_env/lib/python3.11/site-packages (from optuna->dspy_ai==2.4.9->knowledge-storm==1.1.0) (2.0.43)
+  Requirement already satisfied: pytz>=2020.1 in ./storm_env/lib/python3.11/site-packages (from pandas->dspy_ai==2.4.9->knowledge-storm==1.1.0) (2025.2)
+  Requirement already satisfied: tzdata>=2022.7 in ./storm_env/lib/python3.11/site-packages (from pandas->dspy_ai==2.4.9->knowledge-storm==1.1.0) (2025.2)
+  Requirement already satisfied: threadpoolctl>=3.1.0 in ./storm_env/lib/python3.11/site-packages (from scikit-learn->sentence-transformers->knowledge-storm==1.1.0) (3.6.0)
+  Requirement already satisfied: Mako in ./storm_env/lib/python3.11/site-packages (from alembic>=1.5.0->optuna->dspy_ai==2.4.9->knowledge-storm==1.1.0) (1.3.10)
+  Requirement already satisfied: tzlocal>=0.2 in ./storm_env/lib/python3.11/site-packages (from dateparser>=1.1.2->htmldate>=1.9.2->trafilatura->knowledge-storm==1.1.0) (5.3.1)
+  Requirement already satisfied: hyperframe<7,>=6.1 in ./storm_env/lib/python3.11/site-packages (from h2<5,>=3->httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (6.1.0)
+  Requirement already satisfied: hpack<5,>=4.1 in ./storm_env/lib/python3.11/site-packages (from h2<5,>=3->httpx<0.28.0,>=0.23.0->litellm==1.59.3->knowledge-storm==1.1.0) (4.1.0)
+  Requirement already satisfied: jsonpointer>=1.9 in ./storm_env/lib/python3.11/site-packages (from jsonpatch<2.0,>=1.33->langchain-core<1.0.0,>=0.3.70->langchain-huggingface->knowledge-storm==1.1.0) (3.0.0)
+  Requirement already satisfied: orjson>=3.9.14 in ./storm_env/lib/python3.11/site-packages (from langsmith>=0.3.45->langchain-core<1.0.0,>=0.3.70->langchain-huggingface->knowledge-storm==1.1.0) (3.11.3)
+  Requirement already satisfied: requests-toolbelt>=1.0.0 in ./storm_env/lib/python3.11/site-packages (from langsmith>=0.3.45->langchain-core<1.0.0,>=0.3.70->langchain-huggingface->knowledge-storm==1.1.0) (1.0.0)
+  Requirement already satisfied: zstandard>=0.23.0 in ./storm_env/lib/python3.11/site-packages (from langsmith>=0.3.45->langchain-core<1.0.0,>=0.3.70->langchain-huggingface->knowledge-storm==1.1.0) (0.24.0)
+  WARNING: lxml 5.4.0 does not provide the extra 'html_clean'
+  Requirement already satisfied: six>=1.5 in ./storm_env/lib/python3.11/site-packages (from python-dateutil>=2.9.0.post0->htmldate>=1.9.2->trafilatura->knowledge-storm==1.1.0) (1.17.0)
+  Requirement already satisfied: greenlet>=1 in ./storm_env/lib/python3.11/site-packages (from sqlalchemy>=1.4.2->optuna->dspy_ai==2.4.9->knowledge-storm==1.1.0) (3.2.4)
+  Requirement already satisfied: mpmath<1.4,>=1.1.0 in ./storm_env/lib/python3.11/site-packages (from sympy>=1.13.3->torch>=1.11.0->sentence-transformers->knowledge-storm==1.1.0) (1.3.0)
+  Installing collected packages: knowledge-storm
+    Running setup.py develop for knowledge-storm
+  Successfully installed knowledge-storm-1.1.0
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387018Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "import knowledge_storm; print('STORM library imported successfully!'); from knowledge_storm import STORMWikiRunner, STORMWikiRunnerArguments, STORMWikiLMConfigs; print('Core STORM classes imported successfully!')"
+  description:
+    Based on the command history, I can see we've successfully installed the STORM knowledge-storm library and all its dependencies in a virtual environment. Now let me verify that everything is working properly by running a verification command to ensure the setup is complete.
+Output:
+  bash: !': event not found
+  bash: syntax error near unexpected token `}'
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387031Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "import knowledge_storm; print('STORM library imported successfully!'); from knowledge_storm import STORMWikiRunner, STORMWikiRunnerArguments, STORMWikiLMConfigs; print('Core STORM classes imported successfully!')"
+  description:
+    I see there's a syntax issue with the command. Let me fix that and run the verification properly.
+Output:
+  bash: !': event not found
+  bash: syntax error near unexpected token `}'
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387042Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "import knowledge_storm; print('STORM library imported successfully!')"
+Output:
+  bash: !': event not found
+  bash: syntax error near unexpected token `}'
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387050Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "import knowledge_storm; print('STORM library imported successfully')"
+Output:
+  Traceback (most recent call last):
+    File "<string>", line 1, in <module>
+    File "/workspace/knowledge_storm/__init__.py", line 1, in <module>
+      from .storm_wiki import *
+    File "/workspace/knowledge_storm/storm_wiki/__init__.py", line 1, in <module>
+      from .engine import *
+    File "/workspace/knowledge_storm/storm_wiki/engine.py", line 9, in <module>
+      from .modules.article_generation import StormArticleGenerationModule
+    File "/workspace/knowledge_storm/storm_wiki/modules/__init__.py", line 1, in <module>
+      from .knowledge_curation import *
+    File "/workspace/knowledge_storm/storm_wiki/modules/knowledge_curation.py", line 11, in <module>
+      from .storm_dataclass import DialogueTurn, StormInformationTable
+    File "/workspace/knowledge_storm/storm_wiki/modules/storm_dataclass.py", line 10, in <module>
+      from ...interface import Information, InformationTable, Article, ArticleSectionNode
+    File "/workspace/knowledge_storm/interface.py", line 12, in <module>
+      from .utils import ArticleTextProcessing
+    File "/workspace/knowledge_storm/utils.py", line 16, in <module>
+      from trafilatura import extract
+    File "/workspace/storm_env/lib/python3.11/site-packages/trafilatura/__init__.py", line 16, in <module>
+      from .core import bare_extraction, extract
+    File "/workspace/storm_env/lib/python3.11/site-packages/trafilatura/core.py", line 18, in <module>
+      from .external import compare_extraction
+    File "/workspace/storm_env/lib/python3.11/site-packages/trafilatura/external.py", line 11, in <module>
+      from justext.core import ParagraphMaker, classify_paragraphs, revise_paragraph_classification  # type: ignore
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/workspace/storm_env/lib/python3.11/site-packages/justext/__init__.py", line 12, in <module>
+      from .core import justext
+    File "/workspace/storm_env/lib/python3.11/site-packages/justext/core.py", line 21, in <module>
+      from lxml.html.clean import Cleaner
+    File "/workspace/storm_env/lib/python3.11/site-packages/lxml/html/clean.py", line 18, in <module>
+      raise ImportError(
+  ImportError: lxml.html.clean module is now a separate project lxml_html_clean.
+  Install lxml[html_clean] or lxml_html_clean directly.
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387068Z
+Action:
+  command:
+    source storm_env/bin/activate && pip install lxml_html_clean --progress-bar off
+  description:
+    I can see there's an import error with the lxml HTML clean module. This is a common issue with newer versions of lxml. Let me fix this by installing the required lxml_html_clean package.
+Output:
+  Collecting lxml_html_clean
+    Downloading lxml_html_clean-0.4.2-py3-none-any.whl (14 kB)
+  Requirement already satisfied: lxml in ./storm_env/lib/python3.11/site-packages (from lxml_html_clean) (5.4.0)
+  Installing collected packages: lxml_html_clean
+  Successfully installed lxml_html_clean-0.4.2
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387080Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "import knowledge_storm; print('STORM library imported successfully')"
+Output:
+  STORM library imported successfully
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387086Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "from knowledge_storm import STORMWikiRunner, STORMWikiRunnerArguments, STORMWikiLMConfigs; print('Core STORM classes imported successfully')"
+  description:
+    Let me continue with the verification to ensure all core components are working properly.
+Output:
+  Core STORM classes imported successfully
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387095Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "from knowledge_storm.collaborative_storm.engine import CollaborativeStormLMConfigs, RunnerArgument, CoStormRunner; print('Co-STORM classes imported successfully')"
+Output:
+  Co-STORM classes imported successfully
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387102Z
+Action:
+  command:
+    source storm_env/bin/activate && ls examples/
+Output:
+  costorm_examples  storm_examples
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387109Z
+Action:
+  command:
+    source storm_env/bin/activate && python -c "
+    # Test core functionality imports
+    from knowledge_storm import STORMWikiRunner, STORMWikiRunnerArguments, STORMWikiLMConfigs
+    from knowledge_storm.collaborative_storm.engine import CollaborativeStormLMConfigs, RunnerArgument, CoStormRunner
+    from knowledge_storm.lm import LitellmModel
+    from knowledge_storm.rm import YouRM, BingSearch, VectorRM
+    
+    print('✅ All core STORM components imported successfully!')
+    print('✅ Language model components available')
+    print('✅ Retrieval modules available')
+    print('✅ Both STORM and Co-STORM engines ready')
+    print('')
+    print('SETUP VERIFICATION PASSED - STORM is ready to use!')
+    print('')
+    print('Available example scripts:')
+    import os
+    for root, dirs, files in os.walk('examples'):
+        for file in files:
+            if file.endswith('.py'):
+                print(f'  - {os.path.join(root, file)}')
+    "
+  description:
+    I can see from the command history that we've successfully set up the STORM repository! Let me now run a final verification command to ensure everything is properly configured and ready to use.
+Output:
+  ✅ All core STORM components imported successfully!
+  ✅ Language model components available
+  ✅ Retrieval modules available
+  ✅ Both STORM and Co-STORM engines ready
+  SETUP VERIFICATION PASSED - STORM is ready to use!
+  Available example scripts:
+    - examples/costorm_examples/run_costorm_gpt.py
+    - examples/storm_examples/run_storm_wiki_mistral.py
+    - examples/storm_examples/run_storm_wiki_deepseek.py
+    - examples/storm_examples/run_storm_wiki_serper.py
+    - examples/storm_examples/run_storm_wiki_gpt.py
+    - examples/storm_examples/run_storm_wiki_ollama.py
+    - examples/storm_examples/run_storm_wiki_ollama_with_searxng.py
+    - examples/storm_examples/run_storm_wiki_gemini.py
+    - examples/storm_examples/run_storm_wiki_gpt_with_VectorRM.py
+    - examples/storm_examples/run_storm_wiki_claude.py
+    - examples/storm_examples/run_storm_wiki_groq.py
+    - examples/storm_examples/helper/process_kaggle_arxiv_abstract_dataset.py
+  (storm_env) 
+------------------------------------------------------------
+2025-09-14T08:53:32.387187Z
+Action:
+  command:
+    echo __SETUP_COMPLETE__
+Output:
+  __SETUP_COMPLETE__
+  (storm_env) 
+------------------------------------------------------------

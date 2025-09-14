@@ -29,7 +29,7 @@ timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 results_file = f"./logs/results_{timestamp}.txt"
 
 if REPO_LINK == "ALL":
-    with open("./data/meta/CSRBench100.txt") as f:
+    with open("./data/meta/CSRBench100_full.txt") as f:
         REPO_LINKS = [line.strip() for line in f]
 else:
     REPO_LINKS = [f'{REPO_LINK}']
@@ -41,7 +41,7 @@ def run_agent(agent, env, REPO_NAME):
         else:
             output, count = agent.run(env)
         with open(results_file, "a") as f:
-            f.write(f"{REPO_NAME}: {output}, Cycles: {count}\n")
+            f.write(f"{REPO_NAME}: {output}, Cycles: {count}")
     except Exception as e:
         with open(results_file, "a") as f:
             f.write(f"{REPO_NAME}: ERROR during agent run - {e}\n")
@@ -64,7 +64,9 @@ for i, repo_link in enumerate(REPO_LINKS):
             agent = TestAgent()
             run_agent(agent, env, REPO_NAME)
             try:
-                env.run_test_scripts(i + 1)
+                result = env.run_test_scripts(i + 1)
+                with open(results_file, "a") as f:
+                    f.write(f"{REPO_NAME}: {result}\n")
             except Exception as e:
                 with open(results_file, "a") as f:
                     f.write(f"{REPO_NAME}: ERROR during test scripts - {e}\n")
@@ -79,6 +81,7 @@ for i, repo_link in enumerate(REPO_LINKS):
         if not KEEP_REPO:
             try:
                 subprocess.run(["./clear_repos.sh"], check=True)
+                env.close()
             except subprocess.CalledProcessError as e:
                 with open(results_file, "a") as f:
-                    f.write(f"{REPO_NAME}: ERROR clearing repo - {e}\n")
+                    f.write(f"{REPO_NAME}: ERROR closing repo - {e}\n")

@@ -121,7 +121,7 @@ class Environment:
         
         total = len(commands)
         print(f"{success} / {total}")
-        return success / total
+        return f"{success} / {total}"
 
     def log_environment_history(self, pretty=True):
         for name in self.history.keys():

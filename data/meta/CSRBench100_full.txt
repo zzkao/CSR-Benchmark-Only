@@ -14,7 +14,6 @@ https://github.com/graphdeeplearning/graphtransformer
 https://github.com/YyzHarry/imbalanced-regression
 https://github.com/bnu-wangxun/Deep_Metric
 https://github.com/YyzHarry/imbalanced-semi-self
-
 https://github.com/huggingface/naacl_transfer_learning_tutorial
 https://github.com/luost26/diffusion-point-cloud
 https://github.com/shamangary/FSA-Net
@@ -31,7 +30,6 @@ https://github.com/dddzg/up-detr
 https://github.com/GraphSAINT/GraphSAINT
 https://github.com/PinataFarms/DAD-3DHeads
 https://github.com/shenweichen/DSIN
-
 https://github.com/Lakonik/SSDNeRF
 https://github.com/Jeff-sjtu/res-loglikelihood-regression
 https://github.com/wvangansbeke/Unsupervised-Semantic-Segmentation
