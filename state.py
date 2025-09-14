@@ -1,10 +1,10 @@
 from typing import Optional
 
 class Action:
-    def __init__(self, command: str, name: str, description: Optional[str] = None, ):
+    def __init__(self, command: str, agent_name: str, description: Optional[str] = None, ):
         self.command = command
         self.description = description
-        self.name = name
+        self.agent_name = agent_name
     
     def to_dict(self):
         return {"command": self.command, "description": self.description}
@@ -51,17 +51,34 @@ class State:
     def __init__(self, action: Action, output: str):
         self.action = action
         self.output = output
+        self.eval = None
     
     def to_dict(self):
-        return {"action": self.action.to_dict(), "output": self.output}
+        if self.eval:
+            return {"action": self.action.to_dict(), "output": self.output, "eval": self.eval}
+        else:
+            return {"action": self.action.to_dict(), "output": self.output}
+    
+    def set_eval(self, eval):
+        self.eval = eval
 
     def __str__(self):
-        return (
-            "Action:\n"
-            f"{self._indent(str(self.action))}\n"
-            "Output:\n"
-            f"{self._indent(self.output)}"
-        )
+        if self.eval:
+            return (
+                "Action:\n"
+                f"{self._indent(str(self.action))}\n"
+                "Output:\n"
+                f"{self._indent(self.output)}"
+                "Evaluation:\n"
+                f"{self._indent(self.eval)}"
+            )
+        else:
+            return (
+                "Action:\n"
+                f"{self._indent(str(self.action))}\n"
+                "Output:\n"
+                f"{self._indent(self.output)}"
+            )
     
     def __repr__(self):
         return self.__str__()

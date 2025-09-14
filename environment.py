@@ -61,7 +61,7 @@ class Environment:
         """Executes an action in the container and stores the resulting state."""
         output = self.executor.execute(action)
         state = State(action, output)
-        self.history[action.name].append(state)
+        self.history[action.agent_name].append(state)
         if self.verbose:
             print(state)
         return state
@@ -105,34 +105,36 @@ class Environment:
         print(f"RUNNING TEST SCRIPT")
 
         # Return to base directory
-        self.execute(Action("cd /workspace", name="TEST"))
-        self.execute(Action("ls", name="TEST"))
+        self.execute(Action("cd /workspace", agent_name="TEST"))
+        self.execute(Action("ls", agent_name="TEST"))
 
         commands = self._read_test_script_commands(test_filepath)
         success = 0
         for command in commands:
-            test_script_command = Action(f"{command}", description=description, name="TEST")
+            test_script_command = Action(f"{command}", description=description, agent_name="TEST")
             state = self.execute(test_script_command)
             output = state.output
 
             result = self.evaluator.query(bash_script=command, output=output)
             if result:
                 success += 1
+                self.history['TEST'][-1].set_eval('SUCCESS')
+            else:
+                self.history['TEST'][-1].set_eval('FAILED')
         
         total = len(commands)
-        print(f"{success} / {total}")
         return f"{success} / {total}"
 
     def log_environment_history(self, pretty=True):
-        for name in self.history.keys():
+        for agent_name in self.history.keys():
 
-            log_file = f"logs/{self.name}_{name}.jsonl"
+            log_file = f"logs/{self.name}_{agent_name}.jsonl"
 
             # Ensure directory exists
             os.makedirs(os.path.dirname(log_file) or ".", exist_ok=True)
 
             with open(log_file, "a", encoding="utf-8") as f:
-                for state in self.history[name]:
+                for state in self.history[agent_name]:
                     log_entry = {
                         "timestamp": datetime.utcnow().isoformat() + "Z",
                         "state": state.to_dict() if not pretty else str(state)
