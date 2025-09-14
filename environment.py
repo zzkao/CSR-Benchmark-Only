@@ -99,6 +99,7 @@ class Environment:
         return commands
 
     def run_test_scripts(self, num):
+        print('RUNNING TEST SCRIPTS')
         test_filepath = f"./data/CSR_bench_scripts/{num}.sh"
 
         # Return to base directory

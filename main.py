@@ -65,7 +65,7 @@ for i, repo_link in enumerate(REPO_LINKS):
             try:
                 result = env.run_test_scripts(i + 1)
                 with open(results_file, "a") as f:
-                    f.write(f"{result}\n")
+                    f.write(f", Test Results: {result}\n")
             except Exception as e:
                 with open(results_file, "a") as f:
                     f.write(f"{REPO_NAME}: ERROR during test scripts - {e}\n")

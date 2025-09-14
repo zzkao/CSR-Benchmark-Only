@@ -12,7 +12,7 @@ class Action:
     def __str__(self):
         parts = []
 
-        if self.command.strip():
+        if self.command and self.command.strip():
             parts.append(f"command:\n{self._indent(self.command)}")
         if self.description and self.description.strip():
             parts.append(f"description:\n{self._indent(self.description)}")
