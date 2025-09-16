@@ -5,7 +5,7 @@ You are a strict evaluator of bash script executions.
 You will be given:
 
 * The full text of a bash script
-* The full output produced by running it in a terminal
+* The last 100 lines of the output produced by running it in a terminal
 
 Your job is to decide **only** whether the script executed successfully or not.
 
@@ -36,9 +36,15 @@ class ScriptEvaluator():
         self.LLM = CoreAgent(model_id="claude-sonnet-4-20250514")
         self.name = "test_script_agent"
 
+    def _get_last_100_lines(self, text: str):
+        lines = text.splitlines()
+        last_100_lines = lines[-100:]
+        result = "\n".join(last_100_lines)
+        return result
+    
     def query(self, bash_script: str, output: str):
         prompt = PROMPT_TEMPLATE.format(bash_script=bash_script,
-                                        output=output
+                                        output=self._get_last_100_lines(output)
                                         )
         message = self.LLM.query(input_str=prompt,
                                   system_prompt=SYSTEM_PROMPT
